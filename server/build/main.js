@@ -8,6 +8,7 @@ const path_1 = __importDefault(require("path"));
 const express_1 = __importDefault(require("express"));
 const routesPortugal_1 = __importDefault(require("./routesPortugal"));
 const routesEngland_1 = __importDefault(require("./routesEngland"));
+const routesEquipas_1 = __importDefault(require("./routesEquipas"));
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 app.use(express_1.default.json());
@@ -20,4 +21,5 @@ app.use(function (inRequest, inResponse, inNext) {
 });
 app.use('/portugal', routesPortugal_1.default);
 app.use('/inglaterra', routesEngland_1.default);
+app.use('/equipa', routesEquipas_1.default);
 app.listen(8080);

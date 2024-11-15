@@ -3,6 +3,7 @@ import path from "path";
 import express, { Express, NextFunction, Request, Response } from "express";
 import routerPortugal from "./routesPortugal";
 import routerEngland from "./routesEngland";
+import routesEquipas from "./routesEquipas";
 const app: Express = express();
 dotenv.config();
 app.use(express.json()); 
@@ -21,5 +22,6 @@ app.use(function (inRequest: Request, inResponse: Response, inNext: NextFunction
 
 app.use('/portugal',routerPortugal);
 app.use('/inglaterra', routerEngland);
+app.use('/equipa', routesEquipas);
 
 app.listen(8080);
