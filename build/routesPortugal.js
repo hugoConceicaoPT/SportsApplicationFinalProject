@@ -21,7 +21,19 @@ router.get('/liga-portugal-betclic/classificacoes', (req, res, next) => __awaite
         res.json(responseDataJson);
     }
     catch (err) {
-        res.send(err);
+        next(err);
+    }
+}));
+router.get('/liga-portugal-betclic/lista', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const url = `https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=4344`;
+        console.log(url);
+        const responseData = yield fetch(url);
+        const responseDataJson = yield responseData.json();
+        res.json(responseDataJson);
+    }
+    catch (err) {
+        next(err);
     }
 }));
 exports.default = router;

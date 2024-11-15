@@ -21,7 +21,7 @@ router.get('/premier-league/classificacoes', (req, res, next) => __awaiter(void 
         res.json(responseDataJson);
     }
     catch (err) {
-        res.send(err);
+        next(err);
     }
 }));
 exports.default = router;

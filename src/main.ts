@@ -1,8 +1,10 @@
+import dotenv from "dotenv";
 import path from "path";
 import express, { Express, NextFunction, Request, Response } from "express";
 import routerPortugal from "./routesPortugal";
 import routerEngland from "./routesEngland";
 const app: Express = express();
+dotenv.config();
 app.use(express.json()); 
 
 app.use("/",

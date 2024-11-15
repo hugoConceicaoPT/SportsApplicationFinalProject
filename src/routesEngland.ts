@@ -9,7 +9,7 @@ router.get('/premier-league/classificacoes', async (req: Request, res: Response,
         res.json(responseDataJson);
     }
     catch(err) {
-        res.send(err);
+        next(err);
     }
 });
 
