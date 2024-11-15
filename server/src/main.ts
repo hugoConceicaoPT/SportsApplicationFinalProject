@@ -7,11 +7,9 @@ import routesEquipas from "./routesEquipas";
 const app: Express = express();
 dotenv.config();
 app.use(express.json()); 
-
 app.use("/",
     express.static(path.join(__dirname, "../../client/build"))
 );
-
 
 app.use(function (inRequest: Request, inResponse: Response, inNext: NextFunction) {
     inResponse.header("Access-Control-Allow-Origin", "*"); 
