@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import path from "path";
 import express, { Express, NextFunction, Request, Response } from "express";
+import mongoose from "mongoose";
 import routerPortugal from "./routesPortugal";
 import routerEngland from "./routesEngland";
 import routesEquipas from "./routesEquipas";
@@ -14,6 +15,13 @@ app.use(express.json());
 app.use("/",
     express.static(path.join(__dirname, "../../client/build"))
 );
+
+mongoose.connect(process.env.MONGODB_URI as string).then(() => {
+    console.log("DB connected");
+}).catch(err => {
+    console.log(err);
+});
+
 
 app.use(function (inRequest: Request, inResponse: Response, inNext: NextFunction) {
     inResponse.header("Access-Control-Allow-Origin", "*"); 
