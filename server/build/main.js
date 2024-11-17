@@ -7,6 +7,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const routesUser_1 = __importDefault(require("./routesUser"));
 const routesPortugal_1 = __importDefault(require("./routesPortugal"));
 const routesEngland_1 = __importDefault(require("./routesEngland"));
 const routesEquipas_1 = __importDefault(require("./routesEquipas"));
@@ -30,6 +31,7 @@ app.use(function (inRequest, inResponse, inNext) {
     inResponse.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept");
     inNext();
 });
+app.use('/user', routesUser_1.default);
 app.use('/portugal', routesPortugal_1.default);
 app.use('/inglaterra', routesEngland_1.default);
 app.use('/equipa', routesEquipas_1.default);
