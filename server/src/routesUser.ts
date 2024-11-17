@@ -25,7 +25,20 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
 })
 
 router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
-
+    try {
+        const { email, password } = req.body;
+        const user  = await User.findOne({ email });
+        const validPassword = await bcrypt.compare(password, user.password);
+        if(validPassword) {
+            res.send("ok");
+        }
+        else {
+            res.send("email or password incorrect");
+        }
+    }
+    catch(err) {
+        next(err);
+    }
 })
 
 export default router;

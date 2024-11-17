@@ -37,5 +37,19 @@ router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, f
     }
 }));
 router.post('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, password } = req.body;
+        const user = yield user_1.default.findOne({ email });
+        const validPassword = yield bcrypt_1.default.compare(password, user.password);
+        if (validPassword) {
+            res.send("ok");
+        }
+        else {
+            res.send("email or password incorrect");
+        }
+    }
+    catch (err) {
+        next(err);
+    }
 }));
 exports.default = router;
