@@ -10,7 +10,6 @@ import routesItaly from "./routesItaly";
 import routesGermany from "./routesGermany";
 import routesFrance from "./routesFrance";
 import routesSpain from "./routesSpain";
-import registerRouter from "./register";
 
 
 const app: Express = express();
@@ -42,6 +41,5 @@ app.use('/italia',routesItaly);
 app.use('/alemanha', routesGermany);
 app.use('/franca', routesFrance);
 app.use('/espanha', routesSpain);
-app.use('/register', registerRouter);
 
 app.listen(8080);

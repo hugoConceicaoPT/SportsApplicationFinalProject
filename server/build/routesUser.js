@@ -17,13 +17,24 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const user_1 = __importDefault(require("./models/user"));
 const router = express_1.default.Router();
 router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
-    const hash = yield bcrypt_1.default.hash(password, 15);
-    const user = new user_1.default({
-        email,
-        password: hash
-    });
-    yield user.save();
+    try {
+        const { email, password } = req.body;
+        const userExits = yield user_1.default.findOne({ email });
+        if (userExits)
+            res.send("User with the same email already exists.");
+        else {
+            const hash = yield bcrypt_1.default.hash(password, 15);
+            const user = new user_1.default({
+                email,
+                password: hash
+            });
+            yield user.save();
+            res.send("ok");
+        }
+    }
+    catch (err) {
+        next(err);
+    }
 }));
 router.post('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
 }));
