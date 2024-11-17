@@ -8,6 +8,7 @@ const path_1 = __importDefault(require("path"));
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const routesUser_1 = __importDefault(require("./routesUser"));
+const routesFavorites_1 = __importDefault(require("./routesFavorites"));
 const routesPortugal_1 = __importDefault(require("./routesPortugal"));
 const routesEngland_1 = __importDefault(require("./routesEngland"));
 const routesEquipas_1 = __importDefault(require("./routesEquipas"));
@@ -31,6 +32,7 @@ app.use(function (inRequest, inResponse, inNext) {
     inNext();
 });
 app.use('/user', routesUser_1.default);
+app.use('/favorites', routesFavorites_1.default);
 app.use('/portugal', routesPortugal_1.default);
 app.use('/inglaterra', routesEngland_1.default);
 app.use('/equipa', routesEquipas_1.default);
