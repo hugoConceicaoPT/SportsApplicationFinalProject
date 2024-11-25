@@ -15,6 +15,10 @@ const FavoritesSchema = new Schema({
         type: [String],
         default: [],
     },
+    teamIds: {
+        type: [String],
+        default: [],
+    }
 });
 const Favorites = mongoose_1.default.model("Favorites", FavoritesSchema);
 exports.default = Favorites;
