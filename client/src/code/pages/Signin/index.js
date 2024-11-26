@@ -1,10 +1,10 @@
 
 import React, { useState } from "react";
-import Input from "../../Components/input";
-import Button from "../../Components/Button";
+import Input from "../../../Components/input";
+import Button from "../../../Components/Button";
 import * as C from "./styles";
 import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
 
 const Signin = () => {
   const { signin } = useAuth();
