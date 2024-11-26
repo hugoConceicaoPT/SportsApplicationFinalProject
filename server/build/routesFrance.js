@@ -13,10 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const leagueIds_1 = require("./leagueIds");
 const router = express_1.default.Router();
 router.get('/ligue-1/classificacoes', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const responseData = yield fetch("https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=4334&s=2024-2025");
+        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=${leagueIds_1.leagueIds.ligue1}&s=2024-2025`);
         const responseDataJson = yield responseData.json();
         res.json(responseDataJson);
     }
@@ -26,7 +27,7 @@ router.get('/ligue-1/classificacoes', (req, res, next) => __awaiter(void 0, void
 }));
 router.get('/ligue-1/lista', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=4334`);
+        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=${leagueIds_1.leagueIds.ligue1}`);
         const responseDataJson = yield responseData.json();
         res.json(responseDataJson);
     }
@@ -36,7 +37,7 @@ router.get('/ligue-1/lista', (req, res, next) => __awaiter(void 0, void 0, void 
 }));
 router.get('/ligue-1/resultados', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventspastleague.php?id=4334`);
+        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventspastleague.php?id=${leagueIds_1.leagueIds.ligue1}`);
         const responseDataJson = yield responseData.json();
         res.json(responseDataJson);
     }

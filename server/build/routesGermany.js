@@ -13,10 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const leagueIds_1 = require("./leagueIds");
 const router = express_1.default.Router();
 router.get('/bundesliga/classificacoes', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const responseData = yield fetch("https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=4331&s=2024-2025");
+        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=${leagueIds_1.leagueIds.bundesliga}&s=2024-2025`);
         const responseDataJson = yield responseData.json();
         res.json(responseDataJson);
     }
@@ -26,7 +27,7 @@ router.get('/bundesliga/classificacoes', (req, res, next) => __awaiter(void 0, v
 }));
 router.get('/bundesliga/lista', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=4331`);
+        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=${leagueIds_1.leagueIds.bundesliga}`);
         const responseDataJson = yield responseData.json();
         res.json(responseDataJson);
     }
@@ -36,7 +37,7 @@ router.get('/bundesliga/lista', (req, res, next) => __awaiter(void 0, void 0, vo
 }));
 router.get('/bundesliga/resultados', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventspastleague.php?id=4331`);
+        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventspastleague.php?id=${leagueIds_1.leagueIds.bundesliga}`);
         const responseDataJson = yield responseData.json();
         res.json(responseDataJson);
     }
