@@ -55,8 +55,7 @@ router.get('/:email', async (req: Request, res: Response, next: NextFunction) =>
 
         const leagueIds = await favorites?.leagueIds;
         const teamIds = await favorites?.teamIds;
-        res.json(leagueIds);
-        res.json(teamIds);
+        res.json({leagueIds, teamIds});
     }
     catch(err) {
         next(err);

@@ -59,8 +59,7 @@ router.get('/:email', (req, res, next) => __awaiter(void 0, void 0, void 0, func
             res.send("not found");
         const leagueIds = yield (favorites === null || favorites === void 0 ? void 0 : favorites.leagueIds);
         const teamIds = yield (favorites === null || favorites === void 0 ? void 0 : favorites.teamIds);
-        res.json(leagueIds);
-        res.json(teamIds);
+        res.json({ leagueIds, teamIds });
     }
     catch (err) {
         next(err);
