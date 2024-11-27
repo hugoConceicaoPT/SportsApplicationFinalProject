@@ -1,25 +1,22 @@
 import express, { Request, Response, NextFunction, Router } from "express";
 import bcrypt from 'bcrypt';
-import User from "./models/user";
+const User = require("./models/user");
 
 const router: Router = express.Router();
 
 router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const {email, password} = req.body;
+        const { email, password } = req.body;
         const userExits = await User.findOne({ email });
-        if(userExits)  res.send("User with the same email already exists.");
+        if (userExits) res.status(400).send("email or password already exists.");
         else {
-            const hash = await bcrypt.hash(password,15);
-            const user = new User({
-                email,
-                password: hash
-            })
+            const user = new User({ email,password });
             await user.save();
+            req.session.user_id = user._id;
             res.send("ok");
         }
     }
-    catch(err) {
+    catch (err) {
         next(err);
     }
 })
@@ -27,27 +24,27 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
 router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { email, password } = req.body;
-        const user  = await User.findOne({ email });
-        const validPassword = await bcrypt.compare(password, user.password);
-        if(validPassword) {
+        const foundUser = await User.findAndAuthenticate(email, password);
+        if (foundUser) {
+            req.session.user_id = foundUser._id;
             res.send("ok");
         }
         else {
             res.send("email or password incorrect");
         }
     }
-    catch(err) {
+    catch (err) {
         next(err);
     }
 })
 
 
-router.delete('/delete', async (req: Request, res: Response, next: NextFunction) =>{
-    try{
+router.delete('/delete', async (req: Request, res: Response, next: NextFunction) => {
+    try {
         const { email, password } = req.body;
-        const user  = await User.findOne({ email });
+        const user = await User.findOne({ email });
         const validPassword = await bcrypt.compare(password, user.password);
-        if(validPassword) {
+        if (validPassword) {
             await User.deleteOne({ email });
             res.send("ok");
         }
@@ -55,7 +52,7 @@ router.delete('/delete', async (req: Request, res: Response, next: NextFunction)
             res.send("email or password incorrect");
         }
     }
-    catch(err){
+    catch (err) {
         next(err);
     }
 })

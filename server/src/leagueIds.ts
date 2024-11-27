@@ -5,5 +5,5 @@ export const leagueIds = {
     ligue1:"4334",
     bundesliga: "4331",
     laLiga: "4335",
-    championsLeague: "4329"
+    championsLeague: "4480"
 }

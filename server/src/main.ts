@@ -13,6 +13,7 @@ import routesFrance from "./routesFrance";
 import routesSpain from "./routesSpain";
 import { WebSocketServer } from "ws";
 import { leagueIds } from "./leagueIds";
+import session from "express-session";
 
 
 const app: Express = express();
@@ -21,6 +22,12 @@ app.use(express.json());
 app.use("/",
     express.static(path.join(__dirname, "../../client/build"))
 );
+
+app.use(session({
+    secret: 'notAgoodSecret',
+    cookie: { maxAge: 7200000 },
+    saveUninitialized: true
+}));
 
 mongoose.connect(process.env.MONGODB_URI as string).then(() => {
     console.log("DB connected");
