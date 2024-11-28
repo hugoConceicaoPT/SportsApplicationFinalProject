@@ -14,6 +14,9 @@ import routesSpain from "./routesSpain";
 import { WebSocketServer } from "ws";
 import { leagueIds } from "./leagueIds";
 import session from "express-session";
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+const User = require ('./models/user');
 
 
 const app: Express = express();
@@ -22,18 +25,6 @@ app.use(express.json());
 app.use("/",
     express.static(path.join(__dirname, "../../client/build"))
 );
-
-declare module "express-session" {
-    interface SessionData extends Session {
-        user_id: string; // ou outro tipo apropriado, como number
-    }
-}
-
-app.use(session({
-    secret: 'notAgoodSecret',
-    saveUninitialized: false,
-    resave: false
-}));
 
 mongoose.connect(process.env.MONGODB_URI as string).then(() => {
     console.log("DB connected");
@@ -48,6 +39,28 @@ app.use(function (inRequest: Request, inResponse: Response, inNext: NextFunction
     inResponse.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept");
     inNext();
 });
+
+const sessionConfig = {
+    secret: process.env.SECRET!,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: new Date (Date.now() + 1000 * 60 * 60 * 2),
+        maxAge: 1000 * 60 * 60 * 2
+    }
+}
+
+app.use(session(sessionConfig))
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.use('/user',routesUser);
 app.use('/favorites', routesFavorites);

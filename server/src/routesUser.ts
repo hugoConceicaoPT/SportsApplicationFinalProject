@@ -1,18 +1,29 @@
 import express, { Request, Response, NextFunction, Router } from "express";
-import bcrypt from 'bcrypt';
-const User = require("./models/user");
+import passport from "passport";
+const User = require ("./models/user");
+import { IUser } from "./models/user";
 
 const router: Router = express.Router();
 
+router.use((req: Request, res: Response, next: NextFunction) => {
+    if (req.user) {
+        const user = req.user as IUser;
+        res.locals.username = user.username; 
+    } 
+    next();
+})
+
 router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { email, password } = req.body;
+        const { username, email, password } = req.body;
         const userExits = await User.findOne({ email });
         if (userExits) res.status(400).send("email or password already exists.");
         else {
-            const user = new User({ email,password });
-            req.session.user_id = user._id.toString();
-            await user.save();
+            const user = new User({ username,email,password });
+            await User.register(user,password);
+            req.login(user, (err) => {  
+                if(err) return next(err);
+            });
             res.send("ok");
         }
     }
@@ -21,42 +32,27 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
     }
 })
 
-router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { email, password } = req.body;
-        const foundUser = await User.findAndAuthenticate(email, password);
-        if (foundUser) {
-            req.session.user_id = foundUser._id.toString();
-            res.send("ok");
-        }
-        else {
-            res.send("email or password incorrect");
-        }
-        console.log(req.session.user_id);
-    }
-    catch (err) {
-        next(err);
-    }
+router.post('/login', passport.authenticate('local', {failureRedirect: 'http://localhost:8080'}) , async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.user);
+    res.send('ok');
 })
 
 router.post('/logout', (req: Request, res: Response, next: NextFunction) => {
-    req.session.destroy(() => {
-        res.redirect('http://localhost:8080');
-    });
+    req.logout( function(err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("http://localhost:8080");
+    })
 })
 
 router.delete('/delete', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email });
-        const validPassword = await bcrypt.compare(password, user.password);
-        if (validPassword) {
-            await User.deleteOne({ email });
-            res.send("ok");
+        if(!req.isAuthenticated()) {
+            return res.redirect("http://localhost:8080");
         }
-        else {
-            res.send("email or password incorrect");
-        }
+        await User.deleteOne( { username: res.locals.username})
+        res.send("ok");
     }
     catch (err) {
         next(err);

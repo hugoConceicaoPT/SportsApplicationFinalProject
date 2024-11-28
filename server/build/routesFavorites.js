@@ -15,12 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const Favorites = require("./models/favorites");
 const router = express_1.default.Router();
-const requireLogin = (req, res, next) => {
-    if (!req.session.user_id)
-        return res.redirect('http://localhost:8080');
-    next();
-};
-router.post('/:email', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email } = req.params;
         const { id } = req.body;
@@ -56,10 +51,13 @@ router.post('/:email', (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         next(err);
     }
 }));
-router.get('/:email', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email } = req.params;
-        let favorites = yield Favorites.findOne({ email });
+        if (!req.isAuthenticated()) {
+            return res.redirect("http://localhost:8080");
+        }
+        const { username } = req.params;
+        let favorites = yield Favorites.findOne({ username });
         if (!favorites)
             res.send("not found");
         const leagueIds = yield (favorites === null || favorites === void 0 ? void 0 : favorites.leagueIds);
@@ -70,22 +68,7 @@ router.get('/:email', (req, res, next) => __awaiter(void 0, void 0, void 0, func
         next(err);
     }
 }));
-router.get('/', requireLogin, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { email } = req.params;
-        let favorites = yield Favorites.findOne({ email });
-        if (!favorites)
-            res.send("not found");
-        const leagueIds = yield (favorites === null || favorites === void 0 ? void 0 : favorites.leagueIds);
-        const teamIds = yield (favorites === null || favorites === void 0 ? void 0 : favorites.teamIds);
-        res.send("ok");
-        res.json({ leagueIds, teamIds });
-    }
-    catch (err) {
-        next(err);
-    }
-}));
-router.delete('/:email', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.delete('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email } = req.params;
         const { id } = req.body;

@@ -1,16 +1,8 @@
 import express, { Request, Response, NextFunction, Router } from "express";
 const Favorites = require("./models/favorites");
 
-
 const router: Router = express.Router();
-
-const requireLogin = (req: Request, res: Response, next: NextFunction) => {
-    if(!req.session.user_id)
-        return res.redirect('http://localhost:8080');
-    next();
-}
-
-router.post('/:email', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const {email} = req.params;
         const {id} = req.body;
@@ -50,33 +42,18 @@ router.post('/:email', async (req: Request, res: Response, next: NextFunction) =
     }
 })
 
-
-router.get('/:email', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const {email} = req.params;
-        let favorites = await Favorites.findOne({email});
+        if(!req.isAuthenticated()) {
+            return res.redirect("http://localhost:8080");
+        }
+        const { username } = req.params;
+        let favorites = await Favorites.findOne({ username });
 
         if(!favorites) res.send("not found");
 
         const leagueIds = await favorites?.leagueIds;
         const teamIds = await favorites?.teamIds;
-        res.json({leagueIds, teamIds});
-    }
-    catch(err) {
-        next(err);
-    }
-})
-
-router.get('/', requireLogin ,async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        const {email} = req.params;
-        let favorites = await Favorites.findOne({email});
-
-        if(!favorites) res.send("not found");
-
-        const leagueIds = await favorites?.leagueIds;
-        const teamIds = await favorites?.teamIds;
-        res.send("ok");
         res.json({leagueIds, teamIds});
     }
     catch(err) {
@@ -85,7 +62,7 @@ router.get('/', requireLogin ,async (req: Request, res: Response, next: NextFunc
 });
 
 
-router.delete('/:email', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
     try{
         const {email} = req.params;
         const {id} = req.body;

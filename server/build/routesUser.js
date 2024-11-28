@@ -13,19 +13,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const passport_1 = __importDefault(require("passport"));
 const User = require("./models/user");
 const router = express_1.default.Router();
+router.use((req, res, next) => {
+    if (req.user) {
+        const user = req.user;
+        res.locals.username = user.username;
+    }
+    next();
+});
 router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email, password } = req.body;
+        const { username, email, password } = req.body;
         const userExits = yield User.findOne({ email });
         if (userExits)
             res.status(400).send("email or password already exists.");
         else {
-            const user = new User({ email, password });
-            req.session.user_id = user._id.toString();
-            yield user.save();
+            const user = new User({ username, email, password });
+            yield User.register(user, password);
+            req.login(user, (err) => {
+                if (err)
+                    return next(err);
+            });
             res.send("ok");
         }
     }
@@ -33,40 +43,25 @@ router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, f
         next(err);
     }
 }));
-router.post('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { email, password } = req.body;
-        const foundUser = yield User.findAndAuthenticate(email, password);
-        if (foundUser) {
-            req.session.user_id = foundUser._id.toString();
-            res.send("ok");
-        }
-        else {
-            res.send("email or password incorrect");
-        }
-        console.log(req.session.user_id);
-    }
-    catch (err) {
-        next(err);
-    }
+router.post('/login', passport_1.default.authenticate('local', { failureRedirect: 'http://localhost:8080' }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.user);
+    res.send('ok');
 }));
 router.post('/logout', (req, res, next) => {
-    req.session.destroy(() => {
-        res.redirect('http://localhost:8080');
+    req.logout(function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("http://localhost:8080");
     });
 });
 router.delete('/delete', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email, password } = req.body;
-        const user = yield User.findOne({ email });
-        const validPassword = yield bcrypt_1.default.compare(password, user.password);
-        if (validPassword) {
-            yield User.deleteOne({ email });
-            res.send("ok");
+        if (!req.isAuthenticated()) {
+            return res.redirect("http://localhost:8080");
         }
-        else {
-            res.send("email or password incorrect");
-        }
+        yield User.deleteOne({ username: res.locals.username });
+        res.send("ok");
     }
     catch (err) {
         next(err);

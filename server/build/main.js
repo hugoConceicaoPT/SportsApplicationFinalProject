@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.requireLogin = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
 const express_1 = __importDefault(require("express"));
@@ -29,32 +28,40 @@ const routesSpain_1 = __importDefault(require("./routesSpain"));
 const ws_1 = require("ws");
 const leagueIds_1 = require("./leagueIds");
 const express_session_1 = __importDefault(require("express-session"));
+const passport_1 = __importDefault(require("passport"));
+const passport_local_1 = require("passport-local");
+const User = require('./models/user');
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 app.use(express_1.default.json());
 app.use("/", express_1.default.static(path_1.default.join(__dirname, "../../client/build")));
-app.use((0, express_session_1.default)({
-    secret: 'notAgoodSecret',
-    saveUninitialized: false,
-    resave: false
-}));
 mongoose_1.default.connect(process.env.MONGODB_URI).then(() => {
     console.log("DB connected");
 }).catch(err => {
     console.log(err);
 });
-const requireLogin = (req, res, next) => {
-    if (!req.session.user_id)
-        return res.redirect('http://localhost:8080');
-    next();
-};
-exports.requireLogin = requireLogin;
 app.use(function (inRequest, inResponse, inNext) {
     inResponse.header("Access-Control-Allow-Origin", "*");
     inResponse.header("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS");
     inResponse.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept");
     inNext();
 });
+const sessionConfig = {
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 2),
+        maxAge: 1000 * 60 * 60 * 2
+    }
+};
+app.use((0, express_session_1.default)(sessionConfig));
+app.use(passport_1.default.initialize());
+app.use(passport_1.default.session());
+passport_1.default.use(new passport_local_1.Strategy(User.authenticate()));
+passport_1.default.serializeUser(User.serializeUser());
+passport_1.default.deserializeUser(User.deserializeUser());
 app.use('/user', routesUser_1.default);
 app.use('/favorites', routesFavorites_1.default);
 app.use('/portugal', routesPortugal_1.default);
