@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.requireLogin = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
 const express_1 = __importDefault(require("express"));
@@ -27,15 +28,27 @@ const routesFrance_1 = __importDefault(require("./routesFrance"));
 const routesSpain_1 = __importDefault(require("./routesSpain"));
 const ws_1 = require("ws");
 const leagueIds_1 = require("./leagueIds");
+const express_session_1 = __importDefault(require("express-session"));
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 app.use(express_1.default.json());
 app.use("/", express_1.default.static(path_1.default.join(__dirname, "../../client/build")));
+app.use((0, express_session_1.default)({
+    secret: 'notAgoodSecret',
+    saveUninitialized: false,
+    resave: false
+}));
 mongoose_1.default.connect(process.env.MONGODB_URI).then(() => {
     console.log("DB connected");
 }).catch(err => {
     console.log(err);
 });
+const requireLogin = (req, res, next) => {
+    if (!req.session.user_id)
+        return res.redirect('http://localhost:8080');
+    next();
+};
+exports.requireLogin = requireLogin;
 app.use(function (inRequest, inResponse, inNext) {
     inResponse.header("Access-Control-Allow-Origin", "*");
     inResponse.header("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS");

@@ -1,9 +1,14 @@
 import express, { Request, Response, NextFunction, Router } from "express";
-import favorites from "./models/favorites";
-import Favorites from "./models/favorites";
+const Favorites = require("./models/favorites");
 
 
 const router: Router = express.Router();
+
+const requireLogin = (req: Request, res: Response, next: NextFunction) => {
+    if(!req.session.user_id)
+        return res.redirect('http://localhost:8080');
+    next();
+}
 
 router.post('/:email', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -61,6 +66,23 @@ router.get('/:email', async (req: Request, res: Response, next: NextFunction) =>
         next(err);
     }
 })
+
+router.get('/', requireLogin ,async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const {email} = req.params;
+        let favorites = await Favorites.findOne({email});
+
+        if(!favorites) res.send("not found");
+
+        const leagueIds = await favorites?.leagueIds;
+        const teamIds = await favorites?.teamIds;
+        res.send("ok");
+        res.json({leagueIds, teamIds});
+    }
+    catch(err) {
+        next(err);
+    }
+});
 
 
 router.delete('/:email', async (req: Request, res: Response, next: NextFunction) => {

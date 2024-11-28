@@ -1,11 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const Schema = mongoose_1.default.Schema;
-const FavoritesSchema = new Schema({
+const mongoose_1 = require("mongoose");
+const favoritesSchema = new mongoose_1.Schema({
     email: {
         type: String,
         required: [true, "Email cannot be blank"],
@@ -20,5 +16,4 @@ const FavoritesSchema = new Schema({
         default: [],
     }
 });
-const Favorites = mongoose_1.default.model("Favorites", FavoritesSchema);
-exports.default = Favorites;
+module.exports = (0, mongoose_1.model)('Favorites', favoritesSchema);

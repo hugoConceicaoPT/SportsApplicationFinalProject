@@ -14,20 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const user_1 = __importDefault(require("./models/user"));
+const User = require("./models/user");
 const router = express_1.default.Router();
 router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
-        const userExits = yield user_1.default.findOne({ email });
+        const userExits = yield User.findOne({ email });
         if (userExits)
-            res.send("User with the same email already exists.");
+            res.status(400).send("email or password already exists.");
         else {
-            const hash = yield bcrypt_1.default.hash(password, 15);
-            const user = new user_1.default({
-                email,
-                password: hash
-            });
+            const user = new User({ email, password });
+            req.session.user_id = user._id.toString();
             yield user.save();
             res.send("ok");
         }
@@ -39,26 +36,32 @@ router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, f
 router.post('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
-        const user = yield user_1.default.findOne({ email });
-        const validPassword = yield bcrypt_1.default.compare(password, user.password);
-        if (validPassword) {
+        const foundUser = yield User.findAndAuthenticate(email, password);
+        if (foundUser) {
+            req.session.user_id = foundUser._id.toString();
             res.send("ok");
         }
         else {
             res.send("email or password incorrect");
         }
+        console.log(req.session.user_id);
     }
     catch (err) {
         next(err);
     }
 }));
+router.post('/logout', (req, res, next) => {
+    req.session.destroy(() => {
+        res.redirect('http://localhost:8080');
+    });
+});
 router.delete('/delete', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
-        const user = yield user_1.default.findOne({ email });
+        const user = yield User.findOne({ email });
         const validPassword = yield bcrypt_1.default.compare(password, user.password);
         if (validPassword) {
-            yield user_1.default.deleteOne({ email });
+            yield User.deleteOne({ email });
             res.send("ok");
         }
         else {

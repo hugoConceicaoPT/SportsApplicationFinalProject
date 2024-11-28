@@ -13,8 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const favorites_1 = __importDefault(require("./models/favorites"));
+const Favorites = require("./models/favorites");
 const router = express_1.default.Router();
+const requireLogin = (req, res, next) => {
+    if (!req.session.user_id)
+        return res.redirect('http://localhost:8080');
+    next();
+};
 router.post('/:email', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email } = req.params;
@@ -22,9 +27,9 @@ router.post('/:email', (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         const idString = id.tostring();
         const isLeague = idString.length === 4;
         const isTeam = idString.length === 7;
-        let favorites = yield favorites_1.default.findOne({ email });
+        let favorites = yield Favorites.findOne({ email });
         if (!favorites) {
-            favorites = new favorites_1.default({
+            favorites = new Favorites({
                 email,
                 leagueIds: isLeague ? [idString] : [],
                 teamIds: isTeam ? [idString] : [],
@@ -54,11 +59,26 @@ router.post('/:email', (req, res, next) => __awaiter(void 0, void 0, void 0, fun
 router.get('/:email', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email } = req.params;
-        let favorites = yield favorites_1.default.findOne({ email });
+        let favorites = yield Favorites.findOne({ email });
         if (!favorites)
             res.send("not found");
         const leagueIds = yield (favorites === null || favorites === void 0 ? void 0 : favorites.leagueIds);
         const teamIds = yield (favorites === null || favorites === void 0 ? void 0 : favorites.teamIds);
+        res.json({ leagueIds, teamIds });
+    }
+    catch (err) {
+        next(err);
+    }
+}));
+router.get('/', requireLogin, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email } = req.params;
+        let favorites = yield Favorites.findOne({ email });
+        if (!favorites)
+            res.send("not found");
+        const leagueIds = yield (favorites === null || favorites === void 0 ? void 0 : favorites.leagueIds);
+        const teamIds = yield (favorites === null || favorites === void 0 ? void 0 : favorites.teamIds);
+        res.send("ok");
         res.json({ leagueIds, teamIds });
     }
     catch (err) {
@@ -72,17 +92,17 @@ router.delete('/:email', (req, res, next) => __awaiter(void 0, void 0, void 0, f
         const idString = id.tostring();
         const isLeague = idString.length === 4;
         const isTeam = idString.length === 7;
-        let favorites = yield favorites_1.default.findOne({ email });
+        let favorites = yield Favorites.findOne({ email });
         if (!favorites) {
             res.send("not found");
         }
         else {
             if (isLeague) {
-                const result = yield favorites_1.default.findOneAndUpdate({ email }, { $pull: { leagueIds: id } }, { new: true });
+                const result = yield Favorites.findOneAndUpdate({ email }, { $pull: { leagueIds: id } }, { new: true });
                 res.send("ok");
             }
             if (isTeam) {
-                const result = yield favorites_1.default.findOneAndUpdate({ email }, { $pull: { leagueIds: id } }, { new: true });
+                const result = yield Favorites.findOneAndUpdate({ email }, { $pull: { leagueIds: id } }, { new: true });
                 res.send("ok");
             }
         }

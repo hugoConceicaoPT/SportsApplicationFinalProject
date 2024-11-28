@@ -23,10 +23,16 @@ app.use("/",
     express.static(path.join(__dirname, "../../client/build"))
 );
 
+declare module "express-session" {
+    interface SessionData extends Session {
+        user_id: string; // ou outro tipo apropriado, como number
+    }
+}
+
 app.use(session({
     secret: 'notAgoodSecret',
-    cookie: { maxAge: 7200000 },
-    saveUninitialized: true
+    saveUninitialized: false,
+    resave: false
 }));
 
 mongoose.connect(process.env.MONGODB_URI as string).then(() => {

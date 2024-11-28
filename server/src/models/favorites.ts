@@ -1,8 +1,12 @@
-import mongoose from "mongoose";
+import { Schema, Document, model } from "mongoose";
 
-const Schema = mongoose.Schema;
+interface IFavorites extends Document {
+    email: string;
+    leagueIds: string [];
+    teamIds: string [];
+}
 
-const FavoritesSchema = new Schema({
+const favoritesSchema = new Schema<IFavorites>({
     email: {
         type: String,
         required: [true, "Email cannot be blank"],
@@ -18,6 +22,4 @@ const FavoritesSchema = new Schema({
     }
 });
 
-const Favorites = mongoose.model("Favorites", FavoritesSchema);
-
-export default Favorites;
+module.exports = model('Favorites', favoritesSchema);

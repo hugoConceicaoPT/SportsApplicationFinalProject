@@ -26,6 +26,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
 });
 
 userSchema.pre<IUser>("save", async function(this: IUser ,next) {
+    if(!this.isModified('password')) return next();
     this.password = await bcrypt.hash(this.password, 15);
     next();
 });
