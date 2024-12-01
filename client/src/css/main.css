@@ -13,3 +13,10 @@
     border-color: #001E28;
     color: darkgray;
 }
+
+.componentShowPassword {
+    position: absolute;
+    left: 14.5rem;
+    bottom: 5.8rem;
+    padding: 0;
+}
