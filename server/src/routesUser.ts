@@ -33,7 +33,6 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
 })
 
 router.post('/login', passport.authenticate('local', {failureRedirect: 'http://localhost:8080'}) , async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.user);
     res.send('ok');
 })
 

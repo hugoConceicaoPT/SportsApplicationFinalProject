@@ -19,6 +19,9 @@
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
+    "@types/react": "^18.3.12",
+    "@types/react-bootstrap": "^0.32.37",
+    "@types/react-dom": "^18.3.1",
     "@webpack-cli/generators": "^3.0.7",
     "autoprefixer": "^10.4.20",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
@@ -41,10 +44,11 @@
     "@emotion/styled": "^11.13.5",
     "@mui/icons-material": "^6.1.8",
     "@mui/material": "^6.1.8",
-    "@types/react": "^18.3.12",
     "axios": "^1.7.8",
+    "bootstrap": "^5.3.3",
     "normalize.css": "^8.0.1",
     "react": "^18.3.1",
+    "react-bootstrap": "^2.10.6",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.0.1"
   }

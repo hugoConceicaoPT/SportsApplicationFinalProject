@@ -22,9 +22,7 @@ const User = require ('./models/user');
 const app: Express = express();
 dotenv.config();
 app.use(express.json()); 
-app.use("/",
-    express.static(path.join(__dirname, "../../client/build"))
-);
+app.use("/", express.static(path.join(__dirname, "../../client/dist")));
 
 mongoose.connect(process.env.MONGODB_URI as string).then(() => {
     console.log("DB connected");
@@ -116,8 +114,4 @@ websocket.on("connection", (ws) => {
         console.log("WebSocket connection closed");
         clearInterval(interval);
     });
-});
-
-app.get("/", (req: Request, res: Response) => {
-    res.send("Servidor WebSocket está ativo.");
 });

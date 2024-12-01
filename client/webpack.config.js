@@ -54,7 +54,8 @@ const config = {
         ],
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
+        extensions: [".tsx", ".ts", ".jsx", ".js", "..."],
+        fallback: { "http": false, "browser": false, "https": false, "zlib": false, "stream": false, "url": false, "buffer": false, "timers": false, "assert": false, "axios": false}
     },
 };
 
