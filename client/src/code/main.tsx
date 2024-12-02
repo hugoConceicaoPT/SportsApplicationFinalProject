@@ -5,11 +5,13 @@ import "../css/main.css";
 import React, { useState } from "react";
 import Register from "./components/Register";
 import Home from "./components/Home";
+import Login from "./components/Login";
 
 function App() {
     const [state, setState] = useState({view: "home"});
     if (state.view == "home") return <Home setState={setState}/>
     else if (state.view == "register") return <Register setState={setState}/>
+    else if (state.view == "login") return <Login setState={setState}/>
 }
 
 const container = document.getElementById('mainContainer');

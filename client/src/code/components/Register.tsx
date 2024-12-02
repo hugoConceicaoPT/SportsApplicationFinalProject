@@ -26,10 +26,15 @@ const Register: React.FC<RegisterProps> = ({ setState }) => {
     const [error, setError] = React.useState('');
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const [showPassword, setShowPassword] = React.useState(false);
+    const [hoverStyle, setHoverStyle] = React.useState(false);
 
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     }
+
+    const toggleHoverStyle = () => {
+        setHoverStyle(!hoverStyle);
+    };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
@@ -64,10 +69,15 @@ const Register: React.FC<RegisterProps> = ({ setState }) => {
         }
     }
 
+    const redirectToLogin = () => {
+        setState({ view: "login" });
+    };
+
     return (
         <div className="d-flex justify-content-center align-items-center vh-100 registerComponent">
             <Card style={{ width: '18rem' }} className="mt-4" data-bs-theme="dark">
                 <Card.Title className="text-center mt-3">Criar uma nova conta</Card.Title>
+                {error && <div className="ms-4 text-danger fs-6">{error}</div>}
                 <Card.Body className="p-4">
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="formBasicUsername">
@@ -86,6 +96,11 @@ const Register: React.FC<RegisterProps> = ({ setState }) => {
                         <Button variant="secondary" type="submit" className="w-100" disabled={isSubmitting}>
                             {isSubmitting ? 'Aguarde...' : 'Registar'}
                         </Button>
+                        <p className="text-nowrap mt-2">Tem uma conta?
+                        <Button size="sm" variant="link" type="submit" style={{ color: "white", fontSize: "1.1em", textDecoration: hoverStyle ? "none" : "underline"}} className="w-30 pb-2" disabled={isSubmitting} onClick={redirectToLogin} onMouseOver={toggleHoverStyle} onMouseOut={toggleHoverStyle}>
+                            Entrar
+                        </Button>
+                        </p>
                     </Form>
                 </Card.Body>
             </Card>

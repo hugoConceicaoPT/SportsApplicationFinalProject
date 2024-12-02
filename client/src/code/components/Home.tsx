@@ -9,6 +9,7 @@ const Home : React.FC<HomeProps> = ({ setState }) => {
     return (
         <div>
             <Nav.Link onClick={() => setState({view: "register"})}>Register</Nav.Link>
+            <Nav.Link onClick={() => setState({view: "login"})}>Login</Nav.Link>
             <h1>Welcome to Sports Application</h1>
         </div>
     );

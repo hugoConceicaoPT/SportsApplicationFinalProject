@@ -28,7 +28,7 @@ router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, f
         const { username, email, password } = req.body;
         const userExits = yield User.findOne({ email });
         if (userExits)
-            res.status(400).send("email or password already exists.");
+            res.send("email or password already exists.");
         else {
             const user = new User({ username, email, password });
             yield User.register(user, password);
