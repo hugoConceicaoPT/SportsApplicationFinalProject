@@ -1,14 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import { config } from "../config";
 import { Eye, EyeSlash } from 'react-bootstrap-icons';
+import { AppProps } from "../main";
 
-interface RegisterProps {
-    setState: React.Dispatch<React.SetStateAction<{ view: string }>>;
-}
 
 interface FormState {
     username: string;
@@ -16,7 +14,7 @@ interface FormState {
     password: string;
 }
 
-const Register: React.FC<RegisterProps> = ({ setState }) => {
+const Register: React.FC<AppProps> = ({ setState }) => {
 
     const [formState, setFormState] = React.useState<FormState>({
         username: '',

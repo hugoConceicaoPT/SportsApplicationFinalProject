@@ -1,11 +1,8 @@
 import React from "react";
 import Nav from "react-bootstrap/Nav";
+import { AppProps } from "../main";
 
-interface HomeProps {
-    setState: React.Dispatch<React.SetStateAction<{ view: string }>>;
-}
-
-const Home : React.FC<HomeProps> = ({ setState }) => {
+const Home: React.FC<AppProps> = ({ setState }) => {
     return (
         <div>
             <Nav.Link onClick={() => setState({view: "register"})}>Register</Nav.Link>

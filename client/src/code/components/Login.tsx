@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
@@ -6,18 +6,21 @@ import Card from 'react-bootstrap/Card';
 import { config } from "../config";
 import { Eye, EyeSlash } from 'react-bootstrap-icons';
 import { styleText } from "util";
+import { useUserContext } from '../userContext';
+import { AppProps } from "../main";
 
-interface LoginProps {
-    setState: React.Dispatch<React.SetStateAction<{ view: string }>>;
-}
 
-interface FormState {
+export interface FormState {
     username: string;
     password: string;
 }
 
-const Login: React.FC<LoginProps> = ({ setState }) => {
+export interface User {
+    username: string;
+}
 
+const Login: React.FC<AppProps> = ({ setState }) => {
+    const { setUser } = useUserContext();
     const [formState, setFormState] = React.useState<FormState>({
         username: '',
         password: ''
@@ -52,10 +55,11 @@ const Login: React.FC<LoginProps> = ({ setState }) => {
                 username: formState.username,
                 password: formState.password
             });
-
-            if (response.data !== "ok") {
+            console.log(response.data);
+            if (response.data.status !== "ok") {
                 throw new Error("Utilizador(a) ou password incorretos. Tente novamente");
             } else {
+                setUser({ username: formState.username});
                 setState({view: "home"});
             }
             console.log(response.data);

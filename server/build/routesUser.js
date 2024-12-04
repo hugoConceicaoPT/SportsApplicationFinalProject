@@ -44,7 +44,10 @@ router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, f
     }
 }));
 router.post('/login', passport_1.default.authenticate('local', { failureRedirect: 'http://localhost:8080' }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send('ok');
+    res.json({
+        status: "ok",
+        user: req.user
+    });
 }));
 router.post('/logout', (req, res, next) => {
     req.logout(function (err) {

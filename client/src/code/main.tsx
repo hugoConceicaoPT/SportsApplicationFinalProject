@@ -6,6 +6,12 @@ import React, { useState } from "react";
 import Register from "./components/Register";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import UserProvider from './userContext';
+import ReactDOM from 'react-dom/client';
+
+export interface AppProps {
+  setState: React.Dispatch<React.SetStateAction<{ view: string }>>;
+}
 
 function App() {
     const [state, setState] = useState({view: "home"});
@@ -14,8 +20,11 @@ function App() {
     else if (state.view == "login") return <Login setState={setState}/>
 }
 
-const container = document.getElementById('mainContainer');
-if (container) {
-    const root = createRoot(container);
-    root.render(<App />);
-}
+const root = ReactDOM.createRoot(document.getElementById('mainContainer') as HTMLElement);
+
+// Renderiza o App dentro do UserProvider
+root.render(
+  <UserProvider>
+    <App />
+  </UserProvider>
+);
