@@ -25,6 +25,7 @@ import UserProvider from './userContext';
 
 // Importa o módulo `ReactDOM` para renderizar a aplicação na árvore DOM.
 import ReactDOM from 'react-dom/client';
+import Favorites from './components/Favorites';
 
 // Define uma interface TypeScript chamada `AppProps`.
 // Ela especifica o formato esperado da propriedade `setState` no componente.
@@ -45,6 +46,8 @@ function App() {
         return <Register setState={setState}/>; // Renderiza o componente `Register` e passa `setState` como prop.
     else if (state.view == "login") 
         return <Login setState={setState}/>; // Renderiza o componente `Login` e passa `setState` como prop.
+    else if(state.view == "favorites")
+        return <Favorites setState={setState}/>
 }
 
 // Cria uma raiz React no elemento HTML com o ID `mainContainer`.

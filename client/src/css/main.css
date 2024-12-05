@@ -39,8 +39,8 @@
     color: gray;
 }
 
-.buttonLoginHeader {
-    background-color: #8a817c;
-    border-color: #8a817c;
+.favoritesButton {
+    background-color: #212529;
+    border-color: #212529;
+    color: darkgray;
 }
-
