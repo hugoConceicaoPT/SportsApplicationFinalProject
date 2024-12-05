@@ -17,6 +17,9 @@ const Favorites = require("./models/favorites");
 const router = express_1.default.Router();
 router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (!req.isAuthenticated()) {
+            return res.redirect("http://localhost:8080");
+        }
         const { email } = req.params;
         const { id } = req.body;
         const idString = id.tostring();
@@ -70,6 +73,9 @@ router.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
 }));
 router.delete('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (!req.isAuthenticated()) {
+            return res.redirect("http://localhost:8080");
+        }
         const { email } = req.params;
         const { id } = req.body;
         const idString = id.tostring();

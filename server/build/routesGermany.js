@@ -27,8 +27,10 @@ router.get('/bundesliga/classificacoes', (req, res, next) => __awaiter(void 0, v
 }));
 router.get('/bundesliga/lista', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=${leagueIds_1.leagueIds.bundesliga}`);
-        const responseDataJson = yield responseData.json();
+        const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=${leagueIds_1.leagueIds.bundesliga}`);
+        const responseData = yield response.json();
+        const arr = Object.entries(responseData.events).map(transformNextLastLeagueEvent);
+        res.json(arr);
         res.json(responseDataJson);
     }
     catch (err) {

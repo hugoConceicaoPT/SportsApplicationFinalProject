@@ -4,6 +4,9 @@ const Favorites = require("./models/favorites");
 const router: Router = express.Router();
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        if(!req.isAuthenticated()) {
+            return res.redirect("http://localhost:8080");
+        }
         const {email} = req.params;
         const {id} = req.body;
         const idString = id.tostring();
@@ -64,6 +67,9 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
 router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
     try{
+        if(!req.isAuthenticated()) {
+            return res.redirect("http://localhost:8080");
+        }
         const {email} = req.params;
         const {id} = req.body;
         const idString = id.tostring();
