@@ -2,6 +2,7 @@ import { Schema, Document, model, Model } from "mongoose";
 const passportLocalMongoose = require('passport-local-mongoose');
 
 export interface IUser extends Document {
+    _id: string;
     email: string;
     username: string;
 }

@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 // Importações necessárias para o componente, incluindo React, hooks e bibliotecas como Bootstrap, Axios e ícones.
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
-import { config } from "../config"; // Configurações gerais, como endereço do servidor.
-import { Eye, EyeSlash } from 'react-bootstrap-icons'; // Ícones de olho aberto e fechado para exibir/esconder senha.
-import { useUserContext } from '../userContext'; // Hook para manipular o contexto do usuário.
-import { AppProps } from "../main"; // Interface para as propriedades do componente.
+import { config } from "../config";
+import { Eye, EyeSlash } from 'react-bootstrap-icons';
+import { useUserContext } from '../userContext';
+import { AppProps } from "../main";
+
 
 export interface FormState {
     username: string; // Estado para armazenar o nome de usuário.
