@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, ReactNode, useContext, useState } from "react";
 import { User } from "./components/Login";
 
 
@@ -17,8 +17,10 @@ export function useUserContext() {
     return userContext;
 }
 
-
-const UserProvider = ({ children }) => {
+interface UserProviderProps {
+    children: ReactNode;
+}
+const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | undefined>(undefined);
 
     return (

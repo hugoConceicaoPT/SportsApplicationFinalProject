@@ -16,13 +16,6 @@ const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
 const User = require("./models/user");
 const router = express_1.default.Router();
-router.use((req, res, next) => {
-    if (req.user) {
-        const user = req.user;
-        res.locals.username = user.username;
-    }
-    next();
-});
 router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, email, password } = req.body;
@@ -35,8 +28,8 @@ router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, f
             req.login(user, (err) => {
                 if (err)
                     return next(err);
+                res.send("ok");
             });
-            res.send("ok");
         }
     }
     catch (err) {
@@ -44,10 +37,25 @@ router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, f
     }
 }));
 router.post('/login', passport_1.default.authenticate('local', { failureRedirect: 'http://localhost:8080' }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    res.json({
-        status: "ok",
-        user: req.user
-    });
+    try {
+        if (!req.user) {
+            // Apenas para garantir que a autenticação falha não passe
+            res.status(401).json({ status: 'error', message: 'Authentication failed' });
+            return next();
+        }
+        // Sucesso: Envia os dados do usuário logado
+        const user = req.user; // Casting para o tipo esperado
+        res.json({
+            status: 'ok',
+            user: {
+                username: user.username,
+                email: user.email,
+            },
+        });
+    }
+    catch (err) {
+        next(err); // Encaminha qualquer erro para o middleware de erro
+    }
 }));
 router.post('/logout', (req, res, next) => {
     req.logout(function (err) {
