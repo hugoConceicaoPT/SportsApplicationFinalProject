@@ -8,6 +8,7 @@ import Nav from "react-bootstrap/Nav";
 // Este tipo é usado para definir as propriedades esperadas pelo componente.
 import { AppProps } from "../main";
 import Header from "./Header";
+import ButtonLeague from "./ButtonLeague";
 
 // Define o componente funcional `Home` que utiliza as propriedades do tipo `AppProps`.
 // Ele recebe `setState` como uma propriedade desestruturada de `AppProps`.
@@ -22,6 +23,13 @@ const Home: React.FC<AppProps> = ({ setState }) => {
             {/* Renderiza outro link de navegação.
                 Quando clicado, chama a função `setState` passando um objeto que define a visão atual como "login". */}
             <Nav.Link onClick={() => setState({ view: "login" })}>Login</Nav.Link>
+
+            {/* Botão 1 */}
+            <ButtonLeague
+            setState={setState}
+            imageSrc="/public/Inglaterra.png" // Imagem para o botão 1
+            label="Premier League"
+            />
 
             {/* Renderiza um cabeçalho principal com uma mensagem de boas-vindas. */}
             <h1>Welcome to Sports Application</h1>

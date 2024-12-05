@@ -8,7 +8,7 @@ interface AppProps {
   isSubmitting?: boolean; 
 }
 
-const LoadingButton: React.FC<AppProps> = ({ setState, imageSrc, label }) => {
+const ButtonLeague: React.FC<AppProps> = ({ setState, imageSrc, label }) => {
   const redirectToLeague = () => {
     setState({ view: "register" });
   };
@@ -44,4 +44,4 @@ const LoadingButton: React.FC<AppProps> = ({ setState, imageSrc, label }) => {
   );
 };
 
-export default LoadingButton;
+export default ButtonLeague;
