@@ -24,6 +24,7 @@ const User = require('./models/user');
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 app.use(express_1.default.json());
+app.use("/", express_1.default.static(path_1.default.join(__dirname, "../../client/public")));
 app.use("/", express_1.default.static(path_1.default.join(__dirname, "../../client/dist")));
 mongoose_1.default.connect(process.env.MONGODB_URI).then(() => {
     console.log("DB connected");

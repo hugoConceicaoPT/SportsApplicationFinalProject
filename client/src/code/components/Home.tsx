@@ -16,7 +16,7 @@ const Home: React.FC<AppProps> = ({ setState }) => {
             {/* Botão 1 */}
             <ButtonLeague
             setState={setState}
-            imageSrc="/public/Inglaterra.png" // Imagem para o botão 1
+            imageSrc='icons/Inglaterra.png' // Imagem para o botão 1
             label="Premier League"
             />
 

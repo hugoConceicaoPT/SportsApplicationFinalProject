@@ -20,6 +20,7 @@ const User = require ('./models/user');
 const app: Express = express();
 dotenv.config();
 app.use(express.json()); 
+app.use("/", express.static(path.join(__dirname, "../../client/public")));
 app.use("/", express.static(path.join(__dirname, "../../client/dist")));
 
 mongoose.connect(process.env.MONGODB_URI as string).then(() => {
