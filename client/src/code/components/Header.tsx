@@ -10,9 +10,9 @@ const Header: React.FC<AppProps> = ({setState}) => {
     return (
         <>
             <Navbar sticky="top" bg="dark" data-bs-theme="dark">
-                <Container>
+                <Container fluid>
                     <Navbar.Brand onClick={() => setState({view: "home"})}>SportsShare</Navbar.Brand>
-                    <Nav className="me-auto">
+                    <Nav className="ms-auto">
                         <LoginHeaderButton setState={setState}/>
                     </Nav>
                 </Container>
