@@ -6,6 +6,7 @@ import { ArrowUp, ArrowDown, Star, StarFill } from "react-bootstrap-icons";
 import Nav from 'react-bootstrap/Nav';
 import { Container } from "react-bootstrap";
 import Image from 'react-bootstrap/Image';
+import NextEventButton from "./NextEventButton";
 
 
 interface LeagueButtonEventsProps extends AppProps {
@@ -62,26 +63,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState,  leagueId, 
           {events.length > 0 ? (
             <ul className="list-group">
               {events.map((event, index) => (
-                <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                  <div>
-                    <img
-                      src={event.strHomeTeamBadge}
-                      alt={event.strHomeTeam}
-                      width="30"
-                      className="me-2"
-                    />
-                    {event.strHomeTeam} vs {event.strAwayTeam}
-                    <img
-                      src={event.strAwayTeamBadge}
-                      alt={event.strAwayTeam}
-                      width="30"
-                      className="ms-2"
-                    />
-                  </div>
-                  <div>
-                    {event.dateEvent} às {event.strTime}
-                  </div>
-                </li>
+                <NextEventButton key={index} setState={setState} event={event} index={index}/>
               ))}
             </ul>
           ) : (

@@ -5,8 +5,6 @@ import React from "react";
 import { AppProps } from "../main";
 import Header from "./Header";
 import LeagueBlock from "./LeagueBlock";
-
-import ButtonLeague from "./ButtonLeague";
 import LeagueEvents from "./LeagueEvents";
 import { leagueIds } from "../../../../server/src/leagueIds";
 

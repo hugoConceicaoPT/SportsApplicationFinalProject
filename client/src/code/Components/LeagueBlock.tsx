@@ -41,13 +41,6 @@ const LeagueBlock: React.FC<AppProps> = ({ setState }) => {
             imageSrc='icons/Italia.png' // Imagem para o botão 1
             label="Serie A"
             />
-            {/* Botão 7 */}
-            <ButtonLeague
-            setState={setState}
-            imageSrc='icons/championsLeague.png' // Imagem para o botão 1
-            label="Champions League"
-            />
-
         </div>
     )
 }
