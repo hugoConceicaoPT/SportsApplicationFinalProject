@@ -39,9 +39,10 @@ router.get('/liga-portugal-betclic/lista', (req, res, next) => __awaiter(void 0,
 }));
 router.get('/liga-portugal-betclic/resultados', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventspastleague.php?id=${leagueIds_1.leagueIds.primeiraLiga}`);
-        const responseDataJson = yield responseData.json();
-        res.json(responseDataJson);
+        const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventspastleague.php?id=${leagueIds_1.leagueIds.primeiraLiga}`);
+        const responseData = yield response.json();
+        const arr = Object.entries(responseData.events).map(transformData_1.transformNextLastLeagueEvent);
+        res.json(arr);
     }
     catch (err) {
         next(err);

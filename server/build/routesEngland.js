@@ -14,12 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const leagueIds_1 = require("./leagueIds");
+const transformData_1 = require("./transformData");
 const router = express_1.default.Router();
 router.get('/premier-league/classificacoes', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=${leagueIds_1.leagueIds.premierLeague}&s=2024-2025`);
-        const responseDataJson = yield responseData.json();
-        res.json(responseDataJson);
+        const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=${leagueIds_1.leagueIds.premierLeague}&s=2024-2025`);
+        const responseData = yield response.json();
+        const arr = Object.entries(responseData.events).map(transformData_1.transformNextLastLeagueEvent);
+        res.json(arr);
     }
     catch (err) {
         next(err);
@@ -27,9 +29,10 @@ router.get('/premier-league/classificacoes', (req, res, next) => __awaiter(void 
 }));
 router.get('/premier-league/lista', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=${leagueIds_1.leagueIds.premierLeague}`);
-        const responseDataJson = yield responseData.json();
-        res.json(responseDataJson);
+        const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=${leagueIds_1.leagueIds.premierLeague}`);
+        const responseData = yield response.json();
+        const arr = Object.entries(responseData.events).map(transformData_1.transformNextLastLeagueEvent);
+        res.json(arr);
     }
     catch (err) {
         next(err);

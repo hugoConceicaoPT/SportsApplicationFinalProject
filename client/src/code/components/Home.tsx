@@ -4,7 +4,8 @@ import React from "react";
 // Este tipo é usado para definir as propriedades esperadas pelo componente.
 import { AppProps } from "../main";
 import Header from "./Header";
-import ButtonLeague from "./ButtonLeague";
+import LeagueBlock from "./LeagueBlock";
+
 
 // Define o componente funcional `Home` que utiliza as propriedades do tipo `AppProps`.
 // Ele recebe `setState` como uma propriedade desestruturada de `AppProps`.
@@ -12,13 +13,8 @@ const Home: React.FC<AppProps> = ({ setState }) => {
     return (
         <div>
             <Header setState={setState}/>
-
-            {/* Botão 1 */}
-            <ButtonLeague
-            setState={setState}
-            imageSrc='icons/Inglaterra.png' // Imagem para o botão 1
-            label="Premier League"
-            />
+            <LeagueBlock setState={setState}/>
+          
 
             {/* Renderiza um cabeçalho principal com uma mensagem de boas-vindas. */}
             <h1>Welcome to Sports Application</h1>
