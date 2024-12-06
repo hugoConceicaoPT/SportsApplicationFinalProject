@@ -12,5 +12,7 @@ function transformNextLastLeagueEvent(element) {
         strTime: myElement.strTime,
         strHomeTeamBadge: myElement.strHomeTeamBadge,
         strAwayTeamBadge: myElement.strAwayTeamBadge,
+        intHomeScore: myElement.intHomeScore,
+        intAwayScore: myElement.intAwayScore
     };
 }

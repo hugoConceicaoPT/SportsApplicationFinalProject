@@ -6,6 +6,9 @@ import { AppProps } from "../main";
 import Header from "./Header";
 import LeagueBlock from "./LeagueBlock";
 
+import ButtonLeague from "./ButtonLeague";
+import LeagueEvents from "./LeagueEvents";
+import { leagueIds } from "../../../../server/src/leagueIds";
 
 // Define o componente funcional `Home` que utiliza as propriedades do tipo `AppProps`.
 // Ele recebe `setState` como uma propriedade desestruturada de `AppProps`.
@@ -16,8 +19,7 @@ const Home: React.FC<AppProps> = ({ setState }) => {
             <LeagueBlock setState={setState}/>
           
 
-            {/* Renderiza um cabeçalho principal com uma mensagem de boas-vindas. */}
-            <h1>Welcome to Sports Application</h1>
+            <LeagueEvents setState={setState} leagueId = {leagueIds.premierLeague} leagueName="Inglaterra: Premier League" imageSrc="icons/Inglaterra.png"/>
         </div>
     );
 }

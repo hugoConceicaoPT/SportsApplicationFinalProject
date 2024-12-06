@@ -1,3 +1,6 @@
+body {
+    background-color: black;
+}
 
 .registerComponent {
     background-color: #00141E;
@@ -45,7 +48,6 @@
     color: darkgray;
 }
 
-
 .custom-button {
     width: 175px;
     height: 35px;
@@ -58,15 +60,20 @@
     border-radius: 0;
   }
   
-  .custom-button-icon {
+.custom-button-icon {
     margin-right: 5px;
     width: 20px;
     height: 16px;
   }
   
-  .league-block-container {
+.league-block-container {
     position: absolute; /* Pode ser 'relative', 'fixed' ou 'absolute', dependendo do comportamento desejado */
     top: 300px; /* Define a distância do topo */
     left: 20px; /* Define a distância da esquerda */
   }
 
+.leagueEvents {
+    background-color: #01203E;
+    width: 800px;
+    border-color: #01203E;
+}
