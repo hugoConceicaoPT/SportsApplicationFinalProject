@@ -64,3 +64,9 @@
     height: 16px;
   }
   
+  .league-block-container {
+    position: absolute; /* Pode ser 'relative', 'fixed' ou 'absolute', dependendo do comportamento desejado */
+    top: 300px; /* Define a distância do topo */
+    left: 20px; /* Define a distância da esquerda */
+  }
+

@@ -4,7 +4,7 @@ import { AppProps } from "../main";
 
 const LeagueBlock: React.FC<AppProps> = ({ setState }) => {
     return(
-        <div>
+        <div className="league-block-container">
              {/* Botão 1 */}
              <ButtonLeague
             setState={setState}
