@@ -1,14 +1,14 @@
 import express, { Request, Response, NextFunction, Router } from "express";
 import { leagueIds } from "./leagueIds";
-import { transformNextLastLeagueEvent } from "./transformData";
+import { transformLeagueStandings, transformNextLastLeagueEvent } from "./transformData";
 
 const router: Router = express.Router();
 
 router.get('/premier-league/classificacoes', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const response = await fetch(`https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=${leagueIds.premierLeague}&s=2024-2025`);
+        const response = await fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuptable.php?l=${leagueIds.premierLeague}&s=2024-2025`);
         const responseData = await response.json();
-        const arr = Object.entries(responseData.events).map(transformNextLastLeagueEvent);
+        const arr = Object.entries(responseData.table).map(transformLeagueStandings);
         res.json(arr);
     }
     catch(err) {

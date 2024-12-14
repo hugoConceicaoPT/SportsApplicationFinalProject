@@ -16,7 +16,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { WebSocketServer } from "ws";
 import { leagueIds } from "./leagueIds";
-const User = require ('./models/user');
+const User = require ('./models/User');
 
 
 const app: Express = express();
@@ -72,6 +72,7 @@ app.use('/espanha', routesSpain);
 
 
 export const server = app.listen(8080);
+
 
 const websocket = new WebSocketServer({ server });
 websocket.on("connection", (ws) => {

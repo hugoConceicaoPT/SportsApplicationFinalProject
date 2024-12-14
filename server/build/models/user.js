@@ -12,6 +12,10 @@ const UserSchema = new mongoose_1.Schema({
         type: String,
         required: [true, 'Email cannot be blank'],
         unique: true
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 });
 UserSchema.plugin(passportLocalMongoose);

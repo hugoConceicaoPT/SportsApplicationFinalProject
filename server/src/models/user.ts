@@ -5,6 +5,7 @@ export interface IUser extends Document {
     _id: string;
     email: string;
     username: string;
+    isVerified: boolean;
 }
 
 
@@ -18,6 +19,10 @@ const UserSchema = new Schema<IUser>({
         type: String,
         required: [true, 'Email cannot be blank'],
         unique: true
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 });
 

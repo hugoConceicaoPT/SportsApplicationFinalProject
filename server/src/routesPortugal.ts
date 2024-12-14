@@ -1,14 +1,16 @@
 import express, { Request, Response, NextFunction, Router } from "express";
 import { leagueIds } from "./leagueIds";
-import {  transformNextLastLeagueEvent } from "./transformData";
+import {  transformLeagueStandings, transformNextLastLeagueEvent } from "./transformData";
 
 const router: Router = express.Router();
 
 router.get('/liga-portugal-betclic/classificacoes', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const responseData = await fetch(`https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=${leagueIds.primeiraLiga}&s=2024-2025`);
-        const responseDataJson = await responseData.json();
-        res.json(responseDataJson);
+        const response = await fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuptable.php?l=${leagueIds.primeiraLiga}&s=2024-2025`);
+        const responseData = await response.json();
+        const arr = Object.entries(responseData.table).map(transformLeagueStandings);
+        console.log(arr);
+        res.json(arr);
     }
     catch(err) {
         next(err);

@@ -18,9 +18,9 @@ const transformData_1 = require("./transformData");
 const router = express_1.default.Router();
 router.get('/premier-league/classificacoes', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=${leagueIds_1.leagueIds.premierLeague}&s=2024-2025`);
+        const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuptable.php?l=${leagueIds_1.leagueIds.premierLeague}&s=2024-2025`);
         const responseData = yield response.json();
-        const arr = Object.entries(responseData.events).map(transformData_1.transformNextLastLeagueEvent);
+        const arr = Object.entries(responseData.table).map(transformData_1.transformLeagueStandings);
         res.json(arr);
     }
     catch (err) {

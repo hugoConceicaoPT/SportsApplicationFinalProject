@@ -31,7 +31,7 @@ const passport_1 = __importDefault(require("passport"));
 const passport_local_1 = require("passport-local");
 const ws_1 = require("ws");
 const leagueIds_1 = require("./leagueIds");
-const User = require('./models/user');
+const User = require('./models/User');
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 app.use(express_1.default.json());

@@ -18,9 +18,11 @@ const transformData_1 = require("./transformData");
 const router = express_1.default.Router();
 router.get('/liga-portugal-betclic/classificacoes', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=${leagueIds_1.leagueIds.primeiraLiga}&s=2024-2025`);
-        const responseDataJson = yield responseData.json();
-        res.json(responseDataJson);
+        const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuptable.php?l=${leagueIds_1.leagueIds.primeiraLiga}&s=2024-2025`);
+        const responseData = yield response.json();
+        const arr = Object.entries(responseData.table).map(transformData_1.transformLeagueStandings);
+        console.log(arr);
+        res.json(arr);
     }
     catch (err) {
         next(err);
