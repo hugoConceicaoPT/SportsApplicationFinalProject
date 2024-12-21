@@ -1,26 +1,32 @@
 import React from "react";
-import { ILeagueStandings } from "../leagueStandings";
-import { AppProps } from "../main";
+import { ILeagueStandings } from "../league";
 
-interface IStandingsItemProps extends AppProps {
-    team: ILeagueStandings;
-    index: number;
+interface StandingsItemProps {
+  team: ILeagueStandings;
+  index: number;
 }
 
-const StandingsItem: React.FC<IStandingsItemProps> = ({ team, index }) => {
-    return (
-        <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
-                <span className="me-3">{team.intRank}</span>
-                <img src={team.strBadge} alt={team.strTeam} width="30" className="me-2" />
-                {team.strTeam}
-            </div>
-            <div>
-                <span>{team.intPoints} pts</span>
-                <span className="ms-3">({team.intPlayed} J, {team.intWin}-{team.intDraw}-{team.intLoss})</span>
-            </div>
-        </li>
-    );
+const StandingsItem: React.FC<StandingsItemProps> = ({ team, index }) => {
+  return (
+    <li className="list-group-item">
+      <div className="d-flex justify-content-between align-items-center">
+        <span>
+          {index + 1}. {team.strTeam}
+        </span>
+        <span>Pontos: {team.intPoints}</span>
+      </div>
+      <div className="d-flex justify-content-between mt-1">
+        <span>Jogos: {team.intPlayed}</span>
+        <span>Vitórias: {team.intWin}</span>
+        <span>Empates: {team.intDraw}</span>
+      </div>
+      <div className="d-flex justify-content-between mt-1">
+        <span>Gols Marcados: {team.intGoalsFor}</span>
+        <span>Gols Sofridos: {team.intGoalsAgainst}</span>
+        <span>Diferença de Gols: {team.intGoalDifference}</span>
+      </div>
+    </li>
+  );
 };
 
 export default StandingsItem;

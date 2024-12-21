@@ -10,7 +10,7 @@ interface AppProps {
 
 const ButtonLeague: React.FC<AppProps> = ({ setState, imageSrc, label }) => {
   const redirectToLeague = () => {
-    setState({ view: "league" });
+    setState({ view: "LeaguePage" });
   };
 
   return (
