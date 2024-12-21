@@ -54,7 +54,7 @@ const leagueStandingsEndpoints: Record<string, string> = {
 
 // The worker that will perform contact operations.
 export class Worker {
-    public async listNextLeagueEvents(leagueId:string): Promise<INextPastLeagueEvents[]> {
+    public async getListNextLeagueEvents(leagueId:string, currentDate : Date): Promise<INextPastLeagueEvents[]> {
 
         const endpoint = leagueNextEventEndpoints[leagueId];
         if (!endpoint) {
@@ -62,7 +62,11 @@ export class Worker {
         }
 
         try {
-            const response: AxiosResponse = await axios.get(endpoint);
+            const response: AxiosResponse = await axios.get(endpoint, {
+                params: {
+                    date: currentDate.toISOString().split('T')[0], // Formata a data para o formato YYYY-MM-DD
+                },
+            });
             return response.data;
         } catch (error) {
             console.error(`Failed to fetch league events for league ID: ${leagueId}`, error);
@@ -71,7 +75,7 @@ export class Worker {
         
     }
     
-    public async leagueStanding(leagueId: string) : Promise<ILeagueStandings[]> {
+    public async getLeagueStanding(leagueId: string) : Promise<ILeagueStandings[]> {
         const endpoint = leagueStandingsEndpoints[leagueId];
         if (!endpoint) {
             throw new Error(`No endpoint found for league ID: ${leagueId}`);

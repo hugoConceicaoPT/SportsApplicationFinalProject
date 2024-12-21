@@ -21,7 +21,6 @@ router.get('/liga-portugal-betclic/classificacoes', (req, res, next) => __awaite
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuptable.php?l=${leagueIds_1.leagueIds.primeiraLiga}&s=2024-2025`);
         const responseData = yield response.json();
         const arr = Object.entries(responseData.table).map(transformData_1.transformLeagueStandings);
-        console.log(arr);
         res.json(arr);
     }
     catch (err) {
@@ -30,10 +29,12 @@ router.get('/liga-portugal-betclic/classificacoes', (req, res, next) => __awaite
 }));
 router.get('/liga-portugal-betclic/lista', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { date } = req.query;
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=${leagueIds_1.leagueIds.primeiraLiga}`);
         const responseData = yield response.json();
         const arr = Object.entries(responseData.events).map(transformData_1.transformNextLastLeagueEvent);
-        res.json(arr);
+        const filteredResults = date ? arr.filter(event => event.dateEvent === date) : arr;
+        res.json(filteredResults);
     }
     catch (err) {
         next(err);
@@ -41,10 +42,12 @@ router.get('/liga-portugal-betclic/lista', (req, res, next) => __awaiter(void 0,
 }));
 router.get('/liga-portugal-betclic/resultados', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { date } = req.query;
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventspastleague.php?id=${leagueIds_1.leagueIds.primeiraLiga}`);
         const responseData = yield response.json();
         const arr = Object.entries(responseData.events).map(transformData_1.transformNextLastLeagueEvent);
-        res.json(arr);
+        const filteredResults = date ? arr.filter(event => event.dateEvent === date) : arr;
+        res.json(filteredResults);
     }
     catch (err) {
         next(err);

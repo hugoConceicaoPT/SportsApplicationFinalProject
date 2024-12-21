@@ -29,10 +29,12 @@ router.get('/bundesliga/classificacoes', (req, res, next) => __awaiter(void 0, v
 }));
 router.get('/bundesliga/lista', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { date } = req.query;
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=${leagueIds_1.leagueIds.bundesliga}`);
         const responseData = yield response.json();
         const arr = Object.entries(responseData.events).map(transformData_1.transformNextLastLeagueEvent);
-        res.json(arr);
+        const filteredResults = date ? arr.filter(event => event.dateEvent === date) : arr;
+        res.json(filteredResults);
     }
     catch (err) {
         next(err);
@@ -40,10 +42,12 @@ router.get('/bundesliga/lista', (req, res, next) => __awaiter(void 0, void 0, vo
 }));
 router.get('/bundesliga/resultados', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { date } = req.query;
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventspastleague.php?id=${leagueIds_1.leagueIds.bundesliga}`);
         const responseData = yield response.json();
         const arr = Object.entries(responseData.events).map(transformData_1.transformNextLastLeagueEvent);
-        res.json(arr);
+        const filteredResults = date ? arr.filter(event => event.dateEvent === date) : arr;
+        res.json(filteredResults);
     }
     catch (err) {
         next(err);

@@ -13,9 +13,10 @@ interface LeagueButtonEventsProps extends AppProps {
   leagueId: string;
   leagueName: string;
   imageSrc: string;
+  selectedDate: Date;
 }
 
-const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState,  leagueId, leagueName, imageSrc }) => {
+const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState,  leagueId, leagueName, imageSrc, selectedDate }) => {
   const [events, setEvents] = useState<INextPastLeagueEvents[]>([]);
   const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(false);
@@ -26,7 +27,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState,  leagueId, 
   useEffect(() => {
     const fetchInitialEvents = async () => {
       try {
-        const data = await worker.listNextLeagueEvents(leagueId);
+        const data = await worker.getListNextLeagueEvents(leagueId,selectedDate);
         setEvents(data);
       } catch (error) {
         console.error("Error fetching league events:", error);
@@ -34,7 +35,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState,  leagueId, 
     };
 
     fetchInitialEvents();
-  }, [leagueId]); // Dependency array includes leagueId
+  }, [leagueId,selectedDate]); // Dependency array includes leagueId
   // Toggle visibility of games
   const toggleVisibility = () => {
     setIsOpen(!isOpen);

@@ -65,6 +65,7 @@ body {
     width: 20px;
     height: 16px;
   }
+
   
 .league-block-container {
     position: absolute; /* Pode ser 'relative', 'fixed' ou 'absolute', dependendo do comportamento desejado */
