@@ -5,7 +5,6 @@ import React from "react";
 import { AppProps } from "../main";
 import Header from "./Header";
 import LeagueBlock from "./LeagueBlock";
-import Standings from "./Standings";
 import LeagueEvents from "./LeagueEvents";
 import { leagueIds } from "../../../../server/src/leagueIds";
 

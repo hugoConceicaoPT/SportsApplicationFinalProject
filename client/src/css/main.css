@@ -77,3 +77,83 @@ body {
     width: 800px;
     border-color: #01203E;
 }
+
+
+/* Container principal para LeagueStandings */
+.leagueStandings {
+    background-color: #f8f9fa; /* Cor de fundo suave */
+    border: 1px solid #ddd; /* Borda leve */
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
+  }
+  
+  /* Header com título e botões */
+  .leagueStandings .d-flex {
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .leagueStandings h5 {
+    font-size: 1.25rem;
+    color: #01203e; /* Cor do título */
+    margin: 0;
+  }
+  
+  .leagueStandings img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* Ícone circular */
+    margin-right: 10px;
+  }
+  
+  /* Botão de favorito */
+  .leagueStandings .btn {
+    font-size: 0.9rem;
+  }
+  
+  .leagueStandings .btn:hover {
+    background-color: #013a63;
+    border-color: #013a63;
+  }
+  
+  /* Lista de classificações */
+  .leagueStandings .list-group {
+    padding: 0;
+    margin: 0;
+  }
+  
+  .leagueStandings .list-group-item {
+    background-color: #fff; /* Fundo branco para itens */
+    border: none; /* Remove bordas entre os itens */
+    padding: 15px 20px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  }
+  
+  /* Estilo de cada StandingsItem */
+  .list-group-item div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+  
+  /* Separação entre as seções de StandingsItem */
+  .list-group-item div + div {
+    margin-top: 8px;
+  }
+  
+  /* Texto do ranking */
+  .list-group-item span:first-child {
+    font-weight: bold;
+    color: #01203e; /* Azul escuro */
+  }
+  
+  /* Pontos em destaque */
+  .list-group-item span:last-child {
+    font-weight: bold;
+    color: #28a745; /* Verde */
+  }
+  
