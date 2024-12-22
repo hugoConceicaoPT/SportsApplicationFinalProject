@@ -8,18 +8,16 @@ import LeagueBlock from "./LeagueBlock";
 import LeagueEvents from "./LeagueEvents";
 import { leagueIds } from "../../../../server/src/leagueIds";
 import DateButton from "./DateButton";
+import CardListLeague from "./CardListLeagues";
 
 // Define o componente funcional `Home` que utiliza as propriedades do tipo `AppProps`.
 // Ele recebe `setState` como uma propriedade desestruturada de `AppProps`.
 const Home: React.FC<AppProps> = ({ setState }) => {
-    const [selectedDate, setSelectedDate] = useState(new Date());
     return (
         <div>
             <Header setState={setState} />
             <LeagueBlock setState={setState} />
-
-            <DateButton setState={setState} date={selectedDate} setDate={setSelectedDate} />
-            <LeagueEvents selectedDate={selectedDate} setState={setState} leagueId={leagueIds.premierLeague} leagueName="Inglaterra: Premier League" imageSrc="icons/Inglaterra.png" />
+            <CardListLeague setState={setState}/>
         </div>
     );
 }

@@ -25,7 +25,7 @@ const LeagueStandings: React.FC<LeagueStandingsProps> = ({
     const worker = new Worker();
     const fetchStandings = async () => {
       try {
-        const rawData = await worker.leagueStanding(leagueId);
+        const rawData = await worker.getLeagueStanding(leagueId);
 
         // Log para depuração
         console.log("Dados brutos da API:", rawData);

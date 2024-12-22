@@ -16,18 +16,18 @@ interface LeagueButtonEventsProps extends AppProps {
   selectedDate: Date;
 }
 
-const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState,  leagueId, leagueName, imageSrc, selectedDate }) => {
+const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, leagueName, imageSrc, selectedDate }) => {
   const [events, setEvents] = useState<INextPastLeagueEvents[]>([]);
   const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(false);
 
   const worker = new Worker();
 
-  
+
   useEffect(() => {
     const fetchInitialEvents = async () => {
       try {
-        const data = await worker.getListNextLeagueEvents(leagueId,selectedDate);
+        const data = await worker.getListNextLeagueEvents(leagueId, selectedDate);
         setEvents(data);
       } catch (error) {
         console.error("Error fetching league events:", error);
@@ -35,7 +35,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState,  leagueId, 
     };
 
     fetchInitialEvents();
-  }, [leagueId,selectedDate]); // Dependency array includes leagueId
+  }, [leagueId, selectedDate]); // Dependency array includes leagueId
   // Toggle visibility of games
   const toggleVisibility = () => {
     setIsOpen(!isOpen);
@@ -46,29 +46,29 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState,  leagueId, 
   }
 
   return (
-    <Container className="leagueEvents rounded">
+    <Container className="leagueEvents rounded p-0 mb-1">
       {/* Button to expand/collapse */}
-      <div className="d-flex justify-content-between align-items-center">
-        <Nav.Link style={{color: "#FFCD00", textDecoration: "underline"}} className="m-0 p-1 ps-0">
-        <Button style={{color: favorite ? "#FFCD00": "white", backgroundColor: "#01203E", borderColor: "#01203E"}} className="ps-0 ms-0 mb-3 mt-2" onClick={toggleFavorite}>{favorite ? <StarFill/> : <Star/>}</Button>
-        <Image className="me-2" src={imageSrc} alt="icon" style={{ marginRight: "5px", width: "16px", height: "16px"}}/>
-        {leagueName}</Nav.Link>
-        <Button variant="secondary" size="sm" onClick={toggleVisibility}>
-          {isOpen ? <ArrowUp/> : <ArrowDown/>}
+      <div className="d-flex">
+        <Button style={{ color: favorite ? "#FFCD00" : "white", backgroundColor: "#01203E", borderColor: "#01203E" }} className="leagueEvents-favorite" onClick={toggleFavorite}>{favorite ? <StarFill /> : <Star />}</Button>
+        <Nav.Link className="leagueEvents-navLink">
+          <Image className="me-2" src={imageSrc} alt="icon" style={{ marginRight: "5px", width: "14px", height: "14px" }} />
+          {leagueName}</Nav.Link>
+        <Button variant="secondary" size="sm" className=" ms-auto mt-2 mb-2 me-2" onClick={toggleVisibility}>
+          {isOpen ? <ArrowUp /> : <ArrowDown />}
         </Button>
       </div>
 
       {/* List of games */}
       {isOpen && (
-        <div className="mt-3">
+        <div className="mt-auto">
           {events.length > 0 ? (
             <ul className="list-group">
               {events.map((event, index) => (
-                <NextEventButton key={index} setState={setState} event={event} index={index}/>
+                <NextEventButton key={index} setState={setState} event={event} index={index} />
               ))}
             </ul>
           ) : (
-            <div className="text-center">Sem jogos disponíveis</div>
+          <></>
           )}
         </div>
       )}

@@ -108,7 +108,7 @@ websocket.on("connection", (ws) => {
         catch (error) {
             console.error("Error fetching live score data:", error);
         }
-    }), 60000); // Requisição a cada 1 minuto
+    }), 60000);
     // Limpa o intervalo ao desconectar
     ws.on("close", () => {
         console.log("WebSocket connection closed");

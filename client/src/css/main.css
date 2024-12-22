@@ -2,6 +2,10 @@ body {
     background-color: black;
 }
 
+body li {
+  list-style: none;
+}
+
 .registerComponent {
     background-color: #00141E;
 }
@@ -75,7 +79,7 @@ body {
 
 .leagueEvents {
     background-color: #01203E;
-    width: 800px;
+    width: 700px;
     border-color: #01203E;
 }
 
@@ -132,15 +136,7 @@ body {
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
   }
-  
-  /* Estilo de cada StandingsItem */
-  .list-group-item div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9rem;
-  }
-  
+
   /* Separação entre as seções de StandingsItem */
   .list-group-item div + div {
     margin-top: 8px;
@@ -149,7 +145,7 @@ body {
   /* Texto do ranking */
   .list-group-item span:first-child {
     font-weight: bold;
-    color: #01203e; /* Azul escuro */
+    color: #01203e  ; /* Azul escuro */
   }
   
   /* Pontos em destaque */
@@ -157,4 +153,70 @@ body {
     font-weight: bold;
     color: #28a745; /* Verde */
   }
+
+  .list-group-item-event div {
+    font-size: 0.7rem;
+    display: flex;
+    justify-self: start;
+    margin-left: 6rem;
+  }
+
+  .list-group-item-event {
+    background-color: #0f2d37;
+    border-bottom: 1px solid grey;
+  }
+
+  .list-group-item-event button {
+    width: 100%;
+    background-color: #0f2d37;
+    border-color: #0f2d37;
+  }
   
+  .list-group {
+    margin-bottom: 1rem;
+  }
+
+  /* Separação entre as seções de StandingsItem */
+  .list-group-item-event div + div {
+    margin-top: 8px;
+  }
+
+  .leagueEvents-navLink {
+    color: #FFCD00; 
+    font-weight: bold;
+    text-decoration: none; 
+    font-size: 0.8rem;
+    margin-top: 0.75rem;
+  }
+
+  .leagueEvents-navLink:hover {
+    text-decoration: underline;
+    color: #FFCD00; 
+  }
+
+  .leagueEvents-favorite {
+    display: inline;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .time-event {
+    position: absolute;
+    right: 88%;
+    margin-top: 0.7rem;
+  }
+
+  .score {
+    position: absolute;
+    left: 88%;
+  }
+
+  .buttonDate {
+    background-color: black;
+    border-color: black;
+  }
+
+  .buttonDate:hover {
+    background-color: black;
+    border-color: black;
+  }
