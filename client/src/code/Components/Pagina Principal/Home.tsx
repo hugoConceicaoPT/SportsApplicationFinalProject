@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // Importa o tipo `AppProps` de um arquivo local localizado no diretório principal.
 // Este tipo é usado para definir as propriedades esperadas pelo componente.
 import { AppProps } from "../../main";
-import Header from "./Header";
+import Header from "../Header/Header";
 import LeagueBlock from "./LeagueBlock";
 import LeagueEvents from "./LeagueEvents";
 import { leagueIds } from "../../../../../server/src/leagueIds";
