@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { AppProps } from "../../main";
 import Header from "../Header/Header";
 import LeagueBlock from "./LeagueBlock";
-import LeagueEvents from "./LeagueEvents";
+import LeagueEvents from "../Eventos/LeagueEvents";
 import { leagueIds } from "../../../../../server/src/leagueIds";
 import DateButton from "./DateButton";
 import CardListLeague from "./CardListLeagues";
