@@ -14,7 +14,7 @@ const CardListLeague: React.FC<AppProps> = ({ setState }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     return (
         <Container className="d-flex justify-content-center mt-4">
-            <Card style={{ width: "46rem", backgroundColor: "#0f2d37" }} className="d-flex justify-content-center">
+            <Card style={{ width: "46rem", backgroundColor: "#0b2129" }} className="d-flex justify-content-center">
                 <Card.Body>
                     <div className="d-flex justify-content-end mb-4">
                         <DateButton setState={setState} date={selectedDate} setDate={setSelectedDate} />

@@ -162,14 +162,14 @@ body li {
   }
 
   .list-group-item-event {
-    background-color: #0f2d37;
+    background-color: #0b2129;
     border-bottom: 1px solid grey;
   }
 
   .list-group-item-event button {
     width: 100%;
-    background-color: #0f2d37;
-    border-color: #0f2d37;
+    background-color: #0b2129;
+    border-color: #0b2129;
   }
   
   .list-group {
