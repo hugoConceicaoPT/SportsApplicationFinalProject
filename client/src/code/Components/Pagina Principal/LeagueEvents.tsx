@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Worker, INextPastLeagueEvents } from "../league";
-import { AppProps } from "../main";
+import { Worker, INextPastLeagueEvents } from "../../league";
+import { AppProps } from "../../main";
 import Button from 'react-bootstrap/Button';
 import { ArrowUp, ArrowDown, Star, StarFill } from "react-bootstrap-icons";
 import Nav from 'react-bootstrap/Nav';

@@ -3,9 +3,9 @@ import React, { useState } from "react";
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { AppProps } from "../main";
+import { AppProps } from "../../main";
 import LeagueEvents from "./LeagueEvents";
-import { leagueIds } from "../../../../server/src/leagueIds";
+import { leagueIds } from "../../../../../server/src/leagueIds";
 import { Container } from "react-bootstrap";
 import DateButton from "./DateButton";
 

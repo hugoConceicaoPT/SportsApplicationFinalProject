@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
-import { User } from "./components/Login";
+import { User } from "./Components/Registo/Login";
 
 
 const UserContext = createContext<{

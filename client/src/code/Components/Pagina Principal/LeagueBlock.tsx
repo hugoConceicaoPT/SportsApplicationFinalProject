@@ -1,6 +1,6 @@
 import React from "react";
-import ButtonLeague from "./ButtonLeague";
-import { AppProps } from "../main";
+import ButtonLeague from "./buttonLeague";
+import { AppProps } from "../../main";
 
 const LeagueBlock: React.FC<AppProps> = ({ setState }) => {
     return(

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { AppProps } from "../main";
+import { AppProps } from "../../main";
 import Button from 'react-bootstrap/Button';
-import { INextPastLeagueEvents } from "../league";
+import { INextPastLeagueEvents } from "../../league";
 import { Dash } from "react-bootstrap-icons";
 
 interface INextEventButton extends AppProps {

@@ -16,9 +16,9 @@ import React, { useState } from "react";
 
 // Importa os componentes `Register`, `Home` e `Login`.
 // Estes componentes representam diferentes partes da interface da aplicação.
-import Register from "./components/Register";
-import Home from "./components/Home";
-import Login from "./components/Login";
+import Register from "./Components/Registo/Register";
+import Home from "./Components/Pagina Principal/Home";
+import Login from "./Components/Registo/Login";
 
 // Importa o componente de contexto `UserProvider` que provavelmente gerencia o estado global relacionado ao usuário.
 import UserProvider from './userContext';

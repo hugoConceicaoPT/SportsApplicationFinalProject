@@ -2,10 +2,10 @@ import React from "react";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { AppProps } from "../main";
+import { AppProps } from "../../main";
 import LoginHeaderButton from "./LoginHeaderButton";
 import ButtonFavorites from "./ButtonFavorites";
-import ButtonResults from "./ButtonResults";
+import ButtonResults from "../Pagina Liga/ButtonResults";
 
 
 const Header: React.FC<AppProps> = ({setState}) => {

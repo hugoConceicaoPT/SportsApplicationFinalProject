@@ -5,10 +5,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
-import { config } from "../config";
+import { config } from "../../config";
 import { Eye, EyeSlash } from 'react-bootstrap-icons';
-import { useUserContext } from '../userContext';
-import { AppProps } from "../main";
+import { useUserContext } from '../../userContext';
+import { AppProps } from "../../main";
 
 
 export interface FormState {

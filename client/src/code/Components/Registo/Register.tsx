@@ -5,9 +5,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
-import { config } from "../config"; // Configuração geral, incluindo o endereço do servidor.
+import { config } from "../../config"; // Configuração geral, incluindo o endereço do servidor.
 import { Eye, EyeSlash } from 'react-bootstrap-icons'; // Ícones de olho para alternar visibilidade da senha.
-import { AppProps } from "../main"; // Interface para definir as propriedades do componente.
+import { AppProps } from "../../main"; // Interface para definir as propriedades do componente.
 
 interface FormState {
     username: string; // Estado para o nome de usuário.

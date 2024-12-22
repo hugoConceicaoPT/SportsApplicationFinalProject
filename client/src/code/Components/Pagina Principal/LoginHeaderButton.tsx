@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { AppProps } from "../main";
+import { AppProps } from "../../main";
 import Dropdown from "react-bootstrap/esm/Dropdown";
-import { useUserContext } from "../userContext";
+import { useUserContext } from "../../userContext";
 import Button from 'react-bootstrap/Button';
 import { Person, PersonCheck } from 'react-bootstrap-icons';
 

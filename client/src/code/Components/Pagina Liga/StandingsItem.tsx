@@ -1,5 +1,5 @@
 import React from "react";
-import { ILeagueStandings } from "../league";
+import { ILeagueStandings } from "../../league";
 
 interface StandingsItemProps {
   team: ILeagueStandings;

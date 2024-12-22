@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AppProps } from "../main";
+import { AppProps } from "../../main";
 import { Button } from 'react-bootstrap';
 import { ChevronLeft, ChevronRight, Calendar } from "react-bootstrap-icons";
 

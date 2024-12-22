@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Worker, ILeagueStandings } from "../league"; 
+import { Worker, ILeagueStandings } from "../../league"; 
 import Button from "react-bootstrap/Button";
 import { ArrowUp, ArrowDown, Star, StarFill } from "react-bootstrap-icons";
 import { Container } from "react-bootstrap";
