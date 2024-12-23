@@ -33,6 +33,19 @@ export interface ILeagueStandings {
     intGoalDifference: string,
     intPoints: string
 }
+// Define interface to describe past league results.
+export interface IPastLeagueResults {
+    _id?: number,
+    strHomeTeam: string,
+    strAwayTeam: string,
+    dateEvent: string,
+    strTime: string,
+    strHomeTeamBadge: string,
+    strAwayTeamBadge: string,
+    intHomeScore: string,
+    intAwayScore: string
+}
+
 
 const leagueNextEventEndpoints: Record<string, string> = {
     [leagueIds.premierLeague]: `${config.serverAddress}/inglaterra/premier-league/lista`,
@@ -51,7 +64,14 @@ const leagueStandingsEndpoints: Record<string, string> = {
     [leagueIds.bundesliga]: `${config.serverAddress}/alemanha/bundesliga/classificacoes`,
     [leagueIds.serieA]: `${config.serverAddress}/italia/serie-a/classificacoes`
 };
-
+const leaguePastResultsEndpoints: Record<string, string> = {
+    [leagueIds.premierLeague]: `${config.serverAddress}/inglaterra/premier-league/resultados`,
+    [leagueIds.primeiraLiga]: `${config.serverAddress}/portugal/liga-portugal-betclic/resultados`,
+    [leagueIds.laLiga]: `${config.serverAddress}/espanha/la-liga/resultados`,
+    [leagueIds.ligue1]: `${config.serverAddress}/franca/ligue-1/resultados`,
+    [leagueIds.bundesliga]: `${config.serverAddress}/alemanha/bundesliga/resultados`,
+    [leagueIds.serieA]: `${config.serverAddress}/italia/serie-a/resultados`
+};
 // The worker that will perform contact operations.
 export class Worker {
     public async getListNextLeagueEvents(leagueId:string, currentDate : Date): Promise<INextPastLeagueEvents[]> {
@@ -87,6 +107,26 @@ export class Worker {
         } catch (error) {
             console.error(`Failed to fetch league standings for league ID: ${leagueId}`, error);
             throw new Error("Unable to retrieve league standings. Please try again later.");
+        }
+    }
+
+    public async getPastLeagueResults(leagueId: string, startDate: Date, endDate: Date): Promise<IPastLeagueResults[]> {
+        const endpoint = leaguePastResultsEndpoints[leagueId];
+        if (!endpoint) {
+            throw new Error(`No endpoint found for league ID: ${leagueId}`);
+        }
+
+        try {
+            const response: AxiosResponse = await axios.get(endpoint, {
+                params: {
+                    startDate: startDate.toISOString().split('T')[0], // Format the start date to YYYY-MM-DD
+                    endDate: endDate.toISOString().split('T')[0]     // Format the end date to YYYY-MM-DD
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error(`Failed to fetch past league results for league ID: ${leagueId}`, error);
+            throw new Error("Unable to retrieve past league results. Please try again later.");
         }
     }
 }
