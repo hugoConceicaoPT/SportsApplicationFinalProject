@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Worker, INextPastLeagueEvents } from "../../league";
+import { Worker, INextLeagueEvents } from "../../league";
 import { AppProps } from "../../main";
 import Button from 'react-bootstrap/Button';
 import { ArrowUp, ArrowDown, Star, StarFill } from "react-bootstrap-icons";
@@ -15,12 +15,13 @@ interface LeagueButtonEventsProps extends AppProps {
   leagueName: string;
   imageSrc: string;
   selectedDate: Date;
+  filter: string;
 }
 
 let socket: WebSocket | null = null;
 
-const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, leagueName, imageSrc, selectedDate }) => {
-  const [events, setEvents] = useState<INextPastLeagueEvents[]>([]);
+const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, leagueName, imageSrc, selectedDate, filter }) => {
+  const [events, setEvents] = useState<INextLeagueEvents[]>([]);
   const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(false);
 
@@ -67,9 +68,21 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
 
     const handleMessage = (event: MessageEvent) => {
       const data = JSON.parse(event.data);
-      if (data[leagueName]) {
-        const updatedEvents = data[leagueName].events || [];
-        setEvents((prevEvents) => [...prevEvents, ...updatedEvents]);
+      if (data[leagueId]) {
+        const updatedEvents = data[leagueId];
+        setEvents((prevEvents) => {
+          const updated = [...prevEvents];
+          updatedEvents.forEach((newEvent : INextLeagueEvents) => {
+            const index = updated.findIndex((event) => event.idEvent === newEvent.idEvent);
+            if (index === -1) {
+              updated.push(newEvent); // Adiciona o evento se não for duplicado
+            } else {
+              // Substitui o evento antigo pelo novo (livescore)
+              updated[index] = newEvent;
+            }
+          });
+          return updated;
+        });
       }
     };
 
@@ -93,7 +106,12 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
     setFavorite(!favorite);
   }
 
-  return events.length === 0 ? null : (
+  const filteredEvents = events.filter((event) => {
+    if (filter === "finished") return event.intHomeScore !== null && event.intAwayScore !== null;
+    if (filter === "scheduled") return event.intHomeScore === null && event.intAwayScore === null;
+    return true; // "all"
+  });
+  return filteredEvents.length === 0 ? null : (
     <Container className="leagueEvents rounded p-0 mb-1">
       {/* Button to expand/collapse */}
       <div className="d-flex">

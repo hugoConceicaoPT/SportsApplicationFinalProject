@@ -220,6 +220,13 @@ body li {
     
   }
 
+  .time-event-live {
+    position: absolute;
+    right: 88%;
+    margin-top: 0.7rem;
+    color: red;
+  }
+
   .score {
     position: absolute;
     left: 88%;
@@ -230,6 +237,14 @@ body li {
     left: 88%;
     font-size: 1.2em;
     font-weight: bold;
+  }
+
+  .score-live {
+    position: absolute;
+    left: 88%;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: red;
   }
 
   .buttonDate {

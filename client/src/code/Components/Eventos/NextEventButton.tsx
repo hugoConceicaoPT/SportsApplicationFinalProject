@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { AppProps } from "../../main";
 import Button from 'react-bootstrap/Button';
-import { INextPastLeagueEvents } from "../../league";
+import { ILiveEvents, INextLeagueEvents } from "../../league";
 import { Dash } from "react-bootstrap-icons";
 
+
 interface INextEventButton extends AppProps {
-  event: INextPastLeagueEvents,
+  event: INextLeagueEvents | ILiveEvents,
   index: number
 }
 
-const ButtonResults: React.FC<INextEventButton> = ({ setState, event, index }) => {
+const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index }) => {
   const [textColor, setTextColor] = useState(false);
   const toggleTextColor = () => {
     setTextColor(!textColor);
@@ -18,13 +19,17 @@ const ButtonResults: React.FC<INextEventButton> = ({ setState, event, index }) =
     setState({ view: "home" });
   };
 
-  const formattedTime = event.strTime.split(":").slice(0, 2).join(":");
+  const formattedTime = "strTime" in event ? event.strTime.split(":").slice(0, 2).join(":") : null;
 
-  const isGameFinished = event.intHomeScore !== null && event.intAwayScore !== null;
+  const isGameFinished = event.strStatus === "Match Finished";
+  const isGameScheluded = "strTime" in event ? true : false;
+  const gameProgress = "strProgress" in event ? event.strProgress : null;
+  const formattedProgress = gameProgress ? `${gameProgress}'` : gameProgress;
+  const gameStatus = "strStatus" in event ? event.strStatus : null;
   return (
     <>
       <li key={index} className="list-group-item-event">
-      {isGameFinished ? (
+        {isGameFinished ? (
           // Botão para jogos terminados
           <Button variant="secondary">
             <span className="time-event-end">Terminado</span>
@@ -53,7 +58,7 @@ const ButtonResults: React.FC<INextEventButton> = ({ setState, event, index }) =
               </span>
             </div>
           </Button>
-        ) : (
+        ) : isGameScheluded ? (
           // Botão para jogos em andamento
           <Button variant="secondary">
             <span className="time-event">{formattedTime}</span>
@@ -66,7 +71,7 @@ const ButtonResults: React.FC<INextEventButton> = ({ setState, event, index }) =
               />
               <span className="team-name">{event.strHomeTeam}</span>
               <span className="score">
-                 <Dash />
+                <Dash />
               </span>
             </div>
             <div>
@@ -82,10 +87,38 @@ const ButtonResults: React.FC<INextEventButton> = ({ setState, event, index }) =
               </span>
             </div>
           </Button>
+        ) : (
+          <Button variant="secondary">
+            <span className="time-event-live">{formattedProgress === "45'" ? gameStatus : formattedProgress}</span>
+            <div>
+              <img
+                src={event.strHomeTeamBadge}
+                alt={event.strHomeTeam}
+                width="22"
+                className="me-2"
+              />
+              <span className="team-name">{event.strHomeTeam}</span>
+              <span className="score-live">
+                {event.intHomeScore}
+              </span>
+            </div>
+            <div>
+              <img
+                src={event.strAwayTeamBadge}
+                alt={event.strAwayTeam}
+                width="22"
+                className="me-2"
+              />
+              <span className="team-name">{event.strAwayTeam}</span>
+              <span className="score-live">
+                {event.intAwayScore}
+              </span>
+            </div>
+          </Button>
         )}
       </li>
     </>
   );
 }
 
-export default ButtonResults;
+export default NextEventButton;

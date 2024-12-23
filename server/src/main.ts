@@ -16,6 +16,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { WebSocketServer } from "ws";
 import { leagueIds } from "./leagueIds";
+import { transformLiveEvents } from "./transformData";
 const User = require('./models/User');
 type LeagueName = keyof typeof leagueIds;
 
@@ -82,19 +83,24 @@ websocket.on("connection", (ws) => {
     // Função para buscar os dados das ligas
     const fetchDataForLeagues = async () => {
         const results: Record<string, any> = {};
+
         for (const [leagueName, leagueId] of Object.entries(leagueIds)) {
             try {
-                const responseData = await fetch(`https://www.thesportsdb.com/api/v2/json/livescore/${leagueId}`, {
+                const response = await fetch(`https://www.thesportsdb.com/api/v2/json/livescore/${leagueId}`, {
                     headers: {
                         "X-API-KEY": process.env.API_KEY!,
                     },
                     method: 'GET',
                 });
-                if (!responseData.ok) {
-                    throw new Error(`Error fetching data for ${leagueName}: ${responseData.status}`);
+                if (!response.ok) {
+                    throw new Error(`Error fetching data for ${leagueName}: ${response.status}`);
                 }
-                const responseDataJson = await responseData.json();
-                results[leagueName] = responseDataJson;
+                const responseData = await response.json();
+                if (!responseData.livescore) {
+                    continue; // Skip this league if no livescore data
+                }
+                const arr = Object.entries(responseData.livescore).map(transformLiveEvents);
+                results[leagueId] = arr;
             }
             catch (err) {
                 console.error(err);

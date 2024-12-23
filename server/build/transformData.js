@@ -8,6 +8,7 @@ function transformNextLastLeagueEvent(element) {
     const myElement = element[1];
     // Retorna um novo objeto com transformações específicas nas propriedades do elemento
     return {
+        idEvent: myElement.idEvent,
         strHomeTeam: myElement.strHomeTeam,
         strAwayTeam: myElement.strAwayTeam,
         dateEvent: myElement.dateEvent,
@@ -17,7 +18,8 @@ function transformNextLastLeagueEvent(element) {
         idHomeTeam: myElement.idHomeTeam,
         idAwayTeam: myElement.idAwayTeam,
         intHomeScore: myElement.intHomeScore,
-        intAwayScore: myElement.intAwayScore
+        intAwayScore: myElement.intAwayScore,
+        strStatus: myElement.strStatus
     };
 }
 function transformLeagueStandings(element) {
@@ -45,6 +47,7 @@ function transformLiveEvents(element) {
     const myElement = element[1];
     // Retorna um novo objeto com transformações específicas nas propriedades do elemento
     return {
+        idEvent: myElement.idEvent,
         strHomeTeam: myElement.strHomeTeam,
         strAwayTeam: myElement.strAwayTeam,
         strHomeTeamBadge: myElement.strHomeTeamBadge,
@@ -53,6 +56,7 @@ function transformLiveEvents(element) {
         idAwayTeam: myElement.idAwayTeam,
         intHomeScore: myElement.intHomeScore,
         intAwayScore: myElement.intAwayScore,
-        strProgress: myElement.strProgress
+        strProgress: myElement.strProgress,
+        strStatus: myElement.strStatus
     };
 }

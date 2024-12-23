@@ -6,8 +6,9 @@ import { leagueIds } from "../../../server/src/leagueIds";
 
 // Define interface to describe a contact.  Note that we'll only have an _id field when retrieving or adding, so
 // it has to be optional.
-export interface INextPastLeagueEvents {
+export interface INextLeagueEvents {
     _id?: number,
+    idEvent: string,
     strHomeTeam: string,
     strAwayTeam: string,
     dateEvent: string,
@@ -15,7 +16,23 @@ export interface INextPastLeagueEvents {
     strHomeTeamBadge: string,
     strAwayTeamBadge: string,
     intHomeScore: string,
-    intAwayScore: string
+    intAwayScore: string,
+    strStatus: string
+}
+
+export interface ILiveEvents {
+    _id?: number,
+    idEvent: string,
+    strHomeTeam: string,
+    strAwayTeam: string,
+    strHomeTeamBadge: string,
+    strAwayTeamBadge: string,
+    idHomeTeam: string,
+    idAwayTeam: string,
+    intHomeScore: string,
+    intAwayScore: string,
+    strStatus: string,
+    strProgress: string
 }
 
 export interface ILeagueStandings {
@@ -37,6 +54,7 @@ export interface ILeagueStandings {
 // Define interface to describe past league results.
 export interface IPastLeagueResults {
     _id?: number,
+    idEvent: string,
     strHomeTeam: string,
     strAwayTeam: string,
     dateEvent: string,
@@ -44,7 +62,8 @@ export interface IPastLeagueResults {
     strHomeTeamBadge: string,
     strAwayTeamBadge: string,
     intHomeScore: string,
-    intAwayScore: string
+    intAwayScore: string,
+    strStatus: string
 }
 
 
@@ -75,8 +94,8 @@ const leaguePastResultsEndpoints: Record<string, string> = {
 };
 // The worker that will perform contact operations.
 export class Worker {
-    
-    public async getListNextLeagueEvents(leagueId:string, currentDate : Date): Promise<INextPastLeagueEvents[]> {
+
+    public async getListNextLeagueEvents(leagueId: string, currentDate: Date): Promise<INextLeagueEvents[]> {
 
         const endpoint = leagueNextEventEndpoints[leagueId];
         if (!endpoint) {
@@ -112,7 +131,7 @@ export class Worker {
         }
     }
 
-    public async getPastLeagueResults(leagueId: string, currentDate : Date): Promise<IPastLeagueResults[]> {
+    public async getPastLeagueResults(leagueId: string, currentDate: Date): Promise<IPastLeagueResults[]> {
         const endpoint = leaguePastResultsEndpoints[leagueId];
         if (!endpoint) {
             throw new Error(`No endpoint found for league ID: ${leagueId}`);

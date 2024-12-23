@@ -31,6 +31,7 @@ const passport_1 = __importDefault(require("passport"));
 const passport_local_1 = require("passport-local");
 const ws_1 = require("ws");
 const leagueIds_1 = require("./leagueIds");
+const transformData_1 = require("./transformData");
 const User = require('./models/User');
 const app = (0, express_1.default)();
 dotenv_1.default.config();
@@ -83,17 +84,21 @@ websocket.on("connection", (ws) => {
         const results = {};
         for (const [leagueName, leagueId] of Object.entries(leagueIds_1.leagueIds)) {
             try {
-                const responseData = yield fetch(`https://www.thesportsdb.com/api/v2/json/livescore/${leagueId}`, {
+                const response = yield fetch(`https://www.thesportsdb.com/api/v2/json/livescore/${leagueId}`, {
                     headers: {
                         "X-API-KEY": process.env.API_KEY,
                     },
                     method: 'GET',
                 });
-                if (!responseData.ok) {
-                    throw new Error(`Error fetching data for ${leagueName}: ${responseData.status}`);
+                if (!response.ok) {
+                    throw new Error(`Error fetching data for ${leagueName}: ${response.status}`);
                 }
-                const responseDataJson = yield responseData.json();
-                results[leagueName] = responseDataJson;
+                const responseData = yield response.json();
+                if (!responseData.livescore) {
+                    continue; // Skip this league if no livescore data
+                }
+                const arr = Object.entries(responseData.livescore).map(transformData_1.transformLiveEvents);
+                results[leagueId] = arr;
             }
             catch (err) {
                 console.error(err);
