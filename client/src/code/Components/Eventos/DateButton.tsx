@@ -48,7 +48,7 @@ const DateButton: React.FC<DateButtonProps> = ({ setState, date, setDate }) => {
         backgroundColor: isMouseOverLeft ? "grey" : "black", 
         width: "16px", height: "100%", border: "0px solid white", borderTopLeftRadius: "5px", borderBottomLeftRadius: "5px" }} onMouseOver={changeBackgroundColorLeft} onMouseOut={changeBackgroundColorLeft} />
       <Calendar className="ms-2 mb-1 me-2" />
-      <p className="d-inline-block mb-1 me-3">{formatDate(date)}</p>
+      <p className="d-inline-block mb-1 me-2">{formatDate(date)}</p>
       <ChevronRight className="me-0 ps-0 mb-1 mt-0 pt-0" onClick={handleNextDay} style={{ backgroundColor: isMouseOverRight ? "grey" : "black", width: "16px", height: "100%", border: "0px solid white", borderTopRightRadius: "5px", borderBottomRightRadius: "5px" }} onMouseOver={changeBackgroundColorRight} onMouseOut={changeBackgroundColorRight} />
     </Button>
   );

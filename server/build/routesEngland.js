@@ -16,7 +16,8 @@ const express_1 = __importDefault(require("express"));
 const leagueIds_1 = require("./leagueIds");
 const transformData_1 = require("./transformData");
 const router = express_1.default.Router();
-router.get('/premier-league/classificacoes', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const cachingRoutes_1 = __importDefault(require("./cachingRoutes"));
+router.get('/premier-league/classificacoes', (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuptable.php?l=${leagueIds_1.leagueIds.premierLeague}&s=2024-2025`);
         const responseData = yield response.json();
@@ -27,7 +28,7 @@ router.get('/premier-league/classificacoes', (req, res, next) => __awaiter(void 
         next(err);
     }
 }));
-router.get('/premier-league/lista', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/premier-league/lista', (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { date } = req.query;
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=${leagueIds_1.leagueIds.premierLeague}`);
@@ -40,7 +41,7 @@ router.get('/premier-league/lista', (req, res, next) => __awaiter(void 0, void 0
         next(err);
     }
 }));
-router.get('/premier-league/resultados', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/premier-league/resultados', (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { date } = req.query;
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventspastleague.php?id=${leagueIds_1.leagueIds.premierLeague}`);

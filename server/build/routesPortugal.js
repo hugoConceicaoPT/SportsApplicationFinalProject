@@ -15,8 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const leagueIds_1 = require("./leagueIds");
 const transformData_1 = require("./transformData");
+const cachingRoutes_1 = __importDefault(require("./cachingRoutes"));
 const router = express_1.default.Router();
-router.get('/liga-portugal-betclic/classificacoes', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/liga-portugal-betclic/classificacoes', (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuptable.php?l=${leagueIds_1.leagueIds.primeiraLiga}&s=2024-2025`);
         const responseData = yield response.json();
@@ -27,7 +28,7 @@ router.get('/liga-portugal-betclic/classificacoes', (req, res, next) => __awaite
         next(err);
     }
 }));
-router.get('/liga-portugal-betclic/lista', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/liga-portugal-betclic/lista', (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { date } = req.query;
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=${leagueIds_1.leagueIds.primeiraLiga}`);
@@ -40,7 +41,7 @@ router.get('/liga-portugal-betclic/lista', (req, res, next) => __awaiter(void 0,
         next(err);
     }
 }));
-router.get('/liga-portugal-betclic/resultados', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/liga-portugal-betclic/resultados', (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { date } = req.query;
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventspastleague.php?id=${leagueIds_1.leagueIds.primeiraLiga}`);

@@ -14,6 +14,8 @@ export function transformNextLastLeagueEvent(element: [string, unknown]) {
         strTime: myElement.strTime,
         strHomeTeamBadge: myElement.strHomeTeamBadge,
         strAwayTeamBadge: myElement.strAwayTeamBadge,
+        idHomeTeam: myElement.idHomeTeam,
+        idAwayTeam: myElement.idAwayTeam,
         intHomeScore: myElement.intHomeScore,
         intAwayScore: myElement.intAwayScore
     };
@@ -51,6 +53,8 @@ export function transformLiveEvents(element: [string, unknown]) {
         strAwayTeam: myElement.strAwayTeam,
         strHomeTeamBadge: myElement.strHomeTeamBadge,
         strAwayTeamBadge: myElement.strAwayTeamBadge,
+        idHomeTeam: myElement.idHomeTeam,
+        idAwayTeam: myElement.idAwayTeam,
         intHomeScore: myElement.intHomeScore,
         intAwayScore: myElement.intAwayScore,
         strProgress: myElement.strProgress

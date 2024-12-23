@@ -14,6 +14,8 @@ function transformNextLastLeagueEvent(element) {
         strTime: myElement.strTime,
         strHomeTeamBadge: myElement.strHomeTeamBadge,
         strAwayTeamBadge: myElement.strAwayTeamBadge,
+        idHomeTeam: myElement.idHomeTeam,
+        idAwayTeam: myElement.idAwayTeam,
         intHomeScore: myElement.intHomeScore,
         intAwayScore: myElement.intAwayScore
     };
@@ -47,6 +49,8 @@ function transformLiveEvents(element) {
         strAwayTeam: myElement.strAwayTeam,
         strHomeTeamBadge: myElement.strHomeTeamBadge,
         strAwayTeamBadge: myElement.strAwayTeamBadge,
+        idHomeTeam: myElement.idHomeTeam,
+        idAwayTeam: myElement.idAwayTeam,
         intHomeScore: myElement.intHomeScore,
         intAwayScore: myElement.intAwayScore,
         strProgress: myElement.strProgress

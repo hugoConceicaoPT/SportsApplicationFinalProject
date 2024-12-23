@@ -176,6 +176,10 @@ body li {
     margin-bottom: 1rem;
   }
 
+  .team-name {
+    font-size: 1.2em;
+  }
+
   /* Separação entre as seções de StandingsItem */
   .list-group-item-event div + div {
     margin-top: 8px;
@@ -206,9 +210,26 @@ body li {
     margin-top: 0.7rem;
   }
 
+  .time-event-end {
+    position: absolute;
+    right: 86%;
+    margin-top: 0.7rem;
+    font-size: 0.9em;
+    color: #6c757d;
+    font-weight: 400;
+    
+  }
+
   .score {
     position: absolute;
     left: 88%;
+  }
+
+  .score-end {
+    position: absolute;
+    left: 88%;
+    font-size: 1.2em;
+    font-weight: bold;
   }
 
   .buttonDate {
@@ -235,9 +256,6 @@ body li {
 }
 
 
-
-
-
 /* Nav link styling */
 .leagueResults-navLink {
   font-size: 16px;
@@ -253,11 +271,11 @@ body li {
 }
 
 /* Button for expanding/collapsing */
-button {
+.leagueResults button {
   transition: transform 0.2s ease;
 }
 
-button:hover {
+.leagueResults button:hover {
   transform: scale(1.1);
 }
 
