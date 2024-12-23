@@ -6,7 +6,7 @@ import { ArrowUp, ArrowDown, Star, StarFill } from "react-bootstrap-icons";
 import Nav from 'react-bootstrap/Nav';
 import { Container } from "react-bootstrap";
 import Image from 'react-bootstrap/Image';
-import NextEventButton from "../PaginaPrincipal/NextEventButton";
+import NextEventButton from "./NextEventButton";
 
 
 interface LeagueButtonEventsProps extends AppProps {

@@ -7,7 +7,7 @@ import { AppProps } from "../../main";
 import LeagueEvents from "../Eventos/LeagueEvents";
 import { leagueIds } from "../../../../../server/src/leagueIds";
 import { Container } from "react-bootstrap";
-import DateButton from "./DateButton";
+import DateButton from "../Eventos/DateButton";
 
 
 const CardListLeague: React.FC<AppProps> = ({ setState }) => {
