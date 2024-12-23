@@ -14,7 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
-router.get("/:id/lista", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const cachingRoutes_1 = __importDefault(require("./cachingRoutes"));
+router.get("/:id/lista", (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnext.php?id=${req.params.id}`);
         const responseDataJson = yield responseData.json();
@@ -24,7 +25,7 @@ router.get("/:id/lista", (req, res, next) => __awaiter(void 0, void 0, void 0, f
         next(err);
     }
 }));
-router.get("/:id/resultados", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/:id/resultados", (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const responseData = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnext.php?id=${req.params.id}`);
         const responseDataJson = yield responseData.json();

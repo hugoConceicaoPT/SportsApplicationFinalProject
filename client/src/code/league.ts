@@ -112,7 +112,7 @@ export class Worker {
         }
     }
 
-    public async getPastLeagueResults(leagueId: string, startDate: Date, endDate: Date): Promise<IPastLeagueResults[]> {
+    public async getPastLeagueResults(leagueId: string, currentDate : Date): Promise<IPastLeagueResults[]> {
         const endpoint = leaguePastResultsEndpoints[leagueId];
         if (!endpoint) {
             throw new Error(`No endpoint found for league ID: ${leagueId}`);
@@ -121,9 +121,8 @@ export class Worker {
         try {
             const response: AxiosResponse = await axios.get(endpoint, {
                 params: {
-                    startDate: startDate.toISOString().split('T')[0], // Format the start date to YYYY-MM-DD
-                    endDate: endDate.toISOString().split('T')[0]     // Format the end date to YYYY-MM-DD
-                },
+                    date: currentDate.toISOString().split('T')[0]
+                }
             });
             return response.data;
         } catch (error) {

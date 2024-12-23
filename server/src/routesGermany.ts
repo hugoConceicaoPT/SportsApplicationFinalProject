@@ -1,10 +1,11 @@
 import express, { Request, Response, NextFunction, Router } from "express";
 import { leagueIds } from "./leagueIds";
 import { transformLeagueStandings, transformNextLastLeagueEvent } from "./transformData";
+import cache from "./cachingRoutes";
 
 const router: Router = express.Router();
 
-router.get('/bundesliga/classificacoes', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/bundesliga/classificacoes', cache(120), async (req: Request, res: Response, next: NextFunction) => {
     try {
         const response = await fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuptable.php?l=${leagueIds.bundesliga}&s=2024-2025`);
         const responseData = await response.json();
@@ -16,7 +17,7 @@ router.get('/bundesliga/classificacoes', async (req: Request, res: Response, nex
     }
 });
 
-router.get('/bundesliga/lista', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/bundesliga/lista', cache(120), async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { date } = req.query;
         const response = await fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=${leagueIds.bundesliga}`);
@@ -30,7 +31,7 @@ router.get('/bundesliga/lista', async (req: Request, res: Response, next: NextFu
     }
 });
 
-router.get('/bundesliga/resultados', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/bundesliga/resultados', cache(120), async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { date } = req.query;
         const response = await fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventspastleague.php?id=${leagueIds.bundesliga}`);
