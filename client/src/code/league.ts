@@ -7,7 +7,7 @@ import { leagueIds } from "../../../server/src/leagueIds";
 // Define interface to describe a contact.  Note that we'll only have an _id field when retrieving or adding, so
 // it has to be optional.
 export interface INextPastLeagueEvents {
-    _id?: number, 
+    _id?: number,
     strHomeTeam: string,
     strAwayTeam: string,
     dateEvent: string,
@@ -19,7 +19,7 @@ export interface INextPastLeagueEvents {
 }
 
 export interface ILeagueStandings {
-    _id?: number, 
+    _id?: number,
     intRank: string,
     idTeam: string,
     strTeam: string,
@@ -33,6 +33,7 @@ export interface ILeagueStandings {
     intGoalDifference: string,
     intPoints: string
 }
+
 // Define interface to describe past league results.
 export interface IPastLeagueResults {
     _id?: number,
@@ -93,10 +94,10 @@ export class Worker {
             console.error(`Failed to fetch league events for league ID: ${leagueId}`, error);
             throw new Error("Unable to retrieve league events. Please try again later.");
         }
-        
+
     }
-    
-    public async getLeagueStanding(leagueId: string) : Promise<ILeagueStandings[]> {
+
+    public async getLeagueStanding(leagueId: string): Promise<ILeagueStandings[]> {
         const endpoint = leagueStandingsEndpoints[leagueId];
         if (!endpoint) {
             throw new Error(`No endpoint found for league ID: ${leagueId}`);

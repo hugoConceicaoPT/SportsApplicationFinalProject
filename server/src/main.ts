@@ -78,49 +78,49 @@ const websocket = new WebSocketServer({ server });
 websocket.on("connection", (ws) => {
     console.log("New WebSocket connection");
 
-    // Quando o cliente envia uma mensagem (o nome da liga)
     ws.on("message", async (message) => {
-        const { leagueName } : { leagueName: string }= JSON.parse(message.toString());
+        const { leagueName }: { leagueName: string } = JSON.parse(message.toString());
         console.log(`Client requested live events for league: ${leagueName}`);
 
-        // Verifica se o nome da liga é válido
         const leagueId = leagueIds[leagueName as LeagueName];
-
         if (!leagueId) {
-            // Se o nome da liga não for encontrado, envia um erro para o cliente
             ws.send(JSON.stringify({ error: "Invalid league name" }));
             return;
         }
 
-        // Intervalo para fazer requisições e enviar dados
-        const interval = setInterval(async () => {
+        // Função para buscar e enviar os dados
+        const fetchAndSendData = async () => {
             try {
-                const results: Record<string, any> = {};
-
-                // Faz a requisição para o leagueId encontrado
-                const responseData = await fetch(`https://www.thesportsdb.com/api/v2/json/livescore/${leagueId}`, {
+                const response = await fetch(`https://www.thesportsdb.com/api/v2/json/livescore/${leagueId}`, {
                     headers: {
                         "X-API-KEY": process.env.API_KEY!,
                     },
                     method: 'GET',
                 });
 
-                if (!responseData.ok) {
-                    throw new Error(`Error fetching data for ${leagueName}: ${responseData.status}`);
+                if (!response.ok) {
+                    throw new Error(`Error fetching data for ${leagueName}: ${response.status}`);
                 }
 
-                const responseDataJson = await responseData.json();
-                results[leagueName] = responseDataJson;
+                const responseData = await response.json();
+                const results = { [leagueName]: responseData };
 
-                // Verifica se a conexão ainda está ativa antes de enviar
                 if (ws.readyState === ws.OPEN) {
                     ws.send(JSON.stringify(results)); // Envia os dados como string
                 }
             } catch (error) {
                 console.error("Error fetching live score data:", error);
-                ws.send(JSON.stringify({ error: "Error fetching live score data" }));
+                if (ws.readyState === ws.OPEN) {
+                    ws.send(JSON.stringify({ error: "Error fetching live score data" }));
+                }
             }
-        }, 60000); // Envia a cada 60 segundos
+        };
+
+        // Envia a primeira resposta imediatamente
+        await fetchAndSendData();
+
+        // Inicia o intervalo para enviar dados a cada 2 minutos
+        const interval = setInterval(fetchAndSendData, 60000);
 
         // Limpa o intervalo ao desconectar
         ws.on("close", () => {
