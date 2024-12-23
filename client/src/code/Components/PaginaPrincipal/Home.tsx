@@ -5,9 +5,6 @@ import React, { useState } from "react";
 import { AppProps } from "../../main";
 import Header from "./Header";
 import LeagueBlock from "./LeagueBlock";
-import LeagueEvents from "../Eventos/LeagueEvents";
-import { leagueIds } from "../../../../../server/src/leagueIds";
-import DateButton from "../Eventos/DateButton";
 import CardListLeague from "./CardListLeagues";
 
 // Define o componente funcional `Home` que utiliza as propriedades do tipo `AppProps`.
@@ -17,7 +14,7 @@ const Home: React.FC<AppProps> = ({ setState }) => {
         <div>
             <Header setState={setState} />
             <LeagueBlock setState={setState} />
-            <CardListLeague setState={setState}/>
+            <CardListLeague setState={setState} />
         </div>
     );
 }
