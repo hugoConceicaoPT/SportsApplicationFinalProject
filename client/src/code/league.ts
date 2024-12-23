@@ -74,6 +74,7 @@ const leaguePastResultsEndpoints: Record<string, string> = {
 };
 // The worker that will perform contact operations.
 export class Worker {
+    
     public async getListNextLeagueEvents(leagueId:string, currentDate : Date): Promise<INextPastLeagueEvents[]> {
 
         const endpoint = leagueNextEventEndpoints[leagueId];
