@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { AppProps } from "../../main";
 import LoginHeaderButton from "./LoginHeaderButton";
 import ButtonFavorites from "./ButtonFavorites";
-import ButtonResults from "../Pagina Liga/ButtonResults";
+import ButtonResults from "../PaginaLiga/ButtonResults";
 
 
 const Header: React.FC<AppProps> = ({setState}) => {

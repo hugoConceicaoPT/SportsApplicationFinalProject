@@ -1,5 +1,5 @@
 import React from "react";
-import { AppProps } from "../main";
+import { AppProps } from "../../main";
 import Header from "./Header";
 
 

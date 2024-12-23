@@ -17,7 +17,7 @@ import React, { useState } from "react";
 // Importa os componentes `Register`, `Home` e `Login`.
 // Estes componentes representam diferentes partes da interface da aplicação.
 import Register from "./Components/Registo/Register";
-import Home from "./Components/Pagina Principal/Home";
+import Home from "./Components/PaginaPrincipal/Home";
 import Login from "./Components/Registo/Login";
 
 // Importa o componente de contexto `UserProvider` que provavelmente gerencia o estado global relacionado ao usuário.
@@ -25,7 +25,7 @@ import UserProvider from './userContext';
 
 // Importa o módulo `ReactDOM` para renderizar a aplicação na árvore DOM.
 import ReactDOM from 'react-dom/client';
-import Favorites from './components/Favorites';
+import Favorites from './Components/PaginaPrincipal/Favorites';
 
 // Define uma interface TypeScript chamada `AppProps`.
 // Ela especifica o formato esperado da propriedade `setState` no componente.
