@@ -220,3 +220,84 @@ body li {
     background-color: black;
     border-color: black;
   }
+
+
+  /* Styles for LeagueEvents and LeagueResults components */
+
+/* Container styling for league events and results */
+.leagueResults {
+  border: 1px solid #01203E;
+  background-color: #F5F5F5;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+/* Nav link styling */
+.leagueResults-navLink {
+  font-size: 16px;
+  font-weight: bold;
+  color: #01203E;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.leagueResults-navLink:hover {
+  color: #FFCD00;
+}
+
+/* Button for expanding/collapsing */
+button {
+  transition: transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+/* List group styling */
+.list-group {
+  margin-top: 10px;
+}
+
+/* List group item styling */
+.list-group-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.list-group-item:last-child {
+  border-bottom: none;
+}
+
+/* Image styling */
+img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Button styling for individual items */
+button {
+  background-color: #01203E;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background-color: #FFCD00;
+  color: #01203E;
+}
