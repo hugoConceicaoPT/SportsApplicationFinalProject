@@ -21,9 +21,10 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index })
 
   const formattedTime = "strTime" in event ? event.strTime.split(":").slice(0, 2).join(":") : null;
 
-  const isGameFinished = event.strStatus === "Match Finished";
-  const isGameScheluded = "strTime" in event ? true : false;
+  
   const gameProgress = "strProgress" in event ? event.strProgress : null;
+  const isGameFinished = event.strStatus === "Match Finished" || (gameProgress === null && event.strStatus !== "Not Started");
+  const isGameScheluded = event.strStatus === "Not Started";
   const formattedProgress = gameProgress ? `${gameProgress}'` : gameProgress;
   const gameStatus = "strStatus" in event ? event.strStatus : null;
   return (

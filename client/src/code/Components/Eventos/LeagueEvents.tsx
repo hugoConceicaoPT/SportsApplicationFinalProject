@@ -38,10 +38,23 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
         const pastResults = await worker.getPastLeagueResults(leagueId, selectedDate);
 
         // Combinar ambos os resultados (futuros e passados) em um único array
-        const combinedEvents = [...futureEvents, ...pastResults];
+        // Combinar ambos os resultados (priorizando os passados)
+        const combinedEventsMap = new Map<string, INextLeagueEvents>();
+
+        // Adicionar eventos passados ao mapa
+        pastResults.forEach((event) => {
+          combinedEventsMap.set(event.idEvent, event);
+        });
+
+        // Adicionar eventos futuros, apenas se não existirem no mapa
+        futureEvents.forEach((event) => {
+          if (!combinedEventsMap.has(event.idEvent)) {
+            combinedEventsMap.set(event.idEvent, event);
+          }
+        });
 
         // Atualizar o estado com todos os eventos combinados
-        setEvents(combinedEvents);
+        setEvents(Array.from(combinedEventsMap.values()));
       } catch (error) {
         console.error("Error fetching league events:", error);
       }
@@ -72,7 +85,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
         const updatedEvents = data[leagueId];
         setEvents((prevEvents) => {
           const updated = [...prevEvents];
-          updatedEvents.forEach((newEvent : INextLeagueEvents) => {
+          updatedEvents.forEach((newEvent: INextLeagueEvents) => {
             const index = updated.findIndex((event) => event.idEvent === newEvent.idEvent);
             if (index === -1) {
               updated.push(newEvent); // Adiciona o evento se não for duplicado
@@ -106,11 +119,22 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
     setFavorite(!favorite);
   }
 
-  const filteredEvents = events.filter((event) => {
-    if (filter === "finished") return event.intHomeScore !== null && event.intAwayScore !== null;
-    if (filter === "scheduled") return event.intHomeScore === null && event.intAwayScore === null;
-    return true; // "all"
-  });
+  const filteredEvents = events
+    .filter((event) => {
+      if (filter === "finished") return event.intHomeScore !== null && event.intAwayScore !== null;
+      if (filter === "scheduled") return event.intHomeScore === null && event.intAwayScore === null;
+      return true; // "all"
+    })
+    .sort((a, b) => {
+      // Combine `dateEvent` e `strTime` para criar objetos Date
+      const dateTimeA = new Date(`${a.dateEvent}T${a.strTime}`);
+      const dateTimeB = new Date(`${b.dateEvent}T${b.strTime}`);
+
+      // Ordenar em ordem crescente (mais antigos primeiro)
+      return dateTimeA.getTime() - dateTimeB.getTime();
+    })
+
+  console.log(filteredEvents);
   return filteredEvents.length === 0 ? null : (
     <Container className="leagueEvents rounded p-0 mb-1">
       {/* Button to expand/collapse */}
@@ -149,7 +173,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
       {isOpen && (
         <div className="mt-auto">
           <ul className="list-group">
-            {events.map((event, index) => (
+            {filteredEvents.map((event, index) => (
               <NextEventButton
                 key={index}
                 setState={setState}
