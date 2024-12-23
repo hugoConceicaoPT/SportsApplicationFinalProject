@@ -51,14 +51,14 @@ const LeaguePage: React.FC<AppProps> = ({ leagueId, leagueName, imageSrc }) => {
       <div className="content mt-4">
         {view === "standings" && <LeagueStandings leagueId={leagueId} leagueName={leagueName} imageSrc={imageSrc} />}
         {view === "results" && (
-          <LeagueResults
-            leagueId={leagueId}
-            leagueName={leagueName}
-            imageSrc={imageSrc}
-            selectedStartDate={new Date()}
-            selectedEndDate={new Date()} setState={function (value: React.SetStateAction<{ view: string; }>): void {
-              throw new Error("Function not implemented.");
-            } }/>
+      <LeagueResults
+      leagueId={leagueId}
+      leagueName={leagueName}
+      imageSrc={imageSrc}
+      currentDate={new Date()} 
+      setState={(value: React.SetStateAction<{ view: string }>) => {}}
+      />
+
         )}
         {view === "list" && <LeagueList leagueId={leagueId} leagueName={leagueName} imageSrc={imageSrc} />}
       </div>

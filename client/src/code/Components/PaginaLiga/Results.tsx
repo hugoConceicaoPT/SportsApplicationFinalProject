@@ -12,11 +12,10 @@ interface LeagueButtonResultsProps extends AppProps {
   leagueId: string;
   leagueName: string;
   imageSrc: string;
-  selectedStartDate: Date;
-  selectedEndDate: Date;
+  currentDate: Date; // Replaced selectedStartDate and selectedEndDate with currentDate
 }
 
-const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId, leagueName, imageSrc, selectedStartDate, selectedEndDate }) => {
+const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId, leagueName, imageSrc, currentDate }) => {
   const [results, setResults] = useState<IPastLeagueResults[]>([]);
   const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(false);
@@ -26,7 +25,7 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
   useEffect(() => {
     const fetchInitialResults = async () => {
       try {
-        const data = await worker.getPastLeagueResults(leagueId, selectedStartDate, selectedEndDate);
+        const data = await worker.getPastLeagueResults(leagueId, currentDate);
         setResults(data);
       } catch (error) {
         console.error("Error fetching league results:", error);
@@ -34,7 +33,7 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
     };
 
     fetchInitialResults();
-  }, [leagueId, selectedStartDate, selectedEndDate]); // Dependency array includes leagueId, start date, and end date
+  }, [leagueId, currentDate]); // Dependency array includes leagueId and currentDate
 
   // Toggle visibility of games
   const toggleVisibility = () => {
@@ -68,7 +67,7 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
               ))}
             </ul>
           ) : (
-          <></>
+            <></>
           )}
         </div>
       )}
