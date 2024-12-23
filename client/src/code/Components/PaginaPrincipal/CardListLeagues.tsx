@@ -7,7 +7,8 @@ import { AppProps } from "../../main";
 import LeagueEvents from "../Eventos/LeagueEvents";
 import { leagueIds } from "../../../../../server/src/leagueIds";
 import { Container } from "react-bootstrap";
-import DateButton from "./DateButton";
+import DateButton from "../Eventos/DateButton";
+import FilterAllButton from "../Eventos/FilterAllButton";
 
 
 const CardListLeague: React.FC<AppProps> = ({ setState }) => {
@@ -16,7 +17,8 @@ const CardListLeague: React.FC<AppProps> = ({ setState }) => {
         <Container className="d-flex justify-content-center mt-4">
             <Card style={{ width: "46rem", backgroundColor: "#0b2129" }} className="d-flex justify-content-center">
                 <Card.Body>
-                    <div className="d-flex justify-content-end mb-4">
+                    <div className="d-flex justify-content-between mb-4">
+                        <FilterAllButton setState={setState} />
                         <DateButton setState={setState} date={selectedDate} setDate={setSelectedDate} />
                     </div>
                     <LeagueEvents selectedDate={selectedDate} setState={setState} leagueId={leagueIds.premierLeague} leagueName="Inglaterra: Premier League" imageSrc="icons/Inglaterra.png" />

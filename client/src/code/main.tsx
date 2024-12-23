@@ -25,7 +25,7 @@ import UserProvider from './userContext';
 
 // Importa o módulo `ReactDOM` para renderizar a aplicação na árvore DOM.
 import ReactDOM from 'react-dom/client';
-import Favorites from './components/Favorites';
+import Favorites from './Components/PaginaPrincipal/Favorites';
 
 // Define uma interface TypeScript chamada `AppProps`.
 // Ela especifica o formato esperado da propriedade `setState` no componente.
