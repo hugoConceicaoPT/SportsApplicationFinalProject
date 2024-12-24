@@ -1,5 +1,5 @@
 body {
-    background-color: black;
+  background-color: black;
 }
 
 body li {
@@ -7,258 +7,271 @@ body li {
 }
 
 .registerComponent {
-    background-color: #00141E;
+  background-color: #00141E;
 }
 
 .loginComponent {
-    background-color: #00141E;
+  background-color: #00141E;
 }
 
 .formComponentPlaceholder {
-    background-color: #001E28;
-    border-color: #001E28;
-    color: darkgray;
+  background-color: #001E28;
+  border-color: #001E28;
+  color: darkgray;
 }
 
 .componentShowPassword {
-    position: absolute;
-    left: 14.5rem;
-    bottom: 9.6rem;
-    padding: 0;
+  position: absolute;
+  left: 14.5rem;
+  bottom: 9.6rem;
+  padding: 0;
 }
 
 .componentShowPasswordLogin {
-    position: absolute;
-    left: 14.5rem;
-    bottom: 9.4rem;
-    padding: 0;
+  position: absolute;
+  left: 14.5rem;
+  bottom: 9.4rem;
+  padding: 0;
 }
 
 .registerComponent p {
-    font-size: 0.9em;
+  font-size: 0.9em;
 }
 
 .pLogin {
-    font-size: 0.7em;
+  font-size: 0.7em;
 }
 
 .toRegisterLink {
-    color: gray;
+  color: gray;
 }
 
 .favoritesButton {
-    background-color: #212529;
-    border-color: #212529;
-    color: darkgray;
+  background-color: #212529;
+  border-color: #212529;
+  color: darkgray;
 }
 
 .custom-button {
-    width: 175px;
-    height: 35px;
-    background-color: black;
-    font-size: 0.9em;
-    display: flex;
-    padding: 5px 10px;
-    border: none;
-    margin-bottom: 0px; 
-    border-radius: 0;
-  }
-  
-.custom-button-icon {
-    margin-right: 5px;
-    width: 20px;
-    height: 16px;
-  }
+  width: 175px;
+  height: 35px;
+  background-color: black;
+  font-size: 0.9em;
+  display: flex;
+  padding: 5px 10px;
+  border: none;
+  margin-bottom: 0px;
+  border-radius: 0;
+}
 
-  
+.custom-button-icon {
+  margin-right: 5px;
+  width: 20px;
+  height: 16px;
+}
+
+
 .league-block-container {
-    position: absolute; /* Pode ser 'relative', 'fixed' ou 'absolute', dependendo do comportamento desejado */
-    top: 300px; /* Define a distância do topo */
-    left: 20px; /* Define a distância da esquerda */
-  }
+  position: absolute;
+  /* Pode ser 'relative', 'fixed' ou 'absolute', dependendo do comportamento desejado */
+  top: 300px;
+  /* Define a distância do topo */
+  left: 20px;
+  /* Define a distância da esquerda */
+}
 
 .leagueEvents {
-    background-color: #01203E;
-    width: 700px;
-    border-color: #01203E;
+  background-color: #01203E;
+  width: 700px;
+  border-color: #01203E;
 }
 
 
 /* Container principal para LeagueStandings */
 .leagueStandings {
-    background-color: #f8f9fa; /* Cor de fundo suave */
-    border: 1px solid #ddd; /* Borda leve */
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
-  }
-  
-  /* Header com título e botões */
-  .leagueStandings .d-flex {
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .leagueStandings h5 {
-    font-size: 1.25rem;
-    color: #01203e; /* Cor do título */
-    margin: 0;
-  }
-  
-  .leagueStandings img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%; /* Ícone circular */
-    margin-right: 10px;
-  }
-  
-  /* Botão de favorito */
-  .leagueStandings .btn {
-    font-size: 0.9rem;
-  }
-  
-  .leagueStandings .btn:hover {
-    background-color: #013a63;
-    border-color: #013a63;
-  }
-  
-  /* Lista de classificações */
-  .leagueStandings .list-group {
-    padding: 0;
-    margin: 0;
-  }
-  
-  .leagueStandings .list-group-item {
-    background-color: #fff; /* Fundo branco para itens */
-    border: none; /* Remove bordas entre os itens */
-    padding: 15px 20px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
-  }
+  background-color: #f8f9fa;
+  /* Cor de fundo suave */
+  border: 1px solid #ddd;
+  /* Borda leve */
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Sombra para destaque */
+}
 
-  /* Separação entre as seções de StandingsItem */
-  .list-group-item div + div {
-    margin-top: 8px;
-  }
-  
-  /* Texto do ranking */
-  .list-group-item span:first-child {
-    font-weight: bold;
-    color: #01203e  ; /* Azul escuro */
-  }
-  
-  /* Pontos em destaque */
-  .list-group-item span:last-child {
-    font-weight: bold;
-    color: #28a745; /* Verde */
-  }
+/* Header com título e botões */
+.leagueStandings .d-flex {
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .list-group-item-event div {
-    font-size: 0.7rem;
-    display: flex;
-    justify-self: start;
-    margin-left: 6rem;
-  }
+.leagueStandings h5 {
+  font-size: 1.25rem;
+  color: #01203e;
+  /* Cor do título */
+  margin: 0;
+}
 
-  .list-group-item-event {
-    background-color: #0b2129;
-    border-bottom: 1px solid grey;
-  }
+.leagueStandings img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  /* Ícone circular */
+  margin-right: 10px;
+}
 
-  .list-group-item-event button {
-    width: 100%;
-    background-color: #0b2129;
-    border-color: #0b2129;
-  }
-  
-  .list-group {
-    margin-bottom: 1rem;
-  }
+/* Botão de favorito */
+.leagueStandings .btn {
+  font-size: 0.9rem;
+}
 
-  .team-name {
-    font-size: 1.2em;
-  }
+.leagueStandings .btn:hover {
+  background-color: #013a63;
+  border-color: #013a63;
+}
 
-  /* Separação entre as seções de StandingsItem */
-  .list-group-item-event div + div {
-    margin-top: 8px;
-  }
+/* Lista de classificações */
+.leagueStandings .list-group {
+  padding: 0;
+  margin: 0;
+}
 
-  .leagueEvents-navLink {
-    color: #FFCD00; 
-    font-weight: bold;
-    text-decoration: none; 
-    font-size: 0.8rem;
-    margin-top: 0.75rem;
-  }
+.leagueStandings .list-group-item {
+  background-color: #fff;
+  /* Fundo branco para itens */
+  border: none;
+  /* Remove bordas entre os itens */
+  padding: 15px 20px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Sombra leve */
+}
 
-  .leagueEvents-navLink:hover {
-    text-decoration: underline;
-    color: #FFCD00; 
-  }
+/* Separação entre as seções de StandingsItem */
+.list-group-item div+div {
+  margin-top: 8px;
+}
 
-  .leagueEvents-favorite {
-    display: inline;
-    margin-top: 0;
-    padding-top: 0;
-  }
+/* Texto do ranking */
+.list-group-item span:first-child {
+  font-weight: bold;
+  color: #01203e;
+  /* Azul escuro */
+}
 
-  .time-event {
-    position: absolute;
-    right: 88%;
-    margin-top: 0.7rem;
-  }
+/* Pontos em destaque */
+.list-group-item span:last-child {
+  font-weight: bold;
+  color: #28a745;
+  /* Verde */
+}
 
-  .time-event-end {
-    position: absolute;
-    right: 86%;
-    margin-top: 0.7rem;
-    font-size: 0.9em;
-    color: #6c757d;
-    font-weight: 400;
-    
-  }
+.list-group-item-event div {
+  font-size: 0.7rem;
+  display: flex;
+  justify-self: start;
+  margin-left: 6rem;
+}
 
-  .time-event-live {
-    position: absolute;
-    right: 89%;
-    margin-top: 0.7rem;
-    color: red;
-  }
+.list-group-item-event {
+  background-color: #0b2129;
+  border-bottom: 1px solid grey;
+}
 
-  .score {
-    position: absolute;
-    left: 88%;
-  }
+.list-group-item-event button {
+  width: 100%;
+  background-color: #0b2129;
+  border-color: #0b2129;
+}
 
-  .score-end {
-    position: absolute;
-    left: 88%;
-    font-size: 1.2em;
-    font-weight: bold;
-  }
+.list-group {
+  margin-bottom: 1rem;
+}
 
-  .score-live {
-    position: absolute;
-    left: 88%;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: red;
-  }
+.team-name {
+  font-size: 1.2em;
+}
 
-  .buttonDate {
-    background-color: black;
-    border-color: black;
-  }
+/* Separação entre as seções de StandingsItem */
+.list-group-item-event div+div {
+  margin-top: 8px;
+}
 
-  .buttonDate:hover {
-    background-color: black;
-    border-color: black;
-  }
+.leagueEvents-navLink {
+  color: #FFCD00;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 0.8rem;
+  margin-top: 0.75rem;
+}
+
+.leagueEvents-navLink:hover {
+  text-decoration: underline;
+  color: #FFCD00;
+}
+
+.leagueEvents-favorite {
+  display: inline;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.time-event {
+  position: absolute;
+  right: 88%;
+  margin-top: 0.7rem;
+}
+
+.time-event-end {
+  position: absolute;
+  right: 86%;
+  margin-top: 0.7rem;
+  font-size: 0.9em;
+  color: #6c757d;
+  font-weight: 400;
+
+}
+
+.time-event-live {
+  position: absolute;
+  right: 89%;
+  margin-top: 0.7rem;
+  color: red;
+}
+
+.score {
+  position: absolute;
+  left: 88%;
+}
+
+.score-end {
+  position: absolute;
+  left: 88%;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.score-live {
+  position: absolute;
+  left: 88%;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: red;
+}
+
+.buttonDate {
+  background-color: black;
+  border-color: black;
+}
+
+.buttonDate:hover {
+  background-color: black;
+  border-color: black;
+}
 
 
-  /* Styles for LeagueEvents and LeagueResults components */
+/* Styles for LeagueEvents and LeagueResults components */
 
 /* Container styling for league events and results */
 .leagueResults {

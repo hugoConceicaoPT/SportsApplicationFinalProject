@@ -3,7 +3,7 @@ import { AppProps } from "../../main";
 import { Button } from "react-bootstrap";
 
 interface FilterFinishButtonsProps extends AppProps {
-    setFilter: (filter: "all" | "finished" | "scheduled") => void;
+    setFilter: (filter: "all" | "finished" | "scheduled" | "live") => void;
     filter: string;
 }
 
@@ -19,7 +19,7 @@ const FilterFinishButtons: React.FC<FilterFinishButtonsProps> = ({ setState, set
     return (
         <div>
             {/* Botão que alterna o estado isSelected */}
-            <Button variant="secondary" onClick={handleClick} style={{ backgroundColor: filter === "finished" ? 'red' : '#0F2D37', borderColor: filter === "finished" ? 'red' : '#0F2D37' }}>
+            <Button  variant="secondary" onClick={handleClick} style={{ backgroundColor: filter === "finished" ? 'red' : '#0F2D37', borderColor: filter === "finished" ? 'red' : '#0F2D37' }}>
                 Terminados
             </Button>
         </div>
