@@ -8,7 +8,7 @@ import { leagueIds } from "../../../server/src/leagueIds";
 // it has to be optional.
 export interface INextLeagueEvents {
     _id?: number,
-    idEvent: string,
+    idEvent?: string,
     strHomeTeam: string,
     strAwayTeam: string,
     dateEvent: string,
@@ -17,7 +17,7 @@ export interface INextLeagueEvents {
     strAwayTeamBadge: string,
     intHomeScore: string,
     intAwayScore: string,
-    strStatus: string
+    strStatus?: string
 }
 
 export interface ILiveEvents {

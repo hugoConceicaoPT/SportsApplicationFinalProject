@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Worker, INextPastLeagueEvents } from "../../league";
+import { Worker, INextLeagueEvents } from "../../league";
 import Button from "react-bootstrap/Button";
 import { ArrowUp, ArrowDown, Star, StarFill } from "react-bootstrap-icons";
 import { Container } from "react-bootstrap";
@@ -12,7 +12,7 @@ interface LeagueListProps {
 }
 
 const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc }) => {
-  const [events, setEvents] = useState<INextPastLeagueEvents[]>([]);
+  const [events, setEvents] = useState<INextLeagueEvents[]>([]);
   const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(false);
 
@@ -26,7 +26,7 @@ const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc 
         console.log("Dados brutos da API:", rawData);
 
         // Mapeando os dados da API para o formato correto
-        const formattedData: INextPastLeagueEvents[] = rawData.map((item: INextPastLeagueEvents) => ({
+        const formattedData: INextLeagueEvents[] = rawData.map((item: INextLeagueEvents) => ({
           _id: item._id || 0,
           strHomeTeam: item.strHomeTeam || "Time não identificado",
           strAwayTeam: item.strAwayTeam || "Time não identificado",

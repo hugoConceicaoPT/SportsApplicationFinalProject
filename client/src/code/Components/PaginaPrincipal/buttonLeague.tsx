@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import { useLeagueContext } from '../../leagueContext';
 
 interface AppProps {
   setState: (state: { view: string }) => void;
@@ -10,8 +11,15 @@ interface AppProps {
 }
 
 const ButtonLeague: React.FC<AppProps> = ({ setState, imageSrc, label, leagueId }) => {
+  const { setLeague } = useLeagueContext();
   const redirectToLeague = () => {
     setState({ view: "LeaguePage" });
+    setLeague({
+      leagueId,
+      leagueName: label,
+      imageSrc
+    })
+    console.log("fui para a pagina");
   };
 
   return (

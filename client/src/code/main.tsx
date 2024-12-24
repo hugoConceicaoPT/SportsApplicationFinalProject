@@ -26,6 +26,8 @@ import UserProvider from './userContext';
 // Importa o módulo `ReactDOM` para renderizar a aplicação na árvore DOM.
 import ReactDOM from 'react-dom/client';
 import Favorites from './Components/PaginaPrincipal/Favorites';
+import LeaguePage from './Components/PaginaLiga/LeaguePage';
+import LeagueProvider from './leagueContext';
 
 // Define uma interface TypeScript chamada `AppProps`.
 // Ela especifica o formato esperado da propriedade `setState` no componente.
@@ -35,19 +37,21 @@ export interface AppProps {
 
 // Define o componente funcional `App`, que gerencia a navegação entre as telas da aplicação.
 function App() {
-    // Declara um estado local `state` com `useState`. 
-    // O estado inicial define a visualização padrão como "home".
-    const [state, setState] = useState({ view: "home" });
+  // Declara um estado local `state` com `useState`. 
+  // O estado inicial define a visualização padrão como "home".
+  const [state, setState] = useState({ view: "home" });
 
-    // Renderiza diferentes componentes dependendo do valor do estado `state.view`.
-    if (state.view == "home") 
-        return <Home setState={setState}/>; // Renderiza o componente `Home` e passa `setState` como prop.
-    else if (state.view == "register") 
-        return <Register setState={setState}/>; // Renderiza o componente `Register` e passa `setState` como prop.
-    else if (state.view == "login") 
-        return <Login setState={setState}/>; // Renderiza o componente `Login` e passa `setState` como prop.
-    else if(state.view == "favorites")
-        return <Favorites setState={setState}/>
+  // Renderiza diferentes componentes dependendo do valor do estado `state.view`.
+  if (state.view === "home")
+    return <Home setState={setState} />; // Renderiza o componente `Home` e passa `setState` como prop.
+  else if (state.view === "register")
+    return <Register setState={setState} />; // Renderiza o componente `Register` e passa `setState` como prop.
+  else if (state.view === "login")
+    return <Login setState={setState} />; // Renderiza o componente `Login` e passa `setState` como prop.
+  else if (state.view === "favorites")
+    return <Favorites setState={setState} />
+  else if (state.view === "LeaguePage")
+    return <LeaguePage setState={setState} />
 }
 
 // Cria uma raiz React no elemento HTML com o ID `mainContainer`.
@@ -58,7 +62,9 @@ const root = ReactDOM.createRoot(document.getElementById('mainContainer') as HTM
 // `UserProvider` envolve o `App` para fornecer o estado global à árvore de componentes.
 root.render(
   <UserProvider>
-    <App />
+    <LeagueProvider>
+      <App />
+    </LeagueProvider>
   </UserProvider>
 );
 
