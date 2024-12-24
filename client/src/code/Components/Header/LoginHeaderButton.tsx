@@ -4,21 +4,47 @@ import Dropdown from "react-bootstrap/esm/Dropdown";
 import { useUserContext } from "../../userContext";
 import Button from 'react-bootstrap/Button';
 import { Person, PersonCheck } from 'react-bootstrap-icons';
+import { config } from "../../config";
+import axios from "axios";
 
 const LoginHeaderButton: React.FC<AppProps> = ({ setState }) => {
-    const { user } = useUserContext();
+    const { user, setUser } = useUserContext();
     const username = user ? user.username : false;
+
+    const handleLogout = async () => {
+        try {
+            // Envia uma solicitação de logout para o back-end
+            await axios.post(`${config.serverAddress}/user/logout`);
+            // Após o logout, atualiza o estado do usuário para refletir que o usuário foi desconectado
+            setUser(undefined);  // Atualize o estado do usuário
+            setState({ view: "home" }); // Redireciona para a página inicial
+        } catch (error) {
+            console.error("Erro ao fazer logout:", error);
+        }
+    };
+
+    const handleDeleteAccount = async () => {
+        try {
+            // Envia uma solicitação de logout para o back-end
+            await axios.delete(`${config.serverAddress}/user/${user?.username}/delete`);
+            // Após o logout, atualiza o estado do usuário para refletir que o usuário foi desconectado
+            setUser(undefined);  // Atualize o estado do usuário
+            setState({ view: "home" }); // Redireciona para a página inicial
+        } catch (error) {
+            console.error("Erro ao fazer logout:", error);
+        }
+    }
     return (
         <>
             {user ? (
-                <Dropdown>
-                    <Dropdown.Toggle variant="secondary" id="dropdown-basic ps-0">
+                <Dropdown align="end">
+                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                         <PersonCheck size={24} className="ps-0 me-1 ms-0"/>
                         {username}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => setState({view:"profile"})}>Profile</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setState({view: "logout"})}>Logout</Dropdown.Item>
+                        <Dropdown.Item onClick={handleDeleteAccount}>Apagar Conta</Dropdown.Item>
+                        <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             ) : (

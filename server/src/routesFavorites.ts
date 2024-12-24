@@ -5,7 +5,7 @@ const router: Router = express.Router();
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         if(!req.isAuthenticated()) {
-            return res.redirect("http://localhost:8080");
+            res.send("Necessita de estar logado para adicionar aos Favoritos");
         }
         const {email} = req.params;
         const {id} = req.body;
@@ -48,7 +48,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try{
         if(!req.isAuthenticated()) {
-            return res.redirect("http://localhost:8080");
+            res.send("Necessita de estar logado para aceder aos favoritos");
         }
         const { username } = req.params;
         let favorites = await Favorites.findOne({ username });
@@ -68,7 +68,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
 router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
     try{
         if(!req.isAuthenticated()) {
-            return res.redirect("http://localhost:8080");
+            res.send("Necessita de estar logado para apagar dos Favoritos");
         }
         const {email} = req.params;
         const {id} = req.body;

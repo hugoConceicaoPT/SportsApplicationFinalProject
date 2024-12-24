@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction, Router } from "express";
 import passport from "passport";
 const User = require("./models/User");
-import { IUser } from "./models/user";
+import { IUser } from "./models/User";
 import jwt from "jsonwebtoken";
 import { serverInfo } from "./serverInfo";
 import * as SMTP from "./SMTP";
@@ -93,17 +93,22 @@ router.post('/logout', (req: Request, res: Response, next: NextFunction) => {
         if (err) {
             return next(err);
         }
-        res.redirect("http://localhost:8080");
+        res.status(200).json({ message: "Logout realizado com sucesso." });
     })
 })
 
-router.delete('/delete', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/:username/delete', async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (!req.isAuthenticated()) {
-            return res.redirect("http://localhost:8080");
+            res.status(401).send("Você precisa estar autenticado para excluir sua conta.");
         }
-        await User.deleteOne({ username: res.locals.username })
-        res.send("ok");
+        const { username } = req.params;
+        const user = await User.findOneAndDelete({ username });
+
+        if (!user) {
+            res.status(404).send("Usuário não encontrado.");
+        }
+        res.status(200).send("Usuário excluído com sucesso.");
     }
     catch (err) {
         next(err);
