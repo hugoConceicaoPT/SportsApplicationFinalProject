@@ -28,7 +28,7 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
         <div className="league-header d-flex align-items-center justify-content-between">
           <div className="d-flex align-items-center">
             <img src={league.imageSrc} alt={`${league.leagueName} logo`} className="league-logo me-3" />
-            <h1 className="m-0">{league.leagueName}</h1>
+            <h1 className="league-logo-text">{league.leagueName}</h1>
           </div>
         </div>
 
@@ -59,7 +59,7 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
             <LeagueResults
               leagueId={league.leagueId}
               leagueName={league.leagueName}
-              imageSrc={league.imageSrc}
+              imageSrc={league.imageSrc} 
               currentDate={new Date()}
               setState={(value: React.SetStateAction<{ view: string }>) => { }}
             />

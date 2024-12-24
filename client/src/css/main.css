@@ -78,11 +78,28 @@ body li {
    
   }
 
+  .league-logo{
+    border-radius: 10%;
+    object-fit: cover;
+    width: 100px; 
+    height: auto; /* Mantém a proporção da imagem */
+    
+
+  }
+
+  .league-logo-text{
+    font-size: 1.25rem;
+    color: #fff; /* Cor do título */
+    margin: 0;
+  }
+
 .leagueEvents {
   background-color: #01203E;
   width: 700px;
   border-color: #01203E;
 }
+
+
 
 
 /* Bloco dos resultados das classificações */
@@ -354,13 +371,6 @@ body li {
 
 .list-group-item:last-child {
   border-bottom: none;
-}
-
-img { /* Imagem dentro da pagina da liga */
-  border-radius: 10%;
-  object-fit: cover;
-  width: 100px; 
-  height: auto; /* Mantém a proporção da imagem */
 }
 
 
