@@ -122,16 +122,20 @@ router.post('/logout', (req, res, next) => {
         if (err) {
             return next(err);
         }
-        res.redirect("http://localhost:8080");
+        res.status(200).json({ message: "Logout realizado com sucesso." });
     });
 });
-router.delete('/delete', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.delete('/:username/delete', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.isAuthenticated()) {
-            return res.redirect("http://localhost:8080");
+            res.status(401).send("Você precisa estar autenticado para excluir sua conta.");
         }
-        yield User.deleteOne({ username: res.locals.username });
-        res.send("ok");
+        const { username } = req.params;
+        const user = yield User.findOneAndDelete({ username });
+        if (!user) {
+            res.status(404).send("Usuário não encontrado.");
+        }
+        res.status(200).send("Usuário excluído com sucesso.");
     }
     catch (err) {
         next(err);
