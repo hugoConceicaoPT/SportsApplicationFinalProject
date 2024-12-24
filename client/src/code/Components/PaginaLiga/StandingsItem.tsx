@@ -8,24 +8,30 @@ interface StandingsItemProps {
 
 const StandingsItem: React.FC<StandingsItemProps> = ({ team, index }) => {
   return (
-    <li className="list-group-item">
-      <div>
+    <li className="list-group-item d-flex align-items-center">
+      {/* Exibe a posição e o nome do time */}
+      <div style={{ flex: 2, display: "flex", alignItems: "center" }}>
+        <img
+          src={team.strBadge}
+          alt={`${team.strTeam} badge`}
+          style={{ width: "30px", height: "30px", marginRight: "10px" }}
+        />
         <span>
           {index + 1}. {team.strTeam}
         </span>
       </div>
-      <span>Jogos: {team.intPlayed}</span>
-      <span>Vitórias: {team.intWin}</span>
-      <span>Empates: {team.intDraw}</span>
-      <span>Derrotas: {team.intDefeat}</span>
-      <div>
-        <span>Golos Marcados: {team.intGoalsFor}</span>
-        <span>Golos Sofridos: {team.intGoalsAgainst}</span>
-        <span>Diferença de Golos: {team.intGoalDifference}</span>
+      {/* Exibe os valores de classificação */}
+      <div style={{ flex: 1, textAlign: "center" }}>{team.intPlayed}</div>
+      <div style={{ flex: 1, textAlign: "center", color: "green", fontWeight: "bold" }}>
+        {team.intWin}
       </div>
-      <div>
-        <span>Pontos: {team.intPoints}</span>
+      <div style={{ flex: 1, textAlign: "center", color: "gray", fontWeight: "bold" }}>
+        {team.intDraw}
       </div>
+      <div style={{ flex: 1, textAlign: "center", color: "red", fontWeight: "bold" }}>
+        {team.intDefeat}
+      </div>
+      <div style={{ flex: 1, textAlign: "center" }}>{team.intPoints}</div>
     </li>
   );
 };

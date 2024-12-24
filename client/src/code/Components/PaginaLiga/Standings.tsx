@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Worker, ILeagueStandings } from "../../league"; 
+import { Worker, ILeagueStandings } from "../../league";
 import Button from "react-bootstrap/Button";
 import { ArrowUp, ArrowDown, Star, StarFill } from "react-bootstrap-icons";
 import { Container } from "react-bootstrap";
@@ -27,12 +27,7 @@ const LeagueStandings: React.FC<LeagueStandingsProps> = ({
       try {
         const rawData = await worker.getLeagueStanding(leagueId);
 
-        // Log para depuração
-        console.log("Dados brutos da API:", rawData);
-
-        // Mapeando os dados da API para o formato correto
         const formattedData: ILeagueStandings[] = rawData.map((item: ILeagueStandings) => ({
-          // Transforma ou copia os campos retornados pela API
           _id: parseInt(item.intRank, 10) || 0,
           intRank: item.intRank || "0",
           idTeam: item.idTeam || "",
@@ -96,15 +91,21 @@ const LeagueStandings: React.FC<LeagueStandingsProps> = ({
 
       {isOpen && (
         <div className="mt-3">
-          {standings.length > 0 ? (
-            <ul className="list-group">
-              {standings.map((team, index) => (
-                <StandingsItem key={index} team={team} index={index} />
-              ))}
-            </ul>
-          ) : (
-            <div className="text-center">Sem classificações disponíveis</div>
-          )}
+          {/* Cabeçalho fixo das colunas */}
+          <div className="d-flex list-group-item" style={{ fontWeight: "bold" }}>
+            <div style={{ flex: 2 }}>Equipa</div>
+            <div style={{ flex: 1, textAlign: "left" }}>Jogos</div>
+            <div style={{ flex: 1, textAlign: "left" }}>Vitórias</div>
+            <div style={{ flex: 1, textAlign: "left" }}>Empates</div>
+            <div style={{ flex: 1, textAlign: "left" }}>Derrotas</div>
+            <div style={{ flex: 1, textAlign: "left" }}>Pontos</div>
+          </div>
+          {/* Linhas de classificação */}
+          <ul className="list-group">
+            {standings.map((team, index) => (
+              <StandingsItem key={index} team={team} index={index} />
+            ))}
+          </ul>
         </div>
       )}
     </Container>
