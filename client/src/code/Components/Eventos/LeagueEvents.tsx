@@ -48,8 +48,10 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
 
         // Adicionar eventos futuros, apenas se não existirem no mapa
         futureEvents.forEach((event) => {
-          if (!combinedEventsMap.has(event.idEvent)) {
-            combinedEventsMap.set(event.idEvent, event);
+          if (event.idEvent) { // Verifica se idEvent está definido
+            if (!combinedEventsMap.has(event.idEvent)) {
+              combinedEventsMap.set(event.idEvent, event);
+            }
           }
         });
 
