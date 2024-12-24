@@ -43,7 +43,7 @@ const DateButton: React.FC<DateButtonProps> = ({ setState, date, setDate }) => {
   }
 
   return (
-    <Button variant="secondary" className="buttonDate p-0">
+    <Button variant="secondary" className="buttonDate p-1">
       <ChevronLeft className="ms-0 ps-0 mb-1 mt-0 pt-0" onClick={handlePreviousDay} style={{ 
         backgroundColor: isMouseOverLeft ? "grey" : "black", 
         width: "16px", height: "100%", border: "0px solid white", borderTopLeftRadius: "5px", borderBottomLeftRadius: "5px" }} onMouseOver={changeBackgroundColorLeft} onMouseOut={changeBackgroundColorLeft} />

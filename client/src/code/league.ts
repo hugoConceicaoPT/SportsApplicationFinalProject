@@ -17,7 +17,8 @@ export interface INextLeagueEvents {
     strAwayTeamBadge: string,
     intHomeScore: string,
     intAwayScore: string,
-    strStatus?: string
+    strStatus?: string,
+    strProgress?: string
 }
 
 export interface ILiveEvents {

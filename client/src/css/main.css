@@ -72,26 +72,29 @@ body li {
 
 
 .league-block-container {
-    position: absolute; /* Pode ser 'relative', 'fixed' ou 'absolute', dependendo do comportamento desejado */
-    top: 300px; /* Define a distância do topo */
-    left: 20px; /* Define a distância da esquerda */
-   
-  }
+  position: absolute;
+  /* Pode ser 'relative', 'fixed' ou 'absolute', dependendo do comportamento desejado */
+  top: 300px;
+  /* Define a distância do topo */
+  left: 20px;
+  /* Define a distância da esquerda */
 
-  .league-logo{
-    border-radius: 10%;
-    object-fit: cover;
-    width: 100px; 
-    height: auto; /* Mantém a proporção da imagem */
-    
+}
 
-  }
+.league-logo {
+  border-radius: 10%;
+  object-fit: cover;
+  width: 100px;
+  height: auto;
+  /* Mantém a proporção da imagem */
+}
 
-  .league-logo-text{
-    font-size: 1.25rem;
-    color: #fff; /* Cor do título */
-    margin: 0;
-  }
+.league-logo-text {
+  font-size: 1.25rem;
+  color: #fff;
+  /* Cor do título */
+  margin: 0;
+}
 
 .leagueEvents {
   background-color: #01203E;
@@ -100,103 +103,118 @@ body li {
 }
 
 
-
-
 /* Bloco dos resultados das classificações */
 .leagueStandings {
-    background-color: #0b2129; /* Cor de fundo suave */
-    border: 1px solid #ddd; /* Borda leve */
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
-  }
-  
-  /* Header com título e botões */
-  .leagueStandings .d-flex {
-    align-items: center;
-    justify-content: space-between;
-    color: #fff;
-  }
-  
-  .leagueStandings h5 {
-    font-size: 1.25rem;
-    color: #fff; /* Cor do título */
-    margin: 0;
-  }
-  
-  .leagueStandings img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%; /* Ícone circular */
-    margin-right: 10px;
-  }
-  
-  /* Botão de favorito */
-  .leagueStandings .btn {
-    font-size: 0.9rem;
-  }
-  
-  .leagueStandings .btn:hover {
-    background-color: #013a63;
-    border-color: #013a63;
-  }
-  
-  /* Lista de classificações */
-  .leagueStandings .list-group {
-    padding: 0;
-    margin: 0;
-  }
-  
-  .leagueStandings .list-group-item {
-    background-color: #01203E; /* Fundo branco para itens */
-    border: none; /* Remove bordas entre os itens */
-    padding: 15px 20px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
-  }
+  background-color: #0b2129;
+  /* Cor de fundo suave */
+  border: 1px solid #ddd;
+  /* Borda leve */
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Sombra para destaque */
+}
 
-  /* Separação entre as seções de StandingsItem */
-  .list-group-item div{
-    display: flex;
-    gap: 25px; /* Espaçamento entre os itens */
-    white-space: nowrap;
-  }
-  .list-group-item span {
-    font-size: 0.8rem; /* Ajuste o valor conforme necessário */
-    white-space: nowrap; 
-  }
-  
-  
-  /* Texto dentro do bloco das classificacoes ( */
-  .list-group-item span:first-child {
-    font-weight: bold;
-    color: #fff  ; 
-    flex: 2; /* Faz com que esta coluna ocupe o espaço necessário */
+/* Header com título e botões */
+.leagueStandings .d-flex {
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+}
+
+.leagueStandings h5 {
+  font-size: 1.25rem;
+  color: #fff;
+  /* Cor do título */
+  margin: 0;
+}
+
+.leagueStandings img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  /* Ícone circular */
+  margin-right: 10px;
+}
+
+/* Botão de favorito */
+.leagueStandings .btn {
+  font-size: 0.9rem;
+}
+
+.leagueStandings .btn:hover {
+  background-color: #013a63;
+  border-color: #013a63;
+}
+
+/* Lista de classificações */
+.leagueStandings .list-group {
+  padding: 0;
+  margin: 0;
+}
+
+.leagueStandings .list-group-item {
+  background-color: #01203E;
+  /* Fundo branco para itens */
+  border: none;
+  /* Remove bordas entre os itens */
+  padding: 15px 20px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Sombra leve */
+}
+
+/* Separação entre as seções de StandingsItem */
+.list-group-item div {
+  display: flex;
+  gap: 25px;
+  /* Espaçamento entre os itens */
+  white-space: nowrap;
+}
+
+.list-group-item span {
+  font-size: 0.8rem;
+  /* Ajuste o valor conforme necessário */
+  white-space: nowrap;
+}
+
+
+/* Texto dentro do bloco das classificacoes ( */
+.list-group-item span:first-child {
+  font-weight: bold;
+  color: #fff;
+  flex: 2;
+  /* Faz com que esta coluna ocupe o espaço necessário */
   /* Alinha o texto à esquerda */
-  flex-wrap: nowrap; /* Impede quebras de linha */
-  
-  }
+  flex-wrap: nowrap;
+  /* Impede quebras de linha */
 
-  /* Dados intermediários (Jogos, Vitórias, etc.) */
+}
+
+/* Dados intermediários (Jogos, Vitórias, etc.) */
 .list-group-item span:not(:first-child):not(:last-child) {
-  flex: 2; /* Espaço proporcional fixo */
+  flex: 2;
+  /* Espaço proporcional fixo */
   color: #fff;
   font-weight: bold;
- 
-  flex-wrap: nowrap; /* Impede quebras de linha */
- 
+
+  flex-wrap: nowrap;
+  /* Impede quebras de linha */
+
 }
-  
-  /* Pontos em destaque */
-  
- .list-group-item span:last-child {
-      flex:2; /* Mantém largura ajustada ao conteúdo */
-      font-weight: bold;
-    
-      color: #fff;
-      flex-wrap: nowrap; /* Impede quebras de linha */
-  }
+
+/* Pontos em destaque */
+
+.list-group-item span:last-child {
+  flex: 2;
+  /* Mantém largura ajustada ao conteúdo */
+  font-weight: bold;
+
+  color: #fff;
+  flex-wrap: nowrap;
+  /* Impede quebras de linha */
+}
 
 .list-group-item-event div {
   font-size: 0.7rem;
@@ -219,22 +237,26 @@ body li {
 .list-group {
   margin-bottom: 1rem;
 }
-  .list-group-item-event button {
-    width: 100%;
-    background-color: #0b2129;
-    border-color: #0b2129;
-  }
 
-  .list-group-item div { /* Alinhar texto */
-    display: flex;
-    justify-content: space-between; /* Alinha as colunas principais */
-    gap: 10px; /* Espaçamento entre os elementos */
-  }
-  
-  
-  .list-group {
-    margin-bottom: 1rem;
-  }
+.list-group-item-event button {
+  width: 100%;
+  background-color: #0b2129;
+  border-color: #0b2129;
+}
+
+.list-group-item div {
+  /* Alinhar texto */
+  display: flex;
+  justify-content: space-between;
+  /* Alinha as colunas principais */
+  gap: 10px;
+  /* Espaçamento entre os elementos */
+}
+
+
+.list-group {
+  margin-bottom: 1rem;
+}
 
 .team-name {
   font-size: 1.2em;
@@ -375,7 +397,7 @@ body li {
 
 
 /* Button styling for individual items */
-button {
+.leaguePage button {
   background-color: #01203E;
   color: white;
   border: none;
@@ -385,7 +407,7 @@ button {
   font-size: 14px;
 }
 
-button:hover {
+.leaguePage button:hover {
   background-color: #FFCD00;
   color: #01203E;
 }

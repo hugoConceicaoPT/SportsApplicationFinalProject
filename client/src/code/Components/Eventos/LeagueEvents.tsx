@@ -125,6 +125,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
     .filter((event) => {
       if (filter === "finished") return event.intHomeScore !== null && event.intAwayScore !== null;
       if (filter === "scheduled") return event.intHomeScore === null && event.intAwayScore === null;
+      if (filter === "live") return event.strProgress !== undefined;
       return true; // "all"
     })
     .sort((a, b) => {
