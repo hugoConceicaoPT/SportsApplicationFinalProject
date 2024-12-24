@@ -50,7 +50,8 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
       <div className="d-flex">
         <Button className="leagueResults-favorite" onClick={toggleFavorite}>{favorite ? <StarFill /> : <Star />}</Button>
         <Nav.Link className="leagueResults-navLink">
-          <Image className="me-2" src={imageSrc} alt="icon" />
+          <Image className="me-2" src={imageSrc} alt="icon" 
+          style={{ marginRight: "5px", width: "16px", height: "16px" }}/>
           {leagueName}</Nav.Link>
         <Button variant="secondary" size="sm" className="ms-auto mt-2 mb-2 me-2" onClick={toggleVisibility}>
           {isOpen ? <ArrowUp /> : <ArrowDown />}

@@ -9,21 +9,22 @@ interface StandingsItemProps {
 const StandingsItem: React.FC<StandingsItemProps> = ({ team, index }) => {
   return (
     <li className="list-group-item">
-      <div className="d-flex justify-content-between align-items-center">
+      <div>
         <span>
           {index + 1}. {team.strTeam}
         </span>
+      </div>
+      <span>Jogos: {team.intPlayed}</span>
+      <span>Vitórias: {team.intWin}</span>
+      <span>Empates: {team.intDraw}</span>
+      <span>Derrotas: {team.intDefeat}</span>
+      <div>
+        <span>Golos Marcados: {team.intGoalsFor}</span>
+        <span>Golos Sofridos: {team.intGoalsAgainst}</span>
+        <span>Diferença de Golos: {team.intGoalDifference}</span>
+      </div>
+      <div>
         <span>Pontos: {team.intPoints}</span>
-      </div>
-      <div className="d-flex justify-content-between mt-1">
-        <span>Jogos: {team.intPlayed}</span>
-        <span>Vitórias: {team.intWin}</span>
-        <span>Empates: {team.intDraw}</span>
-      </div>
-      <div className="d-flex justify-content-between mt-1">
-        <span>Gols Marcados: {team.intGoalsFor}</span>
-        <span>Gols Sofridos: {team.intGoalsAgainst}</span>
-        <span>Diferença de Gols: {team.intGoalDifference}</span>
       </div>
     </li>
   );

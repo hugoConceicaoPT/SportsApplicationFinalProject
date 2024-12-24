@@ -36,12 +36,13 @@ const LeagueStandings: React.FC<LeagueStandingsProps> = ({
           _id: parseInt(item.intRank, 10) || 0,
           intRank: item.intRank || "0",
           idTeam: item.idTeam || "",
-          strTeam: item.strTeam || "Time não identificado",
+          strTeam: item.strTeam || "Equipa não identificada",
           strBadge: item.strBadge || "",
           strForm: item.strForm || "-",
           intPlayed: item.intPlayed || "0",
           intWin: item.intWin || "0",
           intDraw: item.intDraw || "0",
+          intDefeat: item.intDefeat || "0",
           intGoalsFor: item.intGoalsFor || "0",
           intGoalsAgainst: item.intGoalsAgainst || "0",
           intGoalDifference: item.intGoalDifference || "0",
@@ -84,7 +85,7 @@ const LeagueStandings: React.FC<LeagueStandingsProps> = ({
             className="me-2"
             src={imageSrc}
             alt="icon"
-            style={{ marginRight: "5px", width: "16px", height: "16px" }}
+            style={{ marginRight: "15px", width: "16px", height: "16px" }}
           />
           <h5 style={{ margin: "0" }}>{leagueName}</h5>
         </div>

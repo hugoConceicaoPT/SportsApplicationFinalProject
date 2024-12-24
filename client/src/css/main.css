@@ -75,6 +75,7 @@ body li {
     position: absolute; /* Pode ser 'relative', 'fixed' ou 'absolute', dependendo do comportamento desejado */
     top: 300px; /* Define a distância do topo */
     left: 20px; /* Define a distância da esquerda */
+   
   }
 
 .leagueEvents {
@@ -84,9 +85,9 @@ body li {
 }
 
 
-/* Container principal para LeagueStandings */
+/* Bloco dos resultados das classificações */
 .leagueStandings {
-    background-color: #f8f9fa; /* Cor de fundo suave */
+    background-color: #0b2129; /* Cor de fundo suave */
     border: 1px solid #ddd; /* Borda leve */
     padding: 20px;
     margin-top: 20px;
@@ -97,11 +98,12 @@ body li {
   .leagueStandings .d-flex {
     align-items: center;
     justify-content: space-between;
+    color: #fff;
   }
   
   .leagueStandings h5 {
     font-size: 1.25rem;
-    color: #01203e; /* Cor do título */
+    color: #fff; /* Cor do título */
     margin: 0;
   }
   
@@ -129,7 +131,7 @@ body li {
   }
   
   .leagueStandings .list-group-item {
-    background-color: #fff; /* Fundo branco para itens */
+    background-color: #01203E; /* Fundo branco para itens */
     border: none; /* Remove bordas entre os itens */
     padding: 15px 20px;
     margin-bottom: 5px;
@@ -138,20 +140,40 @@ body li {
   }
 
   /* Separação entre as seções de StandingsItem */
-  .list-group-item div + div {
-    margin-top: 8px;
+  .list-group-item div{
+    display: flex;
+    gap: 25px; /* Espaçamento entre os itens */
+    flex-wrap: nowrap; /* Impede quebras de linha */
   }
   
-  /* Texto do ranking */
+  /* Texto dentro do bloco das classificacoes ( */
   .list-group-item span:first-child {
     font-weight: bold;
-    color: #01203e  ; /* Azul escuro */
+    color: #fff  ; 
+    flex: 3; /* Faz com que esta coluna ocupe o espaço necessário */
+  text-align: center; /* Alinha o texto à esquerda */
+  flex-wrap: nowrap; /* Impede quebras de linha */
+  
   }
+
+  /* Dados intermediários (Jogos, Vitórias, etc.) */
+.list-group-item span:not(:first-child):not(:last-child) {
+  flex: 3; /* Espaço proporcional fixo */
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  flex-wrap: nowrap; /* Impede quebras de linha */
+}
   
   /* Pontos em destaque */
-  .list-group-item span:last-child {
-    font-weight: bold;
-    color: #28a745; /* Verde */
+  
+ .list-group-item span:last-child {
+      flex:3; /* Mantém largura ajustada ao conteúdo */
+     
+      font-weight: bold;
+      text-align: center;
+      color: #fff;
+      flex-wrap: nowrap; /* Impede quebras de linha */
   }
 
   .list-group-item-event div {
@@ -171,6 +193,13 @@ body li {
     background-color: #0b2129;
     border-color: #0b2129;
   }
+
+  .list-group-item div { /* Alinhar texto */
+    display: flex;
+    justify-content: space-between; /* Alinha as colunas principais */
+    gap: 10px; /* Espaçamento entre os elementos */
+  }
+  
   
   .list-group {
     margin-bottom: 1rem;
@@ -313,11 +342,13 @@ body li {
   border-bottom: none;
 }
 
-/* Image styling */
-img {
-  border-radius: 50%;
+img { /* Imagem dentro da pagina da liga */
+  border-radius: 10%;
   object-fit: cover;
+  width: 100px; 
+  height: auto; /* Mantém a proporção da imagem */
 }
+
 
 /* Button styling for individual items */
 button {
