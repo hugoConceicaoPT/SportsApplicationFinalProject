@@ -64,3 +64,15 @@ export function transformLiveEvents(element: [string, unknown]) {
         strStatus: myElement.strStatus
     };
 }
+
+export function transformEventStatistics(element: [string, unknown]) {
+    // Interpreta o segundo item do array `element` como `MyType` para acessar as propriedades
+    const myElement = element[1] as MyType;
+
+    // Retorna um novo objeto com transformações específicas nas propriedades do elemento
+    return {
+        strStat: myElement.strStat,
+        intHome: myElement.intHome,
+        intAway: myElement.intAway
+    }
+}

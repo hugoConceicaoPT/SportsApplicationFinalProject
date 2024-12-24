@@ -11,6 +11,7 @@ import routesItaly from "./routesItaly";
 import routesGermany from "./routesGermany";
 import routesFrance from "./routesFrance";
 import routesSpain from "./routesSpain";
+import routesJogos from './routesJogos';
 import session from "express-session";
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
@@ -66,6 +67,7 @@ app.use('/favorites', routesFavorites);
 app.use('/portugal', routerPortugal);
 app.use('/inglaterra', routerEngland);
 app.use('/equipa', routesEquipas);
+app.use('/jogo', routesJogos)
 app.use('/italia', routesItaly);
 app.use('/alemanha', routesGermany);
 app.use('/franca', routesFrance);

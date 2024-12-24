@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.transformNextLastLeagueEvent = transformNextLastLeagueEvent;
 exports.transformLeagueStandings = transformLeagueStandings;
 exports.transformLiveEvents = transformLiveEvents;
+exports.transformEventStatistics = transformEventStatistics;
 function transformNextLastLeagueEvent(element) {
     // Interpreta o segundo item do array `element` como `MyType` para acessar as propriedades
     const myElement = element[1];
@@ -58,5 +59,15 @@ function transformLiveEvents(element) {
         intAwayScore: myElement.intAwayScore,
         strProgress: myElement.strProgress,
         strStatus: myElement.strStatus
+    };
+}
+function transformEventStatistics(element) {
+    // Interpreta o segundo item do array `element` como `MyType` para acessar as propriedades
+    const myElement = element[1];
+    // Retorna um novo objeto com transformações específicas nas propriedades do elemento
+    return {
+        strStat: myElement.strStat,
+        intHome: myElement.intHome,
+        intAway: myElement.intAway
     };
 }

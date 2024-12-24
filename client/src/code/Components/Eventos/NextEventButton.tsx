@@ -3,6 +3,7 @@ import { AppProps } from "../../main";
 import Button from 'react-bootstrap/Button';
 import { ILiveEvents, INextLeagueEvents } from "../../league";
 import { Dash } from "react-bootstrap-icons";
+import EventStatisticsPage from "../EstatisticasJogos/EventStatisticsPage";
 
 
 interface INextEventButton extends AppProps {
@@ -16,7 +17,8 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index })
     setTextColor(!textColor);
   };
   const handleClick = () => {
-    setState({ view: "home" });
+    <EventStatisticsPage setState={setState} event={event}/>
+    setState({view: "statitics"});
   };
 
   const formattedTime = "strTime" in event ? event.strTime.split(":").slice(0, 2).join(":") : null;
@@ -32,7 +34,7 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index })
       <li key={index} className="list-group-item-event">
         {isGameFinished ? (
           // Botão para jogos terminados
-          <Button variant="secondary">
+          <Button variant="secondary" onClick={handleClick}>
             <span className="time-event-end">Terminado</span>
             <div>
               <img
@@ -61,7 +63,7 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index })
           </Button>
         ) : isGameScheluded ? (
           // Botão para jogos em andamento
-          <Button variant="secondary">
+          <Button variant="secondary" onClick={handleClick}>
             <span className="time-event">{formattedTime}</span>
             <div>
               <img
@@ -89,7 +91,7 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index })
             </div>
           </Button>
         ) : (
-          <Button variant="secondary">
+          <Button variant="secondary" onClick={handleClick}>
             <span className="time-event-live">{formattedProgress === "45'" ? gameStatus : formattedProgress}</span>
             <div>
               <img
