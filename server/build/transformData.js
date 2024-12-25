@@ -18,9 +18,11 @@ function transformNextLastLeagueEvent(element) {
         strAwayTeamBadge: myElement.strAwayTeamBadge,
         idHomeTeam: myElement.idHomeTeam,
         idAwayTeam: myElement.idAwayTeam,
+        intRound: myElement.intRound,
         intHomeScore: myElement.intHomeScore,
         intAwayScore: myElement.intAwayScore,
-        strStatus: myElement.strStatus
+        strStatus: myElement.strStatus,
+        strLeague: myElement.strLeague
     };
 }
 function transformLeagueStandings(element) {

@@ -19,7 +19,6 @@ const ButtonLeague: React.FC<AppProps> = ({ setState, imageSrc, label, leagueId 
       leagueName: label,
       imageSrc
     })
-    console.log("fui para a pagina");
   };
 
   return (

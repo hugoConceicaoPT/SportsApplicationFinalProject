@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { AppProps } from "../../main";
 import { Button } from "react-bootstrap";
 
-interface FilterAllButtonProps extends AppProps {
+interface FilterAllButtonProps {
     setFilter: (filter: "all" | "finished" | "scheduled" | "live") => void;
     filter: string
 }
 
-const FilterAllButton: React.FC<FilterAllButtonProps> = ({ setState, setFilter, filter }) => {
+const FilterAllButton: React.FC<FilterAllButtonProps> = ({ setFilter, filter }) => {
 
     // Função que alterna o estado de seleção ao clicar no botão
     const handleClick = () => {

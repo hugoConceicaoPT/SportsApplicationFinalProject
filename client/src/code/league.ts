@@ -15,10 +15,12 @@ export interface INextLeagueEvents {
     strTime: string,
     strHomeTeamBadge: string,
     strAwayTeamBadge: string,
+    intRound?: string,
     intHomeScore: string,
     intAwayScore: string,
     strStatus?: string,
-    strProgress?: string
+    strProgress?: string,
+    strLeague?: string
 }
 
 export interface ILiveEvents {
@@ -63,9 +65,11 @@ export interface IPastLeagueResults {
     strTime: string,
     strHomeTeamBadge: string,
     strAwayTeamBadge: string,
+    intRound?: string,
     intHomeScore: string,
     intAwayScore: string,
-    strStatus: string
+    strStatus: string,
+    strLeague?: string
 }
 
 

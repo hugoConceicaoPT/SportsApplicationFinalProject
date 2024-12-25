@@ -3,13 +3,13 @@ import { AppProps } from "../../main";
 import { Button } from 'react-bootstrap';
 import { ChevronLeft, ChevronRight, Calendar } from "react-bootstrap-icons";
 
-interface DateButtonProps extends AppProps {
+interface DateButtonProps {
   date: Date;
   setDate: React.Dispatch<React.SetStateAction<Date>>;
 }
 
 
-const DateButton: React.FC<DateButtonProps> = ({ setState, date, setDate }) => {
+const DateButton: React.FC<DateButtonProps> = ({ date, setDate }) => {
   const [isMouseOverLeft, setMouseOverLeft] = useState(false);
   const [isMouseOverRight, setMouseOverRight] = useState(false);
   const formatDate = (date: Date) => {

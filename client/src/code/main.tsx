@@ -1,6 +1,3 @@
-// Importa a função `createRoot` do módulo `react-dom/client` para criar a raiz da aplicação React.
-import { createRoot } from 'react-dom/client';
-
 // Importa o arquivo CSS do Bootstrap para aplicar estilos padrão do framework Bootstrap.
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -28,6 +25,9 @@ import ReactDOM from 'react-dom/client';
 import Favorites from './Components/PaginaPrincipal/Favorites';
 import LeaguePage from './Components/PaginaLiga/LeaguePage';
 import LeagueProvider from './leagueContext';
+import { ILiveEvents, INextLeagueEvents } from './league';
+import { EventProvider } from './eventContext';
+import EventStatisticsPage from './Components/EstatisticasJogos/EventStatisticsPage';
 
 // Define uma interface TypeScript chamada `AppProps`.
 // Ela especifica o formato esperado da propriedade `setState` no componente.
@@ -52,6 +52,8 @@ function App() {
     return <Favorites setState={setState} />
   else if (state.view === "LeaguePage")
     return <LeaguePage setState={setState} />
+  else if (state.view === "statistics")
+    return <EventStatisticsPage setState={setState} />
 }
 
 // Cria uma raiz React no elemento HTML com o ID `mainContainer`.
@@ -63,7 +65,9 @@ const root = ReactDOM.createRoot(document.getElementById('mainContainer') as HTM
 root.render(
   <UserProvider>
     <LeagueProvider>
-      <App />
+      <EventProvider>
+        <App />
+      </EventProvider>
     </LeagueProvider>
   </UserProvider>
 );

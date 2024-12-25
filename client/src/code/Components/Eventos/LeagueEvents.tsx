@@ -8,6 +8,7 @@ import { Container } from "react-bootstrap";
 import Image from 'react-bootstrap/Image';
 import NextEventButton from "./NextEventButton";
 import { config } from "../../config";
+import { useLeagueContext } from "../../leagueContext";
 
 
 interface LeagueButtonEventsProps extends AppProps {
@@ -24,9 +25,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
   const [events, setEvents] = useState<INextLeagueEvents[]>([]);
   const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(false);
-
   const worker = new Worker();
-
 
   useEffect(() => {
     const fetchInitialEvents = async () => {
@@ -136,8 +135,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
       // Ordenar em ordem crescente (mais antigos primeiro)
       return dateTimeA.getTime() - dateTimeB.getTime();
     })
-
-  console.log(filteredEvents);
+    
   return filteredEvents.length === 0 ? null : (
     <Container className="leagueEvents rounded p-0 mb-1">
       {/* Button to expand/collapse */}

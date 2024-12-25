@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { AppProps } from "../../main";
 import { Button } from "react-bootstrap";
 
-interface FilterFinishButtonsProps extends AppProps {
+interface FilterFinishButtonsProps {
     setFilter: (filter: "all" | "finished" | "scheduled" | "live") => void;
     filter: string;
 }
 
-const FilterFinishButtons: React.FC<FilterFinishButtonsProps> = ({ setState, setFilter, filter }) => {
+const FilterFinishButtons: React.FC<FilterFinishButtonsProps> = ({ setFilter, filter }) => {
     const [isSelected, setIsSelected] = useState(false);
 
     // Função que alterna o estado de seleção ao clicar no botão

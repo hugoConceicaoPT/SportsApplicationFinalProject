@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { ILiveEvents, INextLeagueEvents } from "../../league";
 import { Dash } from "react-bootstrap-icons";
 import EventStatisticsPage from "../EstatisticasJogos/EventStatisticsPage";
+import { useEvent } from "../../eventContext";
 
 
 interface INextEventButton extends AppProps {
@@ -12,13 +13,10 @@ interface INextEventButton extends AppProps {
 }
 
 const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index }) => {
-  const [textColor, setTextColor] = useState(false);
-  const toggleTextColor = () => {
-    setTextColor(!textColor);
-  };
+  const { setSelectedEvent } = useEvent();
   const handleClick = () => {
-    <EventStatisticsPage setState={setState} event={event}/>
-    setState({view: "statitics"});
+    setSelectedEvent(event);
+    setState({view: "statistics"});
   };
 
   const formattedTime = "strTime" in event ? event.strTime.split(":").slice(0, 2).join(":") : null;
@@ -33,7 +31,6 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index })
     <>
       <li key={index} className="list-group-item-event">
         {isGameFinished ? (
-          // Botão para jogos terminados
           <Button variant="secondary" onClick={handleClick}>
             <span className="time-event-end">Terminado</span>
             <div>
@@ -62,7 +59,6 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index })
             </div>
           </Button>
         ) : isGameScheluded ? (
-          // Botão para jogos em andamento
           <Button variant="secondary" onClick={handleClick}>
             <span className="time-event">{formattedTime}</span>
             <div>

@@ -22,13 +22,13 @@ const CardListLeague: React.FC<AppProps> = ({ setState }) => {
                 <Card.Body>
                     <div className="d-flex justify-content-between mb-4">
                         <div className="d-flex">
-                            <FilterAllButton filter={filter} setFilter={setFilter} setState={setState} />
-                            <FilterOnLiveButton filter={filter} setFilter={setFilter} setState={setState} />
-                            <FilterScheduledButton filter={filter} setFilter={setFilter} setState={setState} />
-                            <FilterFinishButton filter={filter} setState={setState} setFilter={setFilter} />
+                            <FilterAllButton filter={filter} setFilter={setFilter} />
+                            <FilterOnLiveButton filter={filter} setFilter={setFilter} />
+                            <FilterScheduledButton filter={filter} setFilter={setFilter} />
+                            <FilterFinishButton filter={filter} setFilter={setFilter} />
                         </div>
                         <div className="ms-auto">
-                            <DateButton setState={setState} date={selectedDate} setDate={setSelectedDate} />
+                            <DateButton date={selectedDate} setDate={setSelectedDate} />
                         </div>
                     </div>
                     <LeagueEvents filter={filter} selectedDate={selectedDate} setState={setState} leagueId={leagueIds.premierLeague} leagueName="Inglaterra: Premier League" imageSrc="icons/Inglaterra.png" />

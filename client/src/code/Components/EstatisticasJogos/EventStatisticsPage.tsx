@@ -4,17 +4,30 @@ import React, { useState } from "react";
 // Este tipo é usado para definir as propriedades esperadas pelo componente.
 import { AppProps } from "../../main";
 import Header from "../PaginaPrincipal/Header";
-import { ILiveEvents, INextLeagueEvents } from "../../league";
+import { useEvent } from "../../eventContext";
+import { Container } from "react-bootstrap";
+import ButtonTeam from "./buttonTeam";
+import { useLeagueContext } from "../../leagueContext";
 
-interface EventStatisticsPageProps extends AppProps {
-    event: INextLeagueEvents | ILiveEvents
-}
 
-const EventStatisticsPage: React.FC<EventStatisticsPageProps> = ({ setState, event }) => {
+const EventStatisticsPage: React.FC<AppProps> = ({ setState }) => {
+    const { selectedEvent } = useEvent();
+
+    if (!selectedEvent) {
+        return <div>Evento não encontrado</div>; // Tratamento para casos onde o evento não foi definido
+    }
+
+    const round = "intRound" in selectedEvent ? selectedEvent.intRound : null;
+    const leagueName = "strLeague" in selectedEvent ? selectedEvent.strLeague : null; 
     return (
-        <div>
+        <>
             <Header setState={setState} />
-        </div>
+            <Container>
+                <span>{leagueName}- Ronda {round}</span>
+                <ButtonTeam setState={setState} teamBadge={selectedEvent.strHomeTeamBadge} teamName={selectedEvent.strHomeTeam}/>
+                <ButtonTeam setState={setState} teamBadge={selectedEvent.strAwayTeamBadge} teamName={selectedEvent.strAwayTeam}/>
+            </Container>
+        </>
     );
 }
 
