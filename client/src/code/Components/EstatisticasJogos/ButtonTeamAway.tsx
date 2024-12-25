@@ -1,0 +1,39 @@
+import React, { useState } from "react";
+import { AppProps } from "../../main";
+import { Button, Image } from "react-bootstrap";
+import { Star, StarFill } from "react-bootstrap-icons";
+
+interface ButtonTeamProps extends AppProps {
+    teamBadge: string,
+    teamName: string
+}
+
+const ButtonTeamAway: React.FC<ButtonTeamProps> = ({ setState, teamBadge, teamName }) => {
+
+    const [favorite, setFavorite] = useState(false);
+
+    const toggleFavorite = () => {
+        setFavorite(!favorite);
+    }
+    return (
+        <div className="text-center">
+            <Button variant="secondary" className="bg-white" style={{ position: "relative" }}>
+                <Image src={teamBadge} alt={teamName} width="100px" height="100px" />
+                <span className="team-span text-center d-flex">{teamName}</span>
+            </Button>
+            <Button
+                style={{
+                    color: favorite ? "#FFCD00" : "white",
+                    backgroundColor: "black",
+                    borderColor: "black",
+                }}
+                className="leagueEvents-favorite ms-4"
+                onClick={toggleFavorite}
+            >
+                {favorite ? <StarFill size={25} /> : <Star size={25} />}
+            </Button>
+        </div>
+    );
+}
+
+export default ButtonTeamAway;

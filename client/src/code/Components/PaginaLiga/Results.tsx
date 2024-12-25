@@ -20,7 +20,7 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
   useEffect(() => {
     const fetchInitialResults = async () => {
       try {
-        const data = await worker.getPastLeagueResultsLeague(leagueId, round);
+        const data = await worker.getPastLeagueResultsByRound(leagueId, round);
         setResults(data);
       } catch (error) {
         console.error("Error fetching league results:", error);

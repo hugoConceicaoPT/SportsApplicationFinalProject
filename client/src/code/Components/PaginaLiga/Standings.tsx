@@ -5,46 +5,44 @@ import { ArrowUp, ArrowDown, Star, StarFill } from "react-bootstrap-icons";
 import { Container } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import StandingsItem from "./StandingsItem";
+import { AppProps } from "../../main";
+import { useLeagueContext } from "../../leagueContext";
 
-interface LeagueStandingsProps {
-  leagueId: string;
-  leagueName: string;
-  imageSrc: string;
-}
-
-const LeagueStandings: React.FC<LeagueStandingsProps> = ({
-  leagueId,
-  leagueName,
-  imageSrc,
-}) => {
+const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
   const [standings, setStandings] = useState<ILeagueStandings[]>([]);
   const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(false);
+  const { league } = useLeagueContext();
+  const leagueId = league?.leagueId;
+  const imageSrc = league?.imageSrc;
+  const leagueName = league?.leagueName;
 
   useEffect(() => {
     const worker = new Worker();
     const fetchStandings = async () => {
       try {
-        const rawData = await worker.getLeagueStanding(leagueId);
+        if (leagueId) {
+          const rawData = await worker.getLeagueStanding(leagueId);
 
-        const formattedData: ILeagueStandings[] = rawData.map((item: ILeagueStandings) => ({
-          _id: parseInt(item.intRank, 10) || 0,
-          intRank: item.intRank || "0",
-          idTeam: item.idTeam || "",
-          strTeam: item.strTeam || "Equipa não identificada",
-          strBadge: item.strBadge || "",
-          strForm: item.strForm || "-",
-          intPlayed: item.intPlayed || "0",
-          intWin: item.intWin || "0",
-          intDraw: item.intDraw || "0",
-          intLoss: item.intLoss || "0",
-          intGoalsFor: item.intGoalsFor || "0",
-          intGoalsAgainst: item.intGoalsAgainst || "0",
-          intGoalDifference: item.intGoalDifference || "0",
-          intPoints: item.intPoints || "0",
-        }));
+          const formattedData: ILeagueStandings[] = rawData.map((item: ILeagueStandings) => ({
+            _id: parseInt(item.intRank, 10) || 0,
+            intRank: item.intRank || "0",
+            idTeam: item.idTeam || "",
+            strTeam: item.strTeam || "Equipa não identificada",
+            strBadge: item.strBadge || "",
+            strForm: item.strForm || "-",
+            intPlayed: item.intPlayed || "0",
+            intWin: item.intWin || "0",
+            intDraw: item.intDraw || "0",
+            intLoss: item.intLoss || "0",
+            intGoalsFor: item.intGoalsFor || "0",
+            intGoalsAgainst: item.intGoalsAgainst || "0",
+            intGoalDifference: item.intGoalDifference || "0",
+            intPoints: item.intPoints || "0",
+          }));
 
-        setStandings(formattedData);
+          setStandings(formattedData);
+        }
       } catch (error) {
         console.error("Erro ao buscar classificações:", error);
       }
@@ -68,7 +66,7 @@ const LeagueStandings: React.FC<LeagueStandingsProps> = ({
           <Button
             style={{
               color: favorite ? "#FFCD00" : "white",
-              backgroundColor: "#01203E",
+              backgroundColor: "#0b2129",
               borderColor: "#01203E",
             }}
             className="ps-0 ms-0 mb-3 mt-2"

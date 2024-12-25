@@ -27,4 +27,15 @@ router.get("/:id", (0, cachingRoutes_1.default)(120), (req, res, next) => __awai
         next(err);
     }
 }));
+router.get("/formacao/:id", (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuplineup.php?id=${req.params.id}`);
+        const responseData = yield response.json();
+        const arr = Object.entries(responseData.lineup).map(transformData_1.transformEventLineup);
+        res.json(arr);
+    }
+    catch (err) {
+        next(err);
+    }
+}));
 exports.default = router;

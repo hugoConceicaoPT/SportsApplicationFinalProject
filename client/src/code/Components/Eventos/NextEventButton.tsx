@@ -5,23 +5,33 @@ import { ILiveEvents, INextLeagueEvents } from "../../league";
 import { Dash } from "react-bootstrap-icons";
 import EventStatisticsPage from "../EstatisticasJogos/EventStatisticsPage";
 import { useEvent } from "../../eventContext";
+import { useLeagueContext } from "../../leagueContext";
 
 
 interface INextEventButton extends AppProps {
   event: INextLeagueEvents | ILiveEvents,
   index: number
+  leagueId: string,
+  leagueName: string,
+  imageSrc: string
 }
 
-const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index }) => {
+const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index, leagueId, leagueName, imageSrc }) => {
   const { setSelectedEvent } = useEvent();
+  const { setLeague } = useLeagueContext();
   const handleClick = () => {
     setSelectedEvent(event);
-    setState({view: "statistics"});
+    setState({ view: "statistics" });
+    setLeague({
+      leagueId,
+      leagueName,
+      imageSrc
+    })
   };
 
   const formattedTime = "strTime" in event ? event.strTime.split(":").slice(0, 2).join(":") : null;
 
-  
+
   const gameProgress = "strProgress" in event ? event.strProgress : null;
   const isGameFinished = event.strStatus === "Match Finished" || (gameProgress === null && event.strStatus !== "Not Started");
   const isGameScheluded = event.strStatus === "Not Started";
@@ -59,7 +69,7 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index })
             </div>
           </Button>
         ) : isGameScheluded ? (
-          <Button variant="secondary" onClick={handleClick}>
+          <Button variant="secondary">
             <span className="time-event">{formattedTime}</span>
             <div>
               <img

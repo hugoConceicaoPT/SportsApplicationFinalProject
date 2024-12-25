@@ -72,38 +72,30 @@ export interface IPastLeagueResults {
     strLeague?: string
 }
 
+export interface IGameLineup {
+    _id?: number,
+    strHome: string,
+    strSubstitute: string,
+    intSquadNumber: string,
+    strPlayer: string
+}
 
-const leagueNextEventEndpoints: Record<string, string> = {
-    [leagueIds.premierLeague]: `${config.serverAddress}/inglaterra/premier-league/lista`,
-    [leagueIds.primeiraLiga]: `${config.serverAddress}/portugal/liga-portugal-betclic/lista`,
-    [leagueIds.laLiga]: `${config.serverAddress}/espanha/la-liga/lista`,
-    [leagueIds.ligue1]: `${config.serverAddress}/franca/ligue-1/lista`,
-    [leagueIds.bundesliga]: `${config.serverAddress}/alemanha/bundesliga/lista`,
-    [leagueIds.serieA]: `${config.serverAddress}/italia/serie-a/lista`
+const leagueEndpoints: Record<string, string> = {
+    [leagueIds.premierLeague]: `${config.serverAddress}/inglaterra/premier-league`,
+    [leagueIds.primeiraLiga]: `${config.serverAddress}/portugal/liga-portugal-betclic`,
+    [leagueIds.laLiga]: `${config.serverAddress}/espanha/la-liga`,
+    [leagueIds.ligue1]: `${config.serverAddress}/franca/ligue-1`,
+    [leagueIds.bundesliga]: `${config.serverAddress}/alemanha/bundesliga`,
+    [leagueIds.serieA]: `${config.serverAddress}/italia/serie-a`
 };
 
-const leagueStandingsEndpoints: Record<string, string> = {
-    [leagueIds.premierLeague]: `${config.serverAddress}/inglaterra/premier-league/classificacoes`,
-    [leagueIds.primeiraLiga]: `${config.serverAddress}/portugal/liga-portugal-betclic/classificacoes`,
-    [leagueIds.laLiga]: `${config.serverAddress}/espanha/la-liga/classificacoes`,
-    [leagueIds.ligue1]: `${config.serverAddress}/franca/ligue-1/classificacoes`,
-    [leagueIds.bundesliga]: `${config.serverAddress}/alemanha/bundesliga/classificacoes`,
-    [leagueIds.serieA]: `${config.serverAddress}/italia/serie-a/classificacoes`
-};
-const leaguePastResultsEndpoints: Record<string, string> = {
-    [leagueIds.premierLeague]: `${config.serverAddress}/inglaterra/premier-league/resultados`,
-    [leagueIds.primeiraLiga]: `${config.serverAddress}/portugal/liga-portugal-betclic/resultados`,
-    [leagueIds.laLiga]: `${config.serverAddress}/espanha/la-liga/resultados`,
-    [leagueIds.ligue1]: `${config.serverAddress}/franca/ligue-1/resultados`,
-    [leagueIds.bundesliga]: `${config.serverAddress}/alemanha/bundesliga/resultados`,
-    [leagueIds.serieA]: `${config.serverAddress}/italia/serie-a/resultados`
-};
 // The worker that will perform contact operations.
 export class Worker {
 
     public async getListNextLeagueEvents(leagueId: string, currentDate: Date): Promise<INextLeagueEvents[]> {
 
-        const endpoint = leagueNextEventEndpoints[leagueId];
+        let endpoint = leagueEndpoints[leagueId];
+        endpoint += "/lista";
         if (!endpoint) {
             throw new Error(`No endpoint found for league ID: ${leagueId}`);
         }
@@ -123,7 +115,8 @@ export class Worker {
     }
 
     public async getLeagueStanding(leagueId: string): Promise<ILeagueStandings[]> {
-        const endpoint = leagueStandingsEndpoints[leagueId];
+        let endpoint = leagueEndpoints[leagueId];
+        endpoint += "/classificacoes";
         if (!endpoint) {
             throw new Error(`No endpoint found for league ID: ${leagueId}`);
         }
@@ -138,7 +131,8 @@ export class Worker {
     }
 
     public async getPastLeagueResults(leagueId: string, currentDate: Date): Promise<IPastLeagueResults[]> {
-        const endpoint = leaguePastResultsEndpoints[leagueId];
+        let endpoint = leagueEndpoints[leagueId];
+        endpoint += "/resultados";
         if (!endpoint) {
             throw new Error(`No endpoint found for league ID: ${leagueId}`);
         }
@@ -157,18 +151,19 @@ export class Worker {
     }
 
 
-    public async getPastLeagueResultsLeague(leagueId: string, round?: string): Promise<IPastLeagueResults[]> {
-        const endpoint = leaguePastResultsEndpoints[leagueId];
+    public async getPastLeagueResultsByRound(leagueId: string, round?: string): Promise<IPastLeagueResults[]> {
+        let endpoint = leagueEndpoints[leagueId];
+        endpoint += "/resultados";
         if (!endpoint) {
             throw new Error(`No endpoint found for league ID: ${leagueId}`);
         }
-    
+
         try {
             const params: any = {};
             if (round) {
                 params.round = round;
             }
-    
+
             const response: AxiosResponse = await axios.get(endpoint, { params });
             return response.data;
         } catch (error) {
@@ -176,9 +171,20 @@ export class Worker {
             throw new Error("Unable to retrieve past league results. Please try again later.");
         }
     }
-    
+
+    public async getLineup(idEvent : string): Promise<IGameLineup[]> {
+        const endpoint = `${config.serverAddress}/jogo/formacao/${idEvent}`;
+        try {
+            const response: AxiosResponse = await axios.get(endpoint);
+            return response.data;
+        } catch (error) {
+            console.error(`Failed to fetch past league results for ID event: ${idEvent}`, error);
+            throw new Error("Unable to retrieve past league results. Please try again later.");
+        }
+    }
+
     public async getListNextLeagueList(leagueId: string): Promise<INextLeagueEvents[]> {
-        const endpoint = leagueNextEventEndpoints[leagueId];
+        const endpoint = leagueEndpoints[leagueId];
         if (!endpoint) {
             throw new Error(`No endpoint found for league ID: ${leagueId}`);
         }

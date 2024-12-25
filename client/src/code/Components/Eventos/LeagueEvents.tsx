@@ -8,7 +8,6 @@ import { Container } from "react-bootstrap";
 import Image from 'react-bootstrap/Image';
 import NextEventButton from "./NextEventButton";
 import { config } from "../../config";
-import { useLeagueContext } from "../../leagueContext";
 
 
 interface LeagueButtonEventsProps extends AppProps {
@@ -180,6 +179,9 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
                 setState={setState}
                 event={event}
                 index={index}
+                leagueId={leagueId}
+                leagueName={leagueName}
+                imageSrc={imageSrc}
               />
             ))}
           </ul>

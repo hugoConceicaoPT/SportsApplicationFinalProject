@@ -414,4 +414,19 @@ body li {
 
 .team-span {
   color: white;
+  position: absolute;
+  top: 115%;
+  white-space: nowrap;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+}
+
+.statistics-hr {
+  margin-top: 4rem;
+}
+
+.formation-page {
+  background-color: #0b2129;
+  color: white;
 }

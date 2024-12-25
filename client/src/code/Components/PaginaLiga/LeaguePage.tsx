@@ -54,13 +54,13 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
         </div>
 
         <div className="content mt-4">
-          {view === "standings" && <LeagueStandings leagueId={league.leagueId} leagueName={league.leagueName} imageSrc={league.imageSrc} />}
+          {view === "standings" && <LeagueStandings setState={setState} />}
           {view === "results" && (
             <LeagueResults
               leagueId={league.leagueId}
               leagueName={league.leagueName}
               imageSrc={league.imageSrc} 
-              setState={(value: React.SetStateAction<{ view: string }>) => { }}
+              setState={setState}
             />
 
           )}
