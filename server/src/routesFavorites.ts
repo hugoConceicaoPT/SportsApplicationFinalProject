@@ -2,23 +2,31 @@ import express, { Request, Response, NextFunction, Router } from "express";
 const Favorites = require("./models/favorites");
 
 const router: Router = express.Router();
-router.post('/', async (req: Request, res: Response, next: NextFunction) => {
+
+function isAuthenticated(req: Request, res: Response, next: Function) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.status(401).send("Não autorizado");
+}
+
+router.post('/', isAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
     try {
         if(!req.isAuthenticated()) {
             res.send("Necessita de estar logado para adicionar aos Favoritos");
         }
-        const {email} = req.params;
+        const userId = req.user;
         const {id} = req.body;
         const idString = id.tostring();
        
         const isLeague = idString.length === 4;
         const isTeam = idString.length === 7;
 
-        let favorites = await Favorites.findOne({email});
+        let favorites = await Favorites.findOne({userId});
 
         if(!favorites){
             favorites = new Favorites({
-                email,
+                userId,
                 leagueIds: isLeague ? [idString] : [],
                 teamIds: isTeam ? [idString] : [],
             });
@@ -50,8 +58,8 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
         if(!req.isAuthenticated()) {
             res.send("Necessita de estar logado para aceder aos favoritos");
         }
-        const { username } = req.params;
-        let favorites = await Favorites.findOne({ username });
+        const userId = req.user;
+        let favorites = await Favorites.findOne({ userId });
 
         if(!favorites) res.send("not found");
 
@@ -70,7 +78,7 @@ router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
         if(!req.isAuthenticated()) {
             res.send("Necessita de estar logado para apagar dos Favoritos");
         }
-        const {email} = req.params;
+        const userId = req.user;
         const {id} = req.body;
         const idString = id.tostring();
 
@@ -78,7 +86,7 @@ router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
         const isTeam = idString.length === 7;
 
         
-        let favorites = await Favorites.findOne({email});
+        let favorites = await Favorites.findOne({ userId });
 
         if(!favorites){
             res.send("not found");
@@ -86,7 +94,7 @@ router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
         else{
             if(isLeague){
                 const result = await Favorites.findOneAndUpdate(
-                    { email }, 
+                    { userId }, 
                     { $pull: { leagueIds: id } },
                     { new: true }
                 );
@@ -94,7 +102,7 @@ router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
             }
             if(isTeam){
                 const result = await Favorites.findOneAndUpdate(
-                    { email }, 
+                    { userId }, 
                     { $pull: { leagueIds: id } },
                     { new: true }
                 );
