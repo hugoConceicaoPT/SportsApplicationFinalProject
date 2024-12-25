@@ -64,7 +64,7 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
         {Object.keys(groupedResults).length > 0 ? (
           Object.keys(groupedResults).map(round => (
             <div key={round}>
-              <h5>{round}</h5>
+              <h5>Jornada {round}</h5> {/* Exibe a jornada */}
               <ul className="list-group">
                 {groupedResults[round].map((result, index) => (
                   <ResultEventButton key={index} setState={setState} result={result} index={index} />

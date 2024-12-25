@@ -177,5 +177,20 @@ export class Worker {
         }
     }
     
+    public async getListNextLeagueList(leagueId: string): Promise<INextLeagueEvents[]> {
+        const endpoint = leagueNextEventEndpoints[leagueId];
+        if (!endpoint) {
+            throw new Error(`No endpoint found for league ID: ${leagueId}`);
+        }
+    
+        try {
+            const response: AxiosResponse = await axios.get(endpoint);
+            return response.data;
+        } catch (error) {
+            console.error(`Failed to fetch league events for league ID: ${leagueId}`, error);
+            throw new Error("Unable to retrieve league events. Please try again later.");
+        }
+    }
+    
 
 }

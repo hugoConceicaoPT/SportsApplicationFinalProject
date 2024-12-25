@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Worker, INextLeagueEvents } from "../../league";
-import Button from "react-bootstrap/Button";
-import { ArrowUp, ArrowDown, Star, StarFill } from "react-bootstrap-icons";
 import { Container } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 
@@ -13,14 +11,12 @@ interface LeagueListProps {
 
 const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc }) => {
   const [events, setEvents] = useState<INextLeagueEvents[]>([]);
-  const [isOpen, setIsOpen] = useState(true);
-  const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
     const worker = new Worker();
     const fetchEvents = async () => {
       try {
-        const rawData = await worker.getListNextLeagueEvents(leagueId, new Date());
+        const rawData = await worker.getListNextLeagueList(leagueId);
 
         // Log para depuração
         console.log("Dados brutos da API:", rawData);
@@ -36,6 +32,7 @@ const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc 
           strAwayTeamBadge: item.strAwayTeamBadge || "",
           intHomeScore: item.intHomeScore || "-",
           intAwayScore: item.intAwayScore || "-",
+          intRound: item.intRound || "Unknown Round",  // Garantir que intRound seja atribuído
         }));
 
         setEvents(formattedData);
@@ -47,29 +44,24 @@ const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc 
     fetchEvents();
   }, [leagueId]);
 
-  const toggleVisibility = () => {
-    setIsOpen(!isOpen);
+  // Função para agrupar os eventos por jornada
+  const groupByRound = (events: INextLeagueEvents[]) => {
+    return events.reduce((groups, event) => {
+      const round = event.intRound || "Unknown Round";  // Usando intRound para jornada
+      if (!groups[round]) {
+        groups[round] = [];
+      }
+      groups[round].push(event);
+      return groups;
+    }, {} as Record<string, INextLeagueEvents[]>);
   };
 
-  const toggleFavorite = () => {
-    setFavorite(!favorite);
-  };
+  const groupedEvents = groupByRound(events);
 
   return (
     <Container className="league-list rounded">
       <div className="d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
-          <Button
-            style={{
-              color: favorite ? "#FFCD00" : "white",
-              backgroundColor: "#01203E",
-              borderColor: "#01203E",
-            }}
-            className="ps-0 ms-0 mb-3 mt-2"
-            onClick={toggleFavorite}
-          >
-            {favorite ? <StarFill /> : <Star />}
-          </Button>
           <Image
             className="me-2"
             src={imageSrc}
@@ -78,45 +70,45 @@ const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc 
           />
           <h5 style={{ margin: "0" }}>{leagueName}</h5>
         </div>
-        <Button variant="secondary" size="sm" onClick={toggleVisibility}>
-          {isOpen ? <ArrowUp /> : <ArrowDown />}
-        </Button>
       </div>
 
-      {isOpen && (
-        <div className="mt-3">
-          {events.length > 0 ? (
-            <ul className="list-group">
-              {events.map((event, index) => (
-                <li key={index} className="list-group-item d-flex align-items-center justify-content-between">
-                  <div className="d-flex align-items-center">
-                    <Image
-                      src={event.strHomeTeamBadge}
-                      alt={event.strHomeTeam}
-                      style={{ width: "24px", height: "24px", marginRight: "10px" }}
-                    />
-                    <span>{event.strHomeTeam}</span>
-                  </div>
-                  <span>vs</span>
-                  <div className="d-flex align-items-center">
-                    <span>{event.strAwayTeam}</span>
-                    <Image
-                      src={event.strAwayTeamBadge}
-                      alt={event.strAwayTeam}
-                      style={{ width: "24px", height: "24px", marginLeft: "10px" }}
-                    />
-                  </div>
-                  <div>
-                    <span>{event.dateEvent} {event.strTime}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="text-center">Sem eventos disponíveis</div>
-          )}
-        </div>
-      )}
+      <div className="mt-3">
+        {Object.keys(groupedEvents).length > 0 ? (
+          Object.keys(groupedEvents).map((round) => (
+            <div key={round}>
+              <h5>Jornada {round}</h5> {/* Exibe a jornada */}
+              <ul className="list-group">
+                {groupedEvents[round].map((event, index) => (
+                  <li key={index} className="list-group-item d-flex align-items-center justify-content-between">
+                    <div className="d-flex align-items-center">
+                      <Image
+                        src={event.strHomeTeamBadge}
+                        alt={event.strHomeTeam}
+                        style={{ width: "24px", height: "24px", marginRight: "10px" }}
+                      />
+                      <span>{event.strHomeTeam}</span>
+                    </div>
+                    <span>vs</span>
+                    <div className="d-flex align-items-center">
+                      <span>{event.strAwayTeam}</span>
+                      <Image
+                        src={event.strAwayTeamBadge}
+                        alt={event.strAwayTeam}
+                        style={{ width: "24px", height: "24px", marginLeft: "10px" }}
+                      />
+                    </div>
+                    <div>
+                      <span>{event.dateEvent} {event.strTime}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        ) : (
+          <div className="text-center">Sem eventos disponíveis</div>
+        )}
+      </div>
     </Container>
   );
 };
