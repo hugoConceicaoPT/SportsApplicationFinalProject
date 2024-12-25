@@ -29,7 +29,7 @@ const StandingsItem: React.FC<StandingsItemProps> = ({ team, index }) => {
         {team.intDraw}
       </div>
       <div style={{ flex: 1, textAlign: "center", color: "red", fontWeight: "bold" }}>
-        {team.intDefeat}
+        {team.intLoss}
       </div>
       <div style={{ flex: 1, textAlign: "center" }}>{team.intPoints}</div>
     </li>

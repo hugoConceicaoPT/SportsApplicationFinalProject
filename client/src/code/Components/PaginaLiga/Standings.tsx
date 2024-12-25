@@ -37,7 +37,7 @@ const LeagueStandings: React.FC<LeagueStandingsProps> = ({
           intPlayed: item.intPlayed || "0",
           intWin: item.intWin || "0",
           intDraw: item.intDraw || "0",
-          intDefeat: item.intDefeat || "0",
+          intLoss: item.intLoss || "0",
           intGoalsFor: item.intGoalsFor || "0",
           intGoalsAgainst: item.intGoalsAgainst || "0",
           intGoalDifference: item.intGoalDifference || "0",

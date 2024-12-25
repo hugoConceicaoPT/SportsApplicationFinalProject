@@ -48,7 +48,7 @@ export interface ILeagueStandings {
     intPlayed: string,
     intWin: string,
     intDraw: string,
-    intDefeat: string,
+    intLoss: string,
     intGoalsFor: string,
     intGoalsAgainst: string,
     intGoalDifference: string,

@@ -33,7 +33,7 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
   // Função para agrupar resultados por jornada
   const groupByRound = (results: IPastLeagueResults[]) => {
     return results.reduce((groups, result) => {
-      const round = result.round || "Unknown Round";
+      const round = result.intRound || "Unknown Round";
       if (!groups[round]) {
         groups[round] = [];
       }
