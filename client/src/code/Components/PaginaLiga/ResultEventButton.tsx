@@ -16,7 +16,7 @@ const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, se
   };
 
   return (
-    <ListGroup.Item key={index} className="d-flex align-items-center">
+    <ListGroup.Item key={index} className="d-flex align-items-center bg-light text-dark p-2">
       <Image
         src={result.strHomeTeamBadge}
         alt="Home Team Badge"
@@ -32,7 +32,7 @@ const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, se
         className="me-2"
         style={{ width: "24px", height: "24px" }}
       />
-      <span className="me-2">{result.intHomeScore} - {result.intAwayScore}</span>
+      <span className="me-2 fw-bold">{result.intHomeScore} - {result.intAwayScore}</span>
       <span className="me-auto">{new Date(result.dateEvent).toLocaleDateString()}</span>
       <Button
         variant="primary"
