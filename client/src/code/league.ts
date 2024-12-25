@@ -155,4 +155,27 @@ export class Worker {
             throw new Error("Unable to retrieve past league results. Please try again later.");
         }
     }
+
+
+    public async getPastLeagueResultsLeague(leagueId: string, round?: string): Promise<IPastLeagueResults[]> {
+        const endpoint = leaguePastResultsEndpoints[leagueId];
+        if (!endpoint) {
+            throw new Error(`No endpoint found for league ID: ${leagueId}`);
+        }
+    
+        try {
+            const params: any = {};
+            if (round) {
+                params.round = round;
+            }
+    
+            const response: AxiosResponse = await axios.get(endpoint, { params });
+            return response.data;
+        } catch (error) {
+            console.error(`Failed to fetch past league results for league ID: ${leagueId}`, error);
+            throw new Error("Unable to retrieve past league results. Please try again later.");
+        }
+    }
+    
+
 }

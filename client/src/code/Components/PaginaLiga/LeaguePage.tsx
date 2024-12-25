@@ -60,7 +60,6 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
               leagueId={league.leagueId}
               leagueName={league.leagueName}
               imageSrc={league.imageSrc} 
-              currentDate={new Date()}
               setState={(value: React.SetStateAction<{ view: string }>) => { }}
             />
 
