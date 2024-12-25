@@ -16,7 +16,7 @@ const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const cachingRoutes_1 = __importDefault(require("./cachingRoutes"));
 const transformData_1 = require("./transformData");
-router.get("/:id", (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/estatisticas/:id", (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookupeventstats.php?id=${req.params.id}`);
         const responseData = yield response.json();

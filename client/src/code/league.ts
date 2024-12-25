@@ -80,6 +80,13 @@ export interface IGameLineup {
     strPlayer: string
 }
 
+export interface IGameStatistics {
+    _id?: number,
+    strStat: string,
+    intHome: string,
+    intAway: string
+}
+
 const leagueEndpoints: Record<string, string> = {
     [leagueIds.premierLeague]: `${config.serverAddress}/inglaterra/premier-league`,
     [leagueIds.primeiraLiga]: `${config.serverAddress}/portugal/liga-portugal-betclic`,
@@ -183,8 +190,24 @@ export class Worker {
         }
     }
 
-    public async getListNextLeagueList(leagueId: string): Promise<INextLeagueEvents[]> {
-        const endpoint = leagueEndpoints[leagueId];
+    public async getGameStatistics(idEvent: string): Promise<IGameStatistics[]> {
+        const endpoint = `${config.serverAddress}/jogo/estatisticas/${idEvent}`;
+        if (!endpoint) {
+            throw new Error(`No endpoint found for league ID: ${idEvent}`);
+        }
+
+        try {
+            const response: AxiosResponse = await axios.get(endpoint);
+            return response.data;
+        } catch (error) {
+            console.error(`Failed to fetch league standings for league ID: ${idEvent}`, error);
+            throw new Error("Unable to retrieve league standings. Please try again later.");
+        }
+    }
+
+    public async getNextLeagueList(leagueId: string): Promise<INextLeagueEvents[]> {
+        let endpoint = leagueEndpoints[leagueId];
+        endpoint += "/lista";
         if (!endpoint) {
             throw new Error(`No endpoint found for league ID: ${leagueId}`);
         }
