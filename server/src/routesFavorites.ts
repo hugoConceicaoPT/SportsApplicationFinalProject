@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction, Router } from "express";
 const Favorites = require("./models/favorites");
-import { IUser } from "./models/user";
+import { IUser } from "./models/User";
 
 const router: Router = express.Router();
 

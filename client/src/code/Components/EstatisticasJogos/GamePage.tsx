@@ -7,7 +7,7 @@ import { ArrowRepeat } from "react-bootstrap-icons";
 import { Container, Row } from "react-bootstrap";
 import { IGameTimeline, Worker } from "../../league";
 
-const GamePage: React.FC<AppProps> = ({ setState }) => {
+const GamePage: React.FC<AppProps> = () => {
     const { selectedEvent } = useEvent();
     const worker = new Worker();
     const [gameTimeline, setGameTimeline] = useState<IGameTimeline[]>([]);
