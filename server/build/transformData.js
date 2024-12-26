@@ -5,6 +5,7 @@ exports.transformLeagueStandings = transformLeagueStandings;
 exports.transformLiveEvents = transformLiveEvents;
 exports.transformEventStatistics = transformEventStatistics;
 exports.transformEventLineup = transformEventLineup;
+exports.transformEventTimeline = transformEventTimeline;
 function transformNextLastLeagueEvent(element) {
     // Interpreta o segundo item do array `element` como `MyType` para acessar as propriedades
     const myElement = element[1];
@@ -83,5 +84,18 @@ function transformEventLineup(element) {
         strSubstitute: myElement.strSubstitute,
         intSquadNumber: myElement.intSquadNumber,
         strPlayer: myElement.strPlayer
+    };
+}
+function transformEventTimeline(element) {
+    // Interpreta o segundo item do array `element` como `MyType` para acessar as propriedades
+    const myElement = element[1];
+    // Retorna um novo objeto com transformações específicas nas propriedades do elemento
+    return {
+        strTimeline: myElement.strTimeline,
+        strTimelineDetail: myElement.strTimelineDetail,
+        strHome: myElement.strHome,
+        strPlayer: myElement.strPlayer,
+        strAssist: myElement.strAssist,
+        intTime: myElement.intTime
     };
 }

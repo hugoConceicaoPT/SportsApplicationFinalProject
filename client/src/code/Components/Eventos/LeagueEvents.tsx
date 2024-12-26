@@ -121,12 +121,18 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
 
   const filteredEvents = events
     .filter((event) => {
-      if (filter === "finished") return event.intHomeScore !== null && event.intAwayScore !== null;
+      if (filter === "finished") return event.strStatus === "Match Finished";
       if (filter === "scheduled") return event.intHomeScore === null && event.intAwayScore === null;
       if (filter === "live") return event.strProgress !== undefined;
       return true; // "all"
     })
     .sort((a, b) => {
+      const isLiveA = a.strProgress !== undefined;
+      const isLiveB = b.strProgress !== undefined;
+
+      if (isLiveA && !isLiveB) return -1; // A é live, B não é
+      if (!isLiveA && isLiveB) return 1;  // B é live, A não é
+
       // Combine `dateEvent` e `strTime` para criar objetos Date
       const dateTimeA = new Date(`${a.dateEvent}T${a.strTime}`);
       const dateTimeB = new Date(`${b.dateEvent}T${b.strTime}`);
@@ -134,7 +140,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
       // Ordenar em ordem crescente (mais antigos primeiro)
       return dateTimeA.getTime() - dateTimeB.getTime();
     })
-    
+
   return filteredEvents.length === 0 ? null : (
     <Container className="leagueEvents rounded p-0 mb-1">
       {/* Button to expand/collapse */}

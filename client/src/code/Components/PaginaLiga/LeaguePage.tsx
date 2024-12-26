@@ -7,13 +7,12 @@ import { AppProps } from "../../main";
 import { useLeagueContext } from "../../leagueContext";
 import Header from "../PaginaPrincipal/Header";
 
-
 const LeaguePage: React.FC<AppProps> = ({ setState }) => {
   const { league } = useLeagueContext();
   const [view, setView] = useState<"standings" | "results" | "list">("standings");
 
   useEffect(() => {
-    // Set default view to standings when the component loads
+    // Define a view padrão como 'standings' quando o componente é montado
     setView("standings");
   }, []);
 
@@ -27,26 +26,47 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
       <div className="league-page">
         <div className="league-header d-flex align-items-center justify-content-between">
           <div className="d-flex align-items-center">
-            <img src={league.imageSrc} alt={`${league.leagueName} logo`} className="league-logo me-3" />
+            <img
+              src={league.imageSrc}
+              alt={`${league.leagueName} logo`}
+              className="league-logo me-3"
+            />
             <h1 className="league-logo-text">{league.leagueName}</h1>
           </div>
         </div>
 
         <div className="navigation d-flex justify-content-around my-3">
+          {/* Botão Classificações */}
           <Button
-            className={`navigation-button ${view === "standings" ? "active" : ""}`}
+            style={{
+              backgroundColor: view === "standings" ? "red" : "gray",
+              color: "white",
+              borderColor: view === "standings" ? "red" : "gray",
+            }}
             onClick={() => setView("standings")}
           >
             Classificações
           </Button>
+
+          {/* Botão Resultados */}
           <Button
-            className={`navigation-button ${view === "results" ? "active" : ""}`}
+            style={{
+              backgroundColor: view === "results" ? "red" : "gray",
+              color: "white",
+              borderColor: view === "results" ? "red" : "gray",
+            }}
             onClick={() => setView("results")}
           >
             Resultados
           </Button>
+
+          {/* Botão Lista */}
           <Button
-            className={`navigation-button ${view === "list" ? "active" : ""}`}
+            style={{
+              backgroundColor: view === "list" ? "red" : "gray",
+              color: "white",
+              borderColor: view === "list" ? "red" : "gray",
+            }}
             onClick={() => setView("list")}
           >
             Lista
@@ -59,12 +79,17 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
             <LeagueResults
               leagueId={league.leagueId}
               leagueName={league.leagueName}
-              imageSrc={league.imageSrc} 
+              imageSrc={league.imageSrc}
               setState={setState}
             />
-
           )}
-          {view === "list" && <LeagueList leagueId={league.leagueId} leagueName={league.leagueName} imageSrc={league.imageSrc} />}
+          {view === "list" && (
+            <LeagueList
+              leagueId={league.leagueId}
+              leagueName={league.leagueName}
+              imageSrc={league.imageSrc}
+            />
+          )}
         </div>
       </div>
     </>

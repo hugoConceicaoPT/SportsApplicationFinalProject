@@ -1,5 +1,5 @@
 body {
-  background-color: black;
+  background-color: #1C1C1C;
 }
 
 body li {
@@ -154,16 +154,14 @@ body li {
 }
 
 .leagueStandings .list-group-item {
-  background-color: #01203E;
-  /* Fundo branco para itens */
-  border: none;
-  /* Remove bordas entre os itens */
+  background-color: #0b2129; /* Fundo */
+  border: none; /* Remove bordas padrão */
   padding: 15px 20px;
-  margin-bottom: 5px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* Sombra leve */
+  margin-bottom: 0; /* Remove margem inferior */
+  border-radius: 0; /* Remove arredondamento */
+  border-bottom: 1px solid #1a3a42; /* Linha de separação */
 }
+
 
 /* Separação entre as seções de StandingsItem */
 .list-group-item div {

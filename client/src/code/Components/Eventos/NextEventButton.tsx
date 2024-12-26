@@ -33,8 +33,9 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index, l
 
 
   const gameProgress = "strProgress" in event ? event.strProgress : null;
-  const isGameFinished = event.strStatus === "Match Finished" || (gameProgress === null && event.strStatus !== "Not Started");
+  const isGameFinished = event.strStatus === "Match Finished";
   const isGameScheluded = event.strStatus === "Not Started";
+  const isGameLive = gameProgress !== null;
   const formattedProgress = gameProgress ? `${gameProgress}'` : gameProgress;
   const gameStatus = "strStatus" in event ? event.strStatus : null;
   return (
@@ -96,7 +97,7 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index, l
               </span>
             </div>
           </Button>
-        ) : (
+        ) : isGameLive ? (
           <Button variant="secondary" onClick={handleClick}>
             <span className="time-event-live">{formattedProgress === "45'" ? gameStatus : formattedProgress}</span>
             <div>
@@ -124,6 +125,9 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index, l
               </span>
             </div>
           </Button>
+        ): (
+          <>
+          </>
         )}
       </li>
     </>

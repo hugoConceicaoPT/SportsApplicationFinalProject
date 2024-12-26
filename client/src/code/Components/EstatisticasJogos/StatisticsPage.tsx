@@ -4,7 +4,7 @@ import { AppProps } from "../../main";
 import { useEvent } from "../../eventContext";
 import { IGameStatistics, Worker } from "../../league";
 
-const StatisticsPage: React.FC<AppProps> = ({ setState }) => {
+const StatisticsPage: React.FC<AppProps> = () => {
     const { selectedEvent } = useEvent();
     const [gameStatistics, setGameStatistics] = useState<IGameStatistics[]>([]);
     const worker = new Worker();
@@ -60,7 +60,7 @@ const StatisticsPage: React.FC<AppProps> = ({ setState }) => {
                                 key={1}
                             />
                             <ProgressBar
-                                now={awayPercentage}
+                                now={awayPercentage}    
                                 variant={awayVariant}
                                 key={2}
                             />

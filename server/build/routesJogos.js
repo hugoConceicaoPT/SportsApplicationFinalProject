@@ -38,4 +38,15 @@ router.get("/formacao/:id", (0, cachingRoutes_1.default)(120), (req, res, next) 
         next(err);
     }
 }));
+router.get("/timeline/:id", (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuptimeline.php?id=${req.params.id}`);
+        const responseData = yield response.json();
+        const arr = Object.entries(responseData.timeline).map(transformData_1.transformEventTimeline);
+        res.json(arr);
+    }
+    catch (err) {
+        next(err);
+    }
+}));
 exports.default = router;

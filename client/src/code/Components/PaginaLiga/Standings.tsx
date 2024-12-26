@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Worker, ILeagueStandings } from "../../league";
 import Button from "react-bootstrap/Button";
-import { ArrowUp, ArrowDown, Star, StarFill } from "react-bootstrap-icons";
+import { Star, StarFill } from "react-bootstrap-icons";
 import { Container } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import StandingsItem from "./StandingsItem";
@@ -10,7 +10,6 @@ import { useLeagueContext } from "../../leagueContext";
 
 const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
   const [standings, setStandings] = useState<ILeagueStandings[]>([]);
-  const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(false);
   const { league } = useLeagueContext();
   const leagueId = league?.leagueId;
@@ -51,10 +50,6 @@ const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
     fetchStandings();
   }, [leagueId]);
 
-  const toggleVisibility = () => {
-    setIsOpen(!isOpen);
-  };
-
   const toggleFavorite = () => {
     setFavorite(!favorite);
   };
@@ -82,30 +77,25 @@ const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
           />
           <h5 style={{ margin: "0" }}>{leagueName}</h5>
         </div>
-        <Button variant="secondary" size="sm" onClick={toggleVisibility}>
-          {isOpen ? <ArrowUp /> : <ArrowDown />}
-        </Button>
       </div>
 
-      {isOpen && (
-        <div className="mt-3">
-          {/* Cabeçalho fixo das colunas */}
-          <div className="d-flex list-group-item" style={{ fontWeight: "bold" }}>
-            <div style={{ flex: 2 }}>Equipa</div>
-            <div style={{ flex: 1, textAlign: "left" }}>Jogos</div>
-            <div style={{ flex: 1, textAlign: "left" }}>Vitórias</div>
-            <div style={{ flex: 1, textAlign: "left" }}>Empates</div>
-            <div style={{ flex: 1, textAlign: "left" }}>Derrotas</div>
-            <div style={{ flex: 1, textAlign: "left" }}>Pontos</div>
-          </div>
-          {/* Linhas de classificação */}
-          <ul className="list-group">
-            {standings.map((team, index) => (
-              <StandingsItem key={index} team={team} index={index} />
-            ))}
-          </ul>
+      <div className="mt-3">
+        {/* Cabeçalho fixo das colunas */}
+        <div className="d-flex list-group-item" style={{ fontWeight: "bold" }}>
+          <div style={{ flex: 2 }}>Equipa</div>
+          <div style={{ flex: 1, textAlign: "left" }}>Jogos</div>
+          <div style={{ flex: 1, textAlign: "left" }}>Vitórias</div>
+          <div style={{ flex: 1, textAlign: "left" }}>Empates</div>
+          <div style={{ flex: 1, textAlign: "left" }}>Derrotas</div>
+          <div style={{ flex: 1, textAlign: "left" }}>Pontos</div>
         </div>
-      )}
+        {/* Linhas de classificação */}
+        <ul className="list-group">
+          {standings.map((team, index) => (
+            <StandingsItem key={index} team={team} index={index} />
+          ))}
+        </ul>
+      </div>
     </Container>
   );
 };
