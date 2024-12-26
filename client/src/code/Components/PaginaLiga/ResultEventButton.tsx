@@ -11,12 +11,10 @@ interface ResultEventButtonProps {
 
 const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, setState }) => {
   const handleClick = () => {
-    // Example action when a result is clicked
     setState({ selectedResult: result });
   };
 
   return (
-    <ListGroup.Item key={index} className="d-flex align-items-center bg-light text-dark p-2">
       <Image
         src={result.strHomeTeamBadge}
         alt="Home Team Badge"
@@ -24,7 +22,6 @@ const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, se
         style={{ width: "24px", height: "24px" }}
       />
       <span className="me-2">{result.strHomeTeam}</span>
-      <span className="me-2">vs</span>
       <span className="me-2">{result.strAwayTeam}</span>
       <Image
         src={result.strAwayTeamBadge}
@@ -32,14 +29,6 @@ const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, se
         className="me-2"
         style={{ width: "24px", height: "24px" }}
       />
-      <span className="me-2 fw-bold">{result.intHomeScore} - {result.intAwayScore}</span>
-      <span className="me-auto">{new Date(result.dateEvent).toLocaleDateString()}</span>
-      <Button
-        variant="primary"
-        size="sm"
-        onClick={handleClick}
-        className="ms-2"
-      >
         View Details
       </Button>
     </ListGroup.Item>

@@ -81,8 +81,15 @@ body li {
 
 }
 
+.standigs-league-logo 
+{
+  object-fit: cover;
+  width: 100px;
+  height: auto;
+}
+
 .league-logo {
-  border-radius: 10%;
+  
   object-fit: cover;
   width: 100px;
   height: auto;
@@ -102,13 +109,18 @@ body li {
   border-color: #01203E;
 }
 
+.results-vs{
+  text-align: center;
+}
+
+.list-vs{
+  text-align: center;
+}
+
 
 /* Bloco dos resultados das classificações */
 .leagueStandings {
   background-color: #0b2129;
-  /* Cor de fundo suave */
-  border: 1px solid #ddd;
-  /* Borda leve */
   padding: 20px;
   margin-top: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -130,11 +142,11 @@ body li {
 }
 
 .leagueStandings img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  /* Ícone circular */
-  margin-right: 10px;
+  object-fit: cover;
+  width: 100px;
+  height: auto;
+  
+
 }
 
 /* Botão de favorito */

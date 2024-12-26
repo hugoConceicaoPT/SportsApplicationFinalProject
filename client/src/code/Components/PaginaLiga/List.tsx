@@ -59,8 +59,6 @@ const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc 
   const groupedEvents = groupByRound(events);
 
   return (
-    <Container className="league-list rounded">
-      <div className="d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
           <Image
             className="me-2"
@@ -72,12 +70,10 @@ const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc 
         </div>
       </div>
 
-      <div className="mt-3">
         {Object.keys(groupedEvents).length > 0 ? (
           Object.keys(groupedEvents).map((round) => (
             <div key={round}>
               <h5>Jornada {round}</h5> {/* Exibe a jornada */}
-              <ul className="list-group">
                 {groupedEvents[round].map((event, index) => (
                   <li key={index} className="list-group-item d-flex align-items-center justify-content-between">
                     <div className="d-flex align-items-center">
@@ -88,7 +84,6 @@ const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc 
                       />
                       <span>{event.strHomeTeam}</span>
                     </div>
-                    <span>vs</span>
                     <div className="d-flex align-items-center">
                       <span>{event.strAwayTeam}</span>
                       <Image

@@ -45,12 +45,8 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
   const groupedResults = groupByRound(results);
 
   return (
-    <Container className="leagueResults">
       {/* Cabeçalho da Liga */}
-      <div className="d-flex align-items-center">
-        <Nav.Link className="leagueResults-navLink d-flex align-items-center">
           <Image
-            className="me-2"
             src={imageSrc}
             alt="icon"
             style={{ marginRight: "5px", width: "16px", height: "16px" }}
@@ -60,12 +56,10 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
       </div>
 
       {/* Lista de jogos organizados por jornadas */}
-      <div className="mt-auto">
         {Object.keys(groupedResults).length > 0 ? (
           Object.keys(groupedResults).map(round => (
             <div key={round}>
               <h5>Jornada {round}</h5> {/* Exibe a jornada */}
-              <ul className="list-group">
                 {groupedResults[round].map((result, index) => (
                   <ResultEventButton key={index} setState={setState} result={result} index={index} />
                 ))}
