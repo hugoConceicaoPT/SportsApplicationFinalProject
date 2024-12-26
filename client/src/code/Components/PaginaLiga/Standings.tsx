@@ -58,21 +58,8 @@ const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
     <Container className="leagueStandings rounded">
       <div className="d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
-          <Button
-            style={{
-              color: favorite ? "#FFCD00" : "white",
-              backgroundColor: "#0b2129",
-              borderColor: "#01203E",
-            }}
-            className="ps-0 ms-0 mb-3 mt-2"
-            onClick={toggleFavorite}
-          >
-            {favorite ? <StarFill /> : <Star />}
-          </Button>
           <Image
-            className="me-2"
             src={imageSrc}
-            alt="icon"
             style={{ marginRight: "15px", width: "16px", height: "16px" }}
           />
           <h5 style={{ margin: "0" }}>{leagueName}</h5>

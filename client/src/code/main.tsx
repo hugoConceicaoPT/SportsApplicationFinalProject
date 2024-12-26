@@ -29,6 +29,7 @@ import Favorites from './Components/PaginaPrincipal/Favorites';
 import LeaguePage from './Components/PaginaLiga/LeaguePage';
 import LeagueProvider from './leagueContext';
 import EventStatisticsPage from './Components/EstatisticasJogos/EventStatisticsPage';
+import UpdateUsername from './Components/Registo/UpdateUsername';
 import { EventProvider } from './eventContext';
 
 // Define uma interface TypeScript chamada `AppProps`.
@@ -56,6 +57,8 @@ function App() {
     return <LeaguePage setState={setState} />
   else if (state.view === "statistics")
     return <EventStatisticsPage setState={setState} />
+  else if(state.view === "updateUsername")
+    return <UpdateUsername setState={setState} />
 }
 
 // Cria uma raiz React no elemento HTML com o ID `mainContainer`.

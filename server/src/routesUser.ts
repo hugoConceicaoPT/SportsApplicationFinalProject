@@ -70,15 +70,12 @@ router.post('/login', passport.authenticate('local', { failureRedirect: 'http://
                 return;
             }
     
-            req.logIn(user, (err) => {
-                if (err) return next(err);
-                res.json({
-                    status: 'ok',
-                    user: {
-                        username: user.username,
-                        email: user.email,
-                    },
-                });
+            res.json({
+                status: 'ok',
+                user: {
+                    username: user.username,
+                    email: user.email,
+                },
             });
         } catch (err) {
             next(err);
@@ -87,6 +84,41 @@ router.post('/login', passport.authenticate('local', { failureRedirect: 'http://
         next(err); // Encaminha qualquer erro para o middleware de erro
     }
 });
+
+router.put('/:username/change-username', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        if (!req.isAuthenticated()) {
+            res.status(401).send("Você precisa estar autenticado para alterar o username da sua conta.");
+            return;
+        }
+        const { username } = req.params;
+        const { newUsername } = req.body;
+        console.log(req.body);
+        const existingUser = await User.findOne({ username: newUsername });
+        if (existingUser) {
+            res.status(409).send("O nome de usuário já está em uso."); 
+            return;
+        }
+
+        // Atualiza o nome de usuário
+        const user = await User.findOneAndUpdate(
+            { username }, // Condição de busca
+            { username: newUsername }, // Atualização
+            { new: true } // Retorna o documento atualizado
+        );
+
+        if (!user) {
+            res.status(404).send("Usuário não encontrado.");
+            return;
+        }
+
+        res.status(200).send("ok");
+        return;
+    }
+    catch (err) {
+        next(err);
+    }
+})
 
 router.post('/logout', (req: Request, res: Response, next: NextFunction) => {
     req.logout(function (err) {
@@ -101,14 +133,17 @@ router.delete('/:username/delete', async (req: Request, res: Response, next: Nex
     try {
         if (!req.isAuthenticated()) {
             res.status(401).send("Você precisa estar autenticado para excluir sua conta.");
+            return;
         }
         const { username } = req.params;
         const user = await User.findOneAndDelete({ username });
 
         if (!user) {
             res.status(404).send("Usuário não encontrado.");
+            return;
         }
         res.status(200).send("Usuário excluído com sucesso.");
+        return;
     }
     catch (err) {
         next(err);

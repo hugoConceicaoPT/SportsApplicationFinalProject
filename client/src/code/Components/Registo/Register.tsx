@@ -60,7 +60,7 @@ const Register: React.FC<AppProps> = ({ setState }) => {
                 password: formState.password,
             });
 
-            if (response.data !== "ok") {
+            if (response.status !== 200) {
                 // Exibe um erro caso já exista um usuário com o mesmo email.
                 throw new Error("Já existe um(a) utilizador(a) com o mesmo email.");
             } else {

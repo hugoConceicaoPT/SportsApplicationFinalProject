@@ -34,6 +34,14 @@ const LoginHeaderButton: React.FC<AppProps> = ({ setState }) => {
             console.error("Erro ao fazer logout:", error);
         }
     }
+
+    const handleUpdateUsername = async () => {
+        try {
+            setState({ view: "updateUsername" }); // Redireciona para a página inicial
+        } catch (error) {
+            console.error("Erro ao fazer logout:", error);
+        }
+    }
     return (
         <>
             {user ? (
@@ -43,6 +51,7 @@ const LoginHeaderButton: React.FC<AppProps> = ({ setState }) => {
                         {username}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
+                        <Dropdown.Item onClick={handleUpdateUsername}>Alterar Username</Dropdown.Item>
                         <Dropdown.Item onClick={handleDeleteAccount}>Apagar Conta</Dropdown.Item>
                         <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
