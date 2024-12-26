@@ -31,7 +31,6 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
               alt={`${league.leagueName} logo`}
               className="league-logo me-3"
             />
-            <h1 className="league-logo-text">{league.leagueName}</h1>
           </div>
         </div>
 
