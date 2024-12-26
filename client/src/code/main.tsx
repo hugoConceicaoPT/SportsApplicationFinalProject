@@ -28,6 +28,7 @@ import LeagueProvider from './leagueContext';
 import { ILiveEvents, INextLeagueEvents } from './league';
 import { EventProvider } from './eventContext';
 import EventStatisticsPage from './Components/EstatisticasJogos/EventStatisticsPage';
+import UpdateUsername from './Components/Registo/UpdateUsername';
 
 // Define uma interface TypeScript chamada `AppProps`.
 // Ela especifica o formato esperado da propriedade `setState` no componente.
@@ -54,6 +55,8 @@ function App() {
     return <LeaguePage setState={setState} />
   else if (state.view === "statistics")
     return <EventStatisticsPage setState={setState} />
+  else if(state.view === "updateUsername")
+    return <UpdateUsername setState={setState} />
 }
 
 // Cria uma raiz React no elemento HTML com o ID `mainContainer`.

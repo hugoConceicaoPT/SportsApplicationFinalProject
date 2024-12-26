@@ -37,7 +37,9 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index, l
   const isGameScheluded = event.strStatus === "Not Started";
   const isGameLive = gameProgress !== null;
   const formattedProgress = gameProgress ? `${gameProgress}'` : gameProgress;
-  const gameStatus = "strStatus" in event ? event.strStatus : null;
+  let gameStatus = "strStatus" in event ? event.strStatus : null;
+  if(gameStatus == "1H")
+    gameStatus = "HT";
   return (
     <>
       <li key={index} className="list-group-item-event">

@@ -97,16 +97,12 @@ router.post('/login', passport_1.default.authenticate('local', { failureRedirect
                 res.status(403).send("Verifique seu email antes de fazer login.");
                 return;
             }
-            req.logIn(user, (err) => {
-                if (err)
-                    return next(err);
-                res.json({
-                    status: 'ok',
-                    user: {
-                        username: user.username,
-                        email: user.email,
-                    },
-                });
+            res.json({
+                status: 'ok',
+                user: {
+                    username: user.username,
+                    email: user.email,
+                },
             });
         }
         catch (err) {
@@ -115,6 +111,36 @@ router.post('/login', passport_1.default.authenticate('local', { failureRedirect
     }
     catch (err) {
         next(err); // Encaminha qualquer erro para o middleware de erro
+    }
+}));
+router.put('/:username/change-username', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (!req.isAuthenticated()) {
+            res.status(401).send("Você precisa estar autenticado para alterar o username da sua conta.");
+            return;
+        }
+        const { username } = req.params;
+        const { newUsername } = req.body;
+        console.log(req.body);
+        const existingUser = yield User.findOne({ username: newUsername });
+        if (existingUser) {
+            res.status(409).send("O nome de usuário já está em uso.");
+            return;
+        }
+        // Atualiza o nome de usuário
+        const user = yield User.findOneAndUpdate({ username }, // Condição de busca
+        { username: newUsername }, // Atualização
+        { new: true } // Retorna o documento atualizado
+        );
+        if (!user) {
+            res.status(404).send("Usuário não encontrado.");
+            return;
+        }
+        res.status(200).send("ok");
+        return;
+    }
+    catch (err) {
+        next(err);
     }
 }));
 router.post('/logout', (req, res, next) => {
@@ -129,13 +155,16 @@ router.delete('/:username/delete', (req, res, next) => __awaiter(void 0, void 0,
     try {
         if (!req.isAuthenticated()) {
             res.status(401).send("Você precisa estar autenticado para excluir sua conta.");
+            return;
         }
         const { username } = req.params;
         const user = yield User.findOneAndDelete({ username });
         if (!user) {
             res.status(404).send("Usuário não encontrado.");
+            return;
         }
         res.status(200).send("Usuário excluído com sucesso.");
+        return;
     }
     catch (err) {
         next(err);
