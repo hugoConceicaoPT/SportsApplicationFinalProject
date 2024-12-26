@@ -15,40 +15,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const Favorites = require("./models/favorites");
 const router = express_1.default.Router();
+const leagueIdRegex = /^[0-9]{4}$/; // IDs de ligas têm 4 caracteres alfabéticos
+const teamIdRegex = /^[0-9]{7}$/; // IDs de equipas têm 7 caracteres alfanuméricos
 router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.isAuthenticated()) {
             res.send("Necessita de estar logado para adicionar aos Favoritos");
         }
-        const { email } = req.params;
+        const user = req.user;
+        const username = user.username;
         const { id } = req.body;
-        const idString = id.tostring();
-        const isLeague = idString.length === 4;
-        const isTeam = idString.length === 7;
-        let favorites = yield Favorites.findOne({ email });
-        if (!favorites) {
-            favorites = new Favorites({
-                email,
-                leagueIds: isLeague ? [idString] : [],
-                teamIds: isTeam ? [idString] : [],
-            });
-            yield favorites.save();
-            res.send("ok");
+        Number(id);
+        const isLeague = leagueIdRegex.test(id);
+        const isTeam = teamIdRegex.test(id);
+        if (!isLeague && !isTeam) {
+            res.send("ID inválido");
         }
-        else {
-            if (isLeague) {
-                if (!favorites.leagueIds.includes(idString)) {
-                    favorites.leagueIds.push(idString);
-                }
-            }
-            if (isTeam) {
-                if (!favorites.teamIds.includes(idString)) {
-                    favorites.teamIds.push(idString);
-                }
-            }
-            yield favorites.save();
-            res.send("ok");
-        }
+        const update = Object.assign(Object.assign({}, (isLeague && { $addToSet: { leagueIds: id } })), (isTeam && { $addToSet: { teamIds: id } }));
+        const favorites = yield Favorites.findOneAndUpdate({ username }, Object.assign({ $setOnInsert: { username } }, update), // Cria o documento se não existir
+        { upsert: true, new: true } // Atualiza ou insere
+        );
+        res.send("ok");
     }
     catch (err) {
         next(err);
@@ -57,14 +44,15 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
 router.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.isAuthenticated()) {
-            res.send("Necessita de estar logado para aceder aos favoritos");
+            res.send("Necessita de estar logado para ver os Favoritos");
         }
-        const { username } = req.params;
+        const user = req.user;
+        const username = user.username;
         let favorites = yield Favorites.findOne({ username });
         if (!favorites)
             res.send("not found");
-        const leagueIds = yield (favorites === null || favorites === void 0 ? void 0 : favorites.leagueIds);
-        const teamIds = yield (favorites === null || favorites === void 0 ? void 0 : favorites.teamIds);
+        const leagueIds = favorites.leagueIds || [];
+        const teamIds = favorites.teamIds || [];
         res.json({ leagueIds, teamIds });
     }
     catch (err) {
@@ -76,22 +64,23 @@ router.delete('/', (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         if (!req.isAuthenticated()) {
             res.send("Necessita de estar logado para apagar dos Favoritos");
         }
-        const { email } = req.params;
+        const user = req.user;
+        const username = user.username;
         const { id } = req.body;
-        const idString = id.tostring();
-        const isLeague = idString.length === 4;
-        const isTeam = idString.length === 7;
-        let favorites = yield Favorites.findOne({ email });
+        Number(id);
+        const isLeague = leagueIdRegex.test(id);
+        const isTeam = teamIdRegex.test(id);
+        let favorites = yield Favorites.findOne({ username });
         if (!favorites) {
             res.send("not found");
         }
         else {
             if (isLeague) {
-                const result = yield Favorites.findOneAndUpdate({ email }, { $pull: { leagueIds: id } }, { new: true });
+                const result = yield Favorites.findOneAndUpdate({ username }, { $pull: { leagueIds: id } }, { new: true });
                 res.send("ok");
             }
             if (isTeam) {
-                const result = yield Favorites.findOneAndUpdate({ email }, { $pull: { leagueIds: id } }, { new: true });
+                const result = yield Favorites.findOneAndUpdate({ username }, { $pull: { teamIds: id } }, { new: true });
                 res.send("ok");
             }
         }

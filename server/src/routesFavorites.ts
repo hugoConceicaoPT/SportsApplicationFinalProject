@@ -1,52 +1,42 @@
 import express, { Request, Response, NextFunction, Router } from "express";
 const Favorites = require("./models/favorites");
+import { IUser } from "./models/user";
 
 const router: Router = express.Router();
 
-function isAuthenticated(req: Request, res: Response, next: Function) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.status(401).send("Não autorizado");
-}
+const leagueIdRegex = /^[0-9]{4}$/; // IDs de ligas têm 4 caracteres alfabéticos
+const teamIdRegex = /^[0-9]{7}$/; // IDs de equipas têm 7 caracteres alfanuméricos
 
-router.post('/', isAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+
         if(!req.isAuthenticated()) {
             res.send("Necessita de estar logado para adicionar aos Favoritos");
         }
-        const userId = req.user;
+        const user = req.user as IUser
+        const username = user.username
         const {id} = req.body;
-        const idString = id.tostring();
-       
-        const isLeague = idString.length === 4;
-        const isTeam = idString.length === 7;
 
-        let favorites = await Favorites.findOne({userId});
+        Number(id);
+        
+        const isLeague = leagueIdRegex.test(id);
+        const isTeam = teamIdRegex.test(id);
 
-        if(!favorites){
-            favorites = new Favorites({
-                userId,
-                leagueIds: isLeague ? [idString] : [],
-                teamIds: isTeam ? [idString] : [],
-            });
-            await favorites.save();
-            res.send("ok");
+        if(!isLeague && !isTeam) {
+            res.send("ID inválido");
         }
-        else{
-            if (isLeague) {
-                if (!favorites.leagueIds.includes(idString)) {
-                    favorites.leagueIds.push(idString);
-                }
-            }
-            if (isTeam) {
-                if (!favorites.teamIds.includes(idString)) {
-                    favorites.teamIds.push(idString);
-                }
-            }
-            await favorites.save();
-            res.send("ok");
-        }    
+
+        const update = {
+            ...(isLeague && { $addToSet: { leagueIds: id } }), // Adiciona à lista de ligas sem duplicados
+            ...(isTeam && { $addToSet: { teamIds: id } }),     // Adiciona à lista de equipas sem duplicados
+        };
+
+        const favorites = await Favorites.findOneAndUpdate(
+            { username },
+            { $setOnInsert: { username }, ...update }, // Cria o documento se não existir
+            { upsert: true, new: true } // Atualiza ou insere
+        );
+        res.send("ok");
     }
     catch(err) {
         next(err);
@@ -55,16 +45,18 @@ router.post('/', isAuthenticated, async (req: Request, res: Response, next: Next
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try{
+        
         if(!req.isAuthenticated()) {
-            res.send("Necessita de estar logado para aceder aos favoritos");
+            res.send("Necessita de estar logado para ver os Favoritos");
         }
-        const userId = req.user;
-        let favorites = await Favorites.findOne({ userId });
+        const user = req.user as IUser
+        const username = user.username
+        let favorites = await Favorites.findOne({ username });
 
         if(!favorites) res.send("not found");
 
-        const leagueIds = await favorites?.leagueIds;
-        const teamIds = await favorites?.teamIds;
+        const leagueIds = favorites.leagueIds || [];
+        const teamIds = favorites.teamIds || [];
         res.json({leagueIds, teamIds});
     }
     catch(err) {
@@ -78,15 +70,16 @@ router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
         if(!req.isAuthenticated()) {
             res.send("Necessita de estar logado para apagar dos Favoritos");
         }
-        const userId = req.user;
+        const user = req.user as IUser
+        const username = user.username
         const {id} = req.body;
-        const idString = id.tostring();
+        Number(id);
 
-        const isLeague = idString.length === 4;
-        const isTeam = idString.length === 7;
+        const isLeague = leagueIdRegex.test(id);
+        const isTeam = teamIdRegex.test(id);
 
         
-        let favorites = await Favorites.findOne({ userId });
+        let favorites = await Favorites.findOne({ username });
 
         if(!favorites){
             res.send("not found");
@@ -94,7 +87,7 @@ router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
         else{
             if(isLeague){
                 const result = await Favorites.findOneAndUpdate(
-                    { userId }, 
+                    { username }, 
                     { $pull: { leagueIds: id } },
                     { new: true }
                 );
@@ -102,8 +95,8 @@ router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
             }
             if(isTeam){
                 const result = await Favorites.findOneAndUpdate(
-                    { userId }, 
-                    { $pull: { leagueIds: id } },
+                    { username }, 
+                    { $pull: { teamIds: id } },
                     { new: true }
                 );
                 res.send("ok")
