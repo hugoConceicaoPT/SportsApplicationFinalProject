@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction, Router } from "express";
 const Favorites = require("./models/favorites");
-import { IUser } from "./models/user";
+import { IUser } from "./models/User";
 
 const router: Router = express.Router();
 
@@ -36,6 +36,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
                 { $pull: { [updateField]: idAsString } },
                 { new: true }
             );
+            res.send("removed");
         } else {
             // Caso contrário, adiciona o ID
             await Favorites.findOneAndUpdate(
@@ -43,8 +44,8 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
                 { $addToSet: { [updateField]: idAsString } },
                 { upsert: true, new: true } // Cria o documento se não existir
             );
+            res.send("added");
         }
-        res.send("ok");
     }
     catch(err) {
         next(err);
