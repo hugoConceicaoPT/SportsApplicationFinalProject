@@ -37,13 +37,14 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         if (favorites && ((_a = favorites[updateField]) === null || _a === void 0 ? void 0 : _a.includes(idAsString))) {
             // Se o ID já estiver nos favoritos, remove-o
             yield Favorites.findOneAndUpdate({ username }, { $pull: { [updateField]: idAsString } }, { new: true });
+            res.send("removed");
         }
         else {
             // Caso contrário, adiciona o ID
             yield Favorites.findOneAndUpdate({ username }, { $addToSet: { [updateField]: idAsString } }, { upsert: true, new: true } // Cria o documento se não existir
             );
+            res.send("added");
         }
-        res.send("ok");
     }
     catch (err) {
         next(err);
