@@ -2,8 +2,8 @@ import mongoose, { Schema, Document, model } from "mongoose";
 
 interface IFavorites extends Document {
     username: string; 
-    leagueIds: number[];
-    teamIds: number[];
+    leagueIds: string[];
+    teamIds: string[];
 }
 
 const favoritesSchema = new Schema<IFavorites>({
@@ -13,11 +13,11 @@ const favoritesSchema = new Schema<IFavorites>({
         required: true,
     },
     leagueIds: {
-        type: [Number],
+        type: [String],
         default: [],
     },
     teamIds: {
-        type: [Number],
+        type: [String],
         default: [],
     },
 });

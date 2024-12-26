@@ -14,7 +14,7 @@ const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await axios.get(`${config.serverAddress}/get`, {
+        const response = await axios.get(`${config.serverAddress}/favorites`, {
         }); // API para buscar favoritos do utilizador
         const { ids } = response.data; // Assume que a API retorna um objeto com `leagueIds`
         setIds(ids); // Atualiza o estado com os IDs das ligas favoritas

@@ -8,11 +8,11 @@ const favoritesSchema = new mongoose_1.Schema({
         required: true,
     },
     leagueIds: {
-        type: [Number],
+        type: [String],
         default: [],
     },
     teamIds: {
-        type: [Number],
+        type: [String],
         default: [],
     },
 });
