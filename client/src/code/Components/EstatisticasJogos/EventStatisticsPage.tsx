@@ -15,18 +15,20 @@ import FormationPage from "./FormationPage";
 import GamePage from "./GamePage";
 import StatisticsPage from "./StatisticsPage";
 import Standings from "../PaginaLiga/Standings";
+import { useLeagueContext } from "../../leagueContext";
 
 
 const EventStatisticsPage: React.FC<AppProps> = ({ setState }) => {
     const { selectedEvent } = useEvent();
     const [filter, setFilter] = useState<"formation" | "game" | "statistic" | "classification">("game");
+    const { league } = useLeagueContext();
 
     if (!selectedEvent) {
         return <div>Evento não encontrado</div>; // Tratamento para casos onde o evento não foi definido
     }
 
     const round = "intRound" in selectedEvent ? selectedEvent.intRound : null;
-    const leagueName = "strLeague" in selectedEvent ? selectedEvent.strLeague : null;
+    const leagueName = league?.leagueName;
     return (
         <>
             <Header setState={setState} />

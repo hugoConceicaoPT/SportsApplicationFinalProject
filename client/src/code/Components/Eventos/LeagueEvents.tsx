@@ -9,6 +9,7 @@ import Image from 'react-bootstrap/Image';
 import NextEventButton from "./NextEventButton";
 import { config } from "../../config";
 import axios from "axios";
+import { useLeagueContext } from "../../leagueContext";
 
 
 interface LeagueButtonEventsProps extends AppProps {
@@ -119,7 +120,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
   const toggleFavorite = () => {
     const togFavorite = async () => {
       try {
-        const response = await axios.post(`${config.serverAddress}/favorites`,{
+        const response = await axios.post(`${config.serverAddress}/favorites`, {
           id: leagueId
         });
       }
@@ -130,7 +131,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
     togFavorite();
 
     setFavorite(!favorite);
-    
+
   };
 
   useEffect(() => {
@@ -146,7 +147,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
 
     fetchFavorites();
   });
-  
+
 
   const filteredEvents = events
     .filter((event) => {
