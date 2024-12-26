@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction, Router } from "express";
 const Favorites = require("./models/favorites");
-import { IUser } from "./models/User";
+import { IUser } from "./models/user";
 
 const router: Router = express.Router();
 
@@ -17,25 +17,33 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
         const username = user.username
         const {id} = req.body;
 
-        Number(id);
-        
-        const isLeague = leagueIdRegex.test(id);
-        const isTeam = teamIdRegex.test(id);
+        const idAsString = String(id); // Garante que o ID é uma string
+        const isLeague = leagueIdRegex.test(idAsString);
+        const isTeam = teamIdRegex.test(idAsString);
 
         if(!isLeague && !isTeam) {
             res.send("ID inválido");
         }
 
-        const update = {
-            ...(isLeague && { $addToSet: { leagueIds: id } }), // Adiciona à lista de ligas sem duplicados
-            ...(isTeam && { $addToSet: { teamIds: id } }),     // Adiciona à lista de equipas sem duplicados
-        };
+        const updateField = isLeague ? "leagueIds" : "teamIds";
 
-        const favorites = await Favorites.findOneAndUpdate(
-            { username },
-            { $setOnInsert: { username }, ...update }, // Cria o documento se não existir
-            { upsert: true, new: true } // Atualiza ou insere
-        );
+        const favorites = await Favorites.findOne({ username });
+
+        if (favorites && favorites[updateField]?.includes(idAsString)) {
+            // Se o ID já estiver nos favoritos, remove-o
+            await Favorites.findOneAndUpdate(
+                { username },
+                { $pull: { [updateField]: idAsString } },
+                { new: true }
+            );
+        } else {
+            // Caso contrário, adiciona o ID
+            await Favorites.findOneAndUpdate(
+                { username },
+                { $addToSet: { [updateField]: idAsString } },
+                { upsert: true, new: true } // Cria o documento se não existir
+            );
+        }
         res.send("ok");
     }
     catch(err) {
@@ -73,8 +81,8 @@ router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
         const user = req.user as IUser
         const username = user.username
         const {id} = req.body;
-        
-        Number(id);
+
+        String(id);
 
         const isLeague = leagueIdRegex.test(id);
         const isTeam = teamIdRegex.test(id);
