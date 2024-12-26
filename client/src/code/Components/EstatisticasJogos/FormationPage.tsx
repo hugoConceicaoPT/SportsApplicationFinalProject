@@ -6,7 +6,7 @@ import { Container } from "react-bootstrap";
 
 const FormationPage: React.FC<AppProps> = ({ setState }) => {
     const { selectedEvent } = useEvent();
-    const [gameEvent, setGameEvent] = useState<IGameLineup[]>([]);
+    const [gameLineupEvent, setGameLineupEvent] = useState<IGameLineup[]>([]);
     const worker = new Worker();
 
     if (!selectedEvent) {
@@ -14,23 +14,22 @@ const FormationPage: React.FC<AppProps> = ({ setState }) => {
     }
 
     useEffect(() => {
-        const fetchGame = async () => {
+        const fetchGameLineup = async () => {
             try {
                 if (selectedEvent.idEvent) {
                     const data = await worker.getLineup(selectedEvent.idEvent);
-                    setGameEvent(data);
-                    console.log(selectedEvent.idEvent);
+                    setGameLineupEvent(data);
                 }
             } catch (error) {
                 console.error("Error fetching league results:", error);
             }
         };
 
-        fetchGame();
+        fetchGameLineup();
     }, [selectedEvent.idEvent]);
 
-    const initialTeamHome = gameEvent.filter(player => player.strSubstitute === "No" && player.strHome === "Yes");
-    const initialTeamAway = gameEvent.filter(player => player.strSubstitute === "No" && player.strHome === "No");
+    const initialTeamHome = gameLineupEvent.filter(player => player.strSubstitute === "No" && player.strHome === "Yes");
+    const initialTeamAway = gameLineupEvent.filter(player => player.strSubstitute === "No" && player.strHome === "No");
 
     const renderPlayerRow = (
         homePlayer: IGameLineup | undefined,

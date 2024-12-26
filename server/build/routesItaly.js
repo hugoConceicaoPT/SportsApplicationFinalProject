@@ -19,7 +19,7 @@ const cachingRoutes_1 = __importDefault(require("./cachingRoutes"));
 const router = express_1.default.Router();
 router.get('/serie-a/classificacoes', (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuptable.php?l=${leagueIds_1.leagueIds.serieA}&s=2024-2025}`);
+        const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuptable.php?l=${leagueIds_1.leagueIds.serieA}&s=2024-2025`);
         const responseData = yield response.json();
         const arr = Object.entries(responseData.table).map(transformData_1.transformLeagueStandings);
         res.json(arr);

@@ -16,7 +16,7 @@ const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc 
     const worker = new Worker();
     const fetchEvents = async () => {
       try {
-        const rawData = await worker.getListNextLeagueList(leagueId);
+        const rawData = await worker.getNextLeagueList(leagueId);
 
         // Log para depuração
         console.log("Dados brutos da API:", rawData);
