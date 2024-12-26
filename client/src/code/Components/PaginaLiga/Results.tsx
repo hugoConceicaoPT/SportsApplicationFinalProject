@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Worker, IPastLeagueResults } from "../../league";
 import { AppProps } from "../../main";
-import Nav from 'react-bootstrap/Nav';
-import Container from 'react-bootstrap/Container';
-import Image from 'react-bootstrap/Image';
+import Nav from "react-bootstrap/Nav";
+import Container from "react-bootstrap/Container";
+import Image from "react-bootstrap/Image";
 import ResultEventButton from "./ResultEventButton";
 
 interface LeagueButtonResultsProps extends AppProps {

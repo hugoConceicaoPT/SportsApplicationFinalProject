@@ -32,7 +32,7 @@ const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc 
           strAwayTeamBadge: item.strAwayTeamBadge || "",
           intHomeScore: item.intHomeScore || "-",
           intAwayScore: item.intAwayScore || "-",
-          intRound: item.intRound || "Unknown Round",  // Garantir que intRound seja atribuído
+          intRound: item.intRound || "Unknown Round", // Garantir que intRound seja atribuído
         }));
 
         setEvents(formattedData);
@@ -47,7 +47,7 @@ const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc 
   // Função para agrupar os eventos por jornada
   const groupByRound = (events: INextLeagueEvents[]) => {
     return events.reduce((groups, event) => {
-      const round = event.intRound || "Unknown Round";  // Usando intRound para jornada
+      const round = event.intRound || "Unknown Round"; // Usando intRound para jornada
       if (!groups[round]) {
         groups[round] = [];
       }
