@@ -4,20 +4,18 @@ import { config } from "../../config"; // Importa a configuração geral, inclui
 import { AppProps } from "../../main";
 import { leagueIds } from "../../../../../server/src/leagueIds"; // Importa os IDs das ligas
 import axios from "axios"; // Usaremos axios para buscar os favoritos do utilizador
-import UserProvider from "../../userContext";
 
 const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
   // Declara um estado local `ids` com `useState`.
   // O estado inicial é um array vazio.
-  const [ids, setIds] = useState<string[]>([]);
+  const [ids, setIds ] = useState<string[]>([]);
   // Função para buscar os favoritos do utilizador
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await axios.get(`${config.serverAddress}/favorites`, {
-        }); // API para buscar favoritos do utilizador
-        const { ids } = response.data; // Assume que a API retorna um objeto com `leagueIds`
-        setIds(ids); // Atualiza o estado com os IDs das ligas favoritas
+        const response = await axios.get(`${config.serverAddress}/favorites`); // API para buscar favoritos do utilizador
+        const { leagueIds } = response.data; // Supomos que a API retorna um array `leagueIds`
+        setIds(leagueIds || []); // Atualiza o estado com os IDs retornados
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);
       }
@@ -61,22 +59,24 @@ const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
   ];
 
   // Filtra as ligas favoritas
-  const filteredLeagues = allLeagues.filter( (league) =>
-    ids.includes(league.id)
-  );
+  const filteredLeagues = allLeagues.filter((league) => ids.includes(league.id));
 
   return (
     <div className="league-block-container">
-      {/* Renderiza apenas as ligas favoritas */}
-      {filteredLeagues.map((league) => (
-        <ButtonLeague
-          key={league.id}
-          setState={setState}
-          imageSrc={league.imageSrc}
-          label={league.label}
-          leagueId={league.id}
-        />
-      ))}
+      {/* Verifica se há favoritos */}
+      {filteredLeagues.length === 0 ? (
+        <div>Você não possui ligas favoritas.</div>
+      ) : (
+        filteredLeagues.map((league) => (
+          <ButtonLeague
+            key={league.id}
+            setState={setState}
+            imageSrc={league.imageSrc}
+            label={league.label}
+            leagueId={league.id}
+          />
+        ))
+      )}
     </div>
   );
 };

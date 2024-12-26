@@ -18,6 +18,7 @@ const router = express_1.default.Router();
 const leagueIdRegex = /^[0-9]{4}$/; // IDs de ligas têm 4 caracteres alfabéticos
 const teamIdRegex = /^[0-9]{7}$/; // IDs de equipas têm 7 caracteres alfanuméricos
 router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         if (!req.isAuthenticated()) {
             res.send("Necessita de estar logado para adicionar aos Favoritos");
@@ -25,16 +26,23 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         const user = req.user;
         const username = user.username;
         const { id } = req.body;
-        Number(id);
-        const isLeague = leagueIdRegex.test(id);
-        const isTeam = teamIdRegex.test(id);
+        const idAsString = String(id); // Garante que o ID é uma string
+        const isLeague = leagueIdRegex.test(idAsString);
+        const isTeam = teamIdRegex.test(idAsString);
         if (!isLeague && !isTeam) {
             res.send("ID inválido");
         }
-        const update = Object.assign(Object.assign({}, (isLeague && { $addToSet: { leagueIds: id } })), (isTeam && { $addToSet: { teamIds: id } }));
-        const favorites = yield Favorites.findOneAndUpdate({ username }, Object.assign({ $setOnInsert: { username } }, update), // Cria o documento se não existir
-        { upsert: true, new: true } // Atualiza ou insere
-        );
+        const updateField = isLeague ? "leagueIds" : "teamIds";
+        const favorites = yield Favorites.findOne({ username });
+        if (favorites && ((_a = favorites[updateField]) === null || _a === void 0 ? void 0 : _a.includes(idAsString))) {
+            // Se o ID já estiver nos favoritos, remove-o
+            yield Favorites.findOneAndUpdate({ username }, { $pull: { [updateField]: idAsString } }, { new: true });
+        }
+        else {
+            // Caso contrário, adiciona o ID
+            yield Favorites.findOneAndUpdate({ username }, { $addToSet: { [updateField]: idAsString } }, { upsert: true, new: true } // Cria o documento se não existir
+            );
+        }
         res.send("ok");
     }
     catch (err) {
@@ -67,7 +75,7 @@ router.delete('/', (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         const user = req.user;
         const username = user.username;
         const { id } = req.body;
-        Number(id);
+        String(id);
         const isLeague = leagueIdRegex.test(id);
         const isTeam = teamIdRegex.test(id);
         let favorites = yield Favorites.findOne({ username });

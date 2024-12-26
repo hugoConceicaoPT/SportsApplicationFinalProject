@@ -7,8 +7,9 @@ import LeagueFavorites from "../PaginaFavoritos/LeagueFavorites";
 const Favorites: React.FC<AppProps> = ({setState}) => {
     return (
         <>
-            <Header setState={setState}/>
+            
             <LeagueFavorites setState={setState}/>
+            <Header setState={setState}/>
         </>
     );
 }

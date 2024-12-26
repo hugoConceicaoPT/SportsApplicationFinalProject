@@ -8,6 +8,7 @@ import { Container } from "react-bootstrap";
 import Image from 'react-bootstrap/Image';
 import NextEventButton from "./NextEventButton";
 import { config } from "../../config";
+import axios from "axios";
 
 
 interface LeagueButtonEventsProps extends AppProps {
@@ -23,7 +24,7 @@ let socket: WebSocket | null = null;
 const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, leagueName, imageSrc, selectedDate, filter }) => {
   const [events, setEvents] = useState<INextLeagueEvents[]>([]);
   const [isOpen, setIsOpen] = useState(true);
-  const [favorite, setFavorite] = useState(false);
+  const [favorite, setFavorite] = useState(true);
   const worker = new Worker();
 
   useEffect(() => {
@@ -116,8 +117,36 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
   };
 
   const toggleFavorite = () => {
+    const togFavorite = async () => {
+      try {
+        const response = await axios.post(`${config.serverAddress}/favorites`,{
+          id: leagueId
+        });
+      }
+      catch (error) {
+        console.error("Erro ao adicionar favorito:", error);
+      }
+    }
+    togFavorite();
+
     setFavorite(!favorite);
-  }
+    
+  };
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const response = await axios.get(`${config.serverAddress}/favorites`);
+        const { leagueIds } = response.data;
+        setFavorite(leagueIds.includes(leagueId));
+      } catch (error) {
+        console.error("Erro ao buscar favoritos:", error);
+      }
+    };
+
+    fetchFavorites();
+  });
+  
 
   const filteredEvents = events
     .filter((event) => {

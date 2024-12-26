@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction, Router } from "express";
 import passport from "passport";
 const User = require("./models/User");
-import { IUser } from "./models/User";
+import { IUser } from "./models/user";
 import jwt from "jsonwebtoken";
 import { serverInfo } from "./serverInfo";
 import * as SMTP from "./SMTP";
