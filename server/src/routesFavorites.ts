@@ -73,6 +73,7 @@ router.delete('/', async (req: Request, res: Response, next: NextFunction) => {
         const user = req.user as IUser
         const username = user.username
         const {id} = req.body;
+        
         Number(id);
 
         const isLeague = leagueIdRegex.test(id);
