@@ -1,3 +1,6 @@
+// Importa a função `createRoot` do módulo `react-dom/client` para criar a raiz da aplicação React.
+import { createRoot } from 'react-dom/client';
+
 // Importa o arquivo CSS do Bootstrap para aplicar estilos padrão do framework Bootstrap.
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -25,9 +28,8 @@ import ReactDOM from 'react-dom/client';
 import Favorites from './Components/PaginaPrincipal/Favorites';
 import LeaguePage from './Components/PaginaLiga/LeaguePage';
 import LeagueProvider from './leagueContext';
-import { ILiveEvents, INextLeagueEvents } from './league';
-import { EventProvider } from './eventContext';
 import EventStatisticsPage from './Components/EstatisticasJogos/EventStatisticsPage';
+import { EventProvider } from './eventContext';
 
 // Define uma interface TypeScript chamada `AppProps`.
 // Ela especifica o formato esperado da propriedade `setState` no componente.
