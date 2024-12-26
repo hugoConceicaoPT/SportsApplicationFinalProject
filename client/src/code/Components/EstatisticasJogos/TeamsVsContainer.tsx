@@ -6,12 +6,8 @@ import { useEvent } from "../../eventContext";
 import ButtonTeamHome from "./ButtonTeamHome";
 import ButtonTeamAway from "./ButtonTeamAway";
 
-interface TeamVsContainerProps extends AppProps {
-    teamBadge: string,
-    teamName: string
-}
 
-const TeamVsContainer: React.FC<TeamVsContainerProps> = ({ setState, teamBadge, teamName }) => {
+const TeamVsContainer: React.FC<AppProps> = ({ setState }) => {
     const { selectedEvent } = useEvent();
 
     if (!selectedEvent) {

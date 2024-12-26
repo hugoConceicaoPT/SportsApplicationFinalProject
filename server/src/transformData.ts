@@ -91,3 +91,18 @@ export function transformEventLineup(element: [string, unknown]) {
         strPlayer: myElement.strPlayer
     }
 }
+
+export function transformEventTimeline(element: [string, unknown]) {
+    // Interpreta o segundo item do array `element` como `MyType` para acessar as propriedades
+    const myElement = element[1] as MyType;
+
+    // Retorna um novo objeto com transformações específicas nas propriedades do elemento
+    return {
+        strTimeline: myElement.strTimeline,
+        strTimelineDetail: myElement.strTimelineDetail,
+        strHome: myElement.strHome,
+        strPlayer: myElement.strPlayer,
+        strAssist: myElement.strAssist,
+        intTime: myElement.intTime
+    }
+}

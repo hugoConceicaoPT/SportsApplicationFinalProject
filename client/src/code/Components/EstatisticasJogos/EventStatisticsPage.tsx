@@ -33,7 +33,7 @@ const EventStatisticsPage: React.FC<AppProps> = ({ setState }) => {
             <Container>
                 <span className="text-white mt-2 d-inline-block">{leagueName} - Ronda {round}</span>
                 <hr className="text-white mt-2" />
-                <TeamVsContainer setState={setState} teamBadge={selectedEvent.strHomeTeamBadge} teamName={selectedEvent.strHomeTeam} />
+                <TeamVsContainer setState={setState} />
                 <hr className="text-white statistics-hr" />
                 <div className="d-flex justify-content-center">
                     <FilterGameButton filter={filter} setFilter={setFilter} />
