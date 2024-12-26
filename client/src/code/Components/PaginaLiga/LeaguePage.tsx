@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
+import { Star, StarFill } from "react-bootstrap-icons"; // Importar os ícones
 import LeagueStandings from "./Standings";
 import LeagueResults from "./Results";
 import LeagueList from "./List";
@@ -10,11 +11,16 @@ import Header from "../PaginaPrincipal/Header";
 const LeaguePage: React.FC<AppProps> = ({ setState }) => {
   const { league } = useLeagueContext();
   const [view, setView] = useState<"standings" | "results" | "list">("standings");
+  const [favorite, setFavorite] = useState(false); // Estado para o botão de favoritos
 
   useEffect(() => {
     // Define a view padrão como 'standings' quando o componente é montado
     setView("standings");
   }, []);
+
+  const toggleFavorite = () => {
+    setFavorite(!favorite);
+  };
 
   if (!league) {
     return <div>Erro: Nenhuma liga selecionada.</div>;
@@ -31,6 +37,18 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
               alt={`${league.leagueName} logo`}
               className="league-logo me-3"
             />
+            <h1 className="league-logo-text me-3">{league.leagueName}</h1>
+            {/* Adiciona o botão de favoritos */}
+            <Button
+              style={{
+                color: favorite ? "#FFCD00" : "white",
+                backgroundColor: "black",
+                borderColor: "black",
+              }}
+              onClick={toggleFavorite}
+            >
+              {favorite ? <StarFill /> : <Star />}
+            </Button>
           </div>
         </div>
 

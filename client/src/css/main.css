@@ -6,6 +6,67 @@ body li {
   list-style: none;
 }
 
+.resultados
+{
+  background-color: #0b2129; 
+  padding: 1rem; 
+  border-color: #0b2129;         
+}
+.league-results-1
+{
+  background-color: #0b2129; 
+  padding: 20px; 
+  color:#fff;
+  font-size: 1.25rem;
+  border-color: #0b2129; 
+}
+
+.game-results-1
+{
+  background-color: #0b2129; 
+  padding: 20px; 
+  border-color: #0b2129; 
+  color:#fff
+}
+.game-results-text
+{
+  background-color: #0b2129; 
+  border-radius: 10px; 
+  border-color: #0b2129; 
+  padding: 20px; 
+  
+}
+
+.league-results-2 {
+  background-color: #00141E; /* Altere para a cor desejada */
+  padding: 1rem;    
+  border-color: #0b2129;         /* Exemplo: adiciona espaçamento interno */
+  border-radius: 8px;
+}
+
+.league-list
+{
+  background-color: #0b2129; 
+  border-radius: 10px; 
+  padding: 20px; 
+  color:#fff
+}
+.game-list-1
+{
+  background-color: #0b2129; 
+  border-radius: 10px; 
+  padding: 20px; 
+}
+
+.league-list-2 {
+  background-color:#0b2129; 
+  padding: 1rem;           
+  border-radius: 8px;
+}
+
+
+
+
 .registerComponent {
   background-color: #00141E;
 }
