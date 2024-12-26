@@ -15,20 +15,26 @@ const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, se
   };
 
   return (
-      <Image
-        src={result.strHomeTeamBadge}
-        alt="Home Team Badge"
-        className="me-2"
-        style={{ width: "24px", height: "24px" }}
-      />
-      <span className="me-2">{result.strHomeTeam}</span>
-      <span className="me-2">{result.strAwayTeam}</span>
-      <Image
-        src={result.strAwayTeamBadge}
-        alt="Away Team Badge"
-        className="me-2"
-        style={{ width: "24px", height: "24px" }}
-      />
+    <ListGroup.Item key={index} className="d-flex align-items-center justify-content-between">
+      <div className="d-flex align-items-center">
+        <Image
+          src={result.strHomeTeamBadge}
+          alt="Home Team Badge"
+          className="me-2"
+          style={{ width: "24px", height: "24px" }}
+        />
+        <span className="me-2">{result.strHomeTeam}</span>
+      </div>
+      <div className="d-flex align-items-center">
+        <span className="me-2">{result.strAwayTeam}</span>
+        <Image
+          src={result.strAwayTeamBadge}
+          alt="Away Team Badge"
+          className="me-2"
+          style={{ width: "24px", height: "24px" }}
+        />
+      </div>
+      <Button variant="info" onClick={handleClick}>
         View Details
       </Button>
     </ListGroup.Item>
