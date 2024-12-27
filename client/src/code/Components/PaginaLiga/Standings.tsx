@@ -80,7 +80,7 @@ const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
         {/* Linhas de classificação */}
         <ul className="list-group">
           {standings.map((team, index) => (
-            <StandingsItem key={index} team={team} index={index} />
+            <StandingsItem key={index} team={team} index={index} setState={setState} />
           ))}
         </ul>
       </div>
