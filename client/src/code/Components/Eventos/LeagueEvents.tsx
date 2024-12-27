@@ -141,9 +141,10 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
         const response = await axios.get(`${config.serverAddress}/favorites`, {
           withCredentials: true, // Inclui cookies na requisição para autenticação
         });
-        console.log("Resposta da API de favoritos:", response); // Debug: log da resposta
   
-        if (response.data === "Necessita de estar logado para ver os Favoritos") {
+        if (response.status === 401) {
+          setFavorite(false);
+        } else if(response.status === 404) {
           setFavorite(false);
         } else {
           const { leagueIds } = response.data;
@@ -151,6 +152,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
         }
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);
+        setFavorite(false);
       }
     };
   

@@ -2,14 +2,15 @@ import React from "react";
 import { AppProps } from "../../main";
 import Header from "./Header";
 import LeagueFavorites from "../PaginaFavoritos/LeagueFavorites";
+import TeamFavorites from "../PaginaFavoritos/TeamFavorites";
 
 
 const Favorites: React.FC<AppProps> = ({setState}) => {
     return (
         <>
-            
-            <LeagueFavorites setState={setState}/>
             <Header setState={setState}/>
+            <LeagueFavorites setState={setState}/>
+            <TeamFavorites setState={setState}/>
         </>
     );
 }

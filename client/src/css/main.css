@@ -142,6 +142,26 @@ body li {
 
 }
 
+.favorite-league-block-container {
+  position: relative;
+  /* Pode ser 'relative', 'fixed' ou 'absolute', dependendo do comportamento desejado */
+  top: 300px;
+  /* Define a distância do topo */
+  left: 20px;
+  /* Define a distância da esquerda */
+
+}
+
+.favorite-team-block-container {
+  position: relative;
+  /* Pode ser 'relative', 'fixed' ou 'absolute', dependendo do comportamento desejado */
+  top: 400px; /* 300px + 100px */
+  /* Define a distância do topo */
+  left: 20px;
+  /* Define a distância da esquerda */
+
+}
+
 .standigs-league-logo 
 {
   object-fit: cover;
