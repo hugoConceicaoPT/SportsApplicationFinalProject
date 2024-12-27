@@ -73,7 +73,7 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index, l
           </Button>
         ) : isGameScheluded ? (
           <Button variant="secondary">
-            <span className="time-event">{formattedTime}</span>
+            <span  className="time-event">{formattedTime}</span>
             <div>
               <img
                 src={event.strHomeTeamBadge}

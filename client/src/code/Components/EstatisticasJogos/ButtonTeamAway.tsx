@@ -15,9 +15,14 @@ const ButtonTeamAway: React.FC<ButtonTeamProps> = ({ setState, teamBadge, teamNa
     const toggleFavorite = () => {
         setFavorite(!favorite);
     }
+
+    const redirectToTeamPage = () => {
+        setState({ view: "teampage" });
+    }
+
     return (
         <div className="text-center">
-            <Button variant="secondary" className="bg-white" style={{ position: "relative" }}>
+            <Button onClick={redirectToTeamPage} variant="secondary" className="bg-white" style={{ position: "relative" }}>
                 <Image src={teamBadge} alt={teamName} width="100px" height="100px" />
                 <span className="team-span text-center d-flex">{teamName}</span>
             </Button>
