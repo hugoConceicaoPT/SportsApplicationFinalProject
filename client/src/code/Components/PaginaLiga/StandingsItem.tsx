@@ -1,12 +1,17 @@
 import React from "react";
 import { ILeagueStandings } from "../../league";
+import { AppProps } from "../../main";
 
-interface StandingsItemProps {
+interface StandingsItemProps extends AppProps {
   team: ILeagueStandings;
   index: number;
 }
 
-const StandingsItem: React.FC<StandingsItemProps> = ({ team, index }) => {
+
+const StandingsItem: React.FC<StandingsItemProps> = ({ setState, team, index }) => {
+  const redirectToTeamPage = () => {
+    setState({ view: "teampage" });
+  }
   return (
     <li className="list-group-item d-flex align-items-center">
       {/* Exibe a posição e o nome do time */}
@@ -14,7 +19,8 @@ const StandingsItem: React.FC<StandingsItemProps> = ({ team, index }) => {
         <img
           src={team.strBadge}
           alt={`${team.strTeam} badge`}
-          style={{ width: "30px", height: "30px", marginRight: "10px" }}
+          style={{ width: "30px", height: "30px", marginRight: "10px" , cursor: "pointer"}}
+          onClick={redirectToTeamPage}
         />
         <span>
           {index + 1}. {team.strTeam}

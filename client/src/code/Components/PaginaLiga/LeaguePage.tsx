@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Image } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons"; // Importar os ícones
 import LeagueStandings from "./Standings";
 import LeagueResults from "./Results";
@@ -45,7 +45,7 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
           withCredentials: true, // Inclui cookies na requisição para autenticação
         });
         console.log("Resposta da API de favoritos:", response); // Debug: log da resposta
-  
+
         if (response.data === "Necessita de estar logado para ver os Favoritos") {
           setFavorite(false);
         } else {
@@ -56,12 +56,16 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
         console.error("Erro ao buscar favoritos:", error);
       }
     };
-  
+
     fetchFavorites();
   }, [league?.leagueId]);
 
   if (!league) {
     return <div>Erro: Nenhuma liga selecionada.</div>;
+  }
+
+  const redirectToTeamPage = () => {
+    setState({ view: "teampage" });
   }
 
   return (
@@ -70,10 +74,11 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
       <div className="league-page">
         <div className="league-header d-flex align-items-center justify-content-between">
           <div className="d-flex align-items-center">
-            <img
+            <Image onClick={redirectToTeamPage}
               src={league.imageSrc}
               alt={`${league.leagueName} logo`}
               className="league-logo me-3"
+              style={{cursor: "pointer"}}
             />
             <h1 className="league-logo-text me-3">{league.leagueName}</h1>
             {/* Adiciona o botão de favoritos */}
@@ -143,6 +148,7 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
               leagueId={league.leagueId}
               leagueName={league.leagueName}
               imageSrc={league.imageSrc}
+              setState={setState}
             />
           )}
         </div>

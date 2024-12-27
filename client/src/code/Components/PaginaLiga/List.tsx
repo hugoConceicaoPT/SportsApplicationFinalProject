@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Worker, INextLeagueEvents } from "../../league";
 import { Container } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
+import { AppProps } from "../../main";
 
-interface LeagueListProps {
+interface LeagueListProps extends AppProps {
   leagueId: string;
   leagueName: string;
   imageSrc: string;
 }
 
-const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc }) => {
+const LeagueList: React.FC<LeagueListProps> = ({ setState, leagueId, leagueName, imageSrc }) => {
   const [events, setEvents] = useState<INextLeagueEvents[]>([]);
 
   useEffect(() => {
@@ -58,6 +59,10 @@ const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc 
 
   const groupedEvents = groupByRound(events);
 
+  const redirectToTeamPage = () => {
+    setState({ view: "teampage" });
+  }
+
   return (
     <Container className="league-list">
       <div className="league-list-2 justify-content-between align-items-center">
@@ -84,19 +89,21 @@ const LeagueList: React.FC<LeagueListProps> = ({ leagueId, leagueName, imageSrc 
                       <Image
                         src={event.strHomeTeamBadge}
                         alt={event.strHomeTeam}
-                        style={{ width: "24px", height: "24px", marginRight: "10px" }}
+                        style={{ width: "24px", height: "24px", marginRight: "10px", cursor: "pointer" }}
+                        onClick={redirectToTeamPage}
                       />
                       <span>{event.strHomeTeam}</span>
-                    </div> 
+                    </div>
                     <div>
-                    <span className="list-vs">vs</span>
+                      <span className="list-vs">vs</span>
                     </div>
                     <div className="d-flex align-items-center">
                       <span>{event.strAwayTeam}</span>
                       <Image
                         src={event.strAwayTeamBadge}
                         alt={event.strAwayTeam}
-                        style={{ width: "24px", height: "24px", marginLeft: "10px" }}
+                        style={{ width: "24px", height: "24px", marginLeft: "10px", cursor: "pointer" }}
+                        onClick={redirectToTeamPage}
                       />
                     </div>
                     <div>
