@@ -7,6 +7,8 @@ import LeagueList from "./List";
 import { AppProps } from "../../main";
 import { useLeagueContext } from "../../leagueContext";
 import Header from "../PaginaPrincipal/Header";
+import axios from "axios";
+import { config } from "../../config";
 
 const LeaguePage: React.FC<AppProps> = ({ setState }) => {
   const { league } = useLeagueContext();
@@ -19,8 +21,44 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
   }, []);
 
   const toggleFavorite = () => {
+    const togFavorite = async () => {
+      try {
+        const response = await axios.post(`${config.serverAddress}/favorites`, {
+          id: league?.leagueId,
+          badge: league?.imageSrc,
+          name: league?.leagueName,
+        });
+      }
+      catch (error) {
+        console.error("Erro ao adicionar favorito:", error);
+      }
+    }
+    togFavorite();
+
     setFavorite(!favorite);
   };
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const response = await axios.get(`${config.serverAddress}/favorites`, {
+          withCredentials: true, // Inclui cookies na requisição para autenticação
+        });
+        console.log("Resposta da API de favoritos:", response); // Debug: log da resposta
+  
+        if (response.data === "Necessita de estar logado para ver os Favoritos") {
+          setFavorite(false);
+        } else {
+          const { leagueIds } = response.data;
+          setFavorite(leagueIds.includes(league?.leagueId));
+        }
+      } catch (error) {
+        console.error("Erro ao buscar favoritos:", error);
+      }
+    };
+  
+    fetchFavorites();
+  }, [league?.leagueId]);
 
   if (!league) {
     return <div>Erro: Nenhuma liga selecionada.</div>;

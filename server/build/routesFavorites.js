@@ -16,7 +16,7 @@ const express_1 = __importDefault(require("express"));
 const Favorites = require("./models/favorites");
 const router = express_1.default.Router();
 const leagueIdRegex = /^[0-9]{4}$/; // IDs de ligas têm 4 caracteres alfabéticos
-const teamIdRegex = /^[0-9]{7}$/; // IDs de equipas têm 7 caracteres alfanuméricos
+const teamIdRegex = /^[0-9]{6}$/; // IDs de equipas têm 7 caracteres alfanuméricos
 router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
@@ -26,6 +26,10 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         const user = req.user;
         const username = user.username;
         const { id } = req.body;
+        const { badge } = req.body;
+        const { name } = req.body;
+        const badgeAsString = String(badge);
+        const nameAsString = String(name);
         const idAsString = String(id); // Garante que o ID é uma string
         const isLeague = leagueIdRegex.test(idAsString);
         const isTeam = teamIdRegex.test(idAsString);
@@ -33,16 +37,21 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
             res.send("ID inválido");
         }
         const updateField = isLeague ? "leagueIds" : "teamIds";
+        const updateFieldBadge = isLeague ? "leagueBadge" : "teamBadge";
+        const updateFieldName = isLeague ? "leagueName" : "teamName";
         const favorites = yield Favorites.findOne({ username });
         if (favorites && ((_a = favorites[updateField]) === null || _a === void 0 ? void 0 : _a.includes(idAsString))) {
             // Se o ID já estiver nos favoritos, remove-o
             yield Favorites.findOneAndUpdate({ username }, { $pull: { [updateField]: idAsString } }, { new: true });
+            yield Favorites.findOneAndUpdate({ username }, { $pull: { [updateFieldName]: nameAsString } }, { new: true });
+            yield Favorites.findOneAndUpdate({ username }, { $pull: { [updateFieldBadge]: badgeAsString } }, { new: true });
             res.send("removed");
         }
         else {
             // Caso contrário, adiciona o ID
-            yield Favorites.findOneAndUpdate({ username }, { $addToSet: { [updateField]: idAsString } }, { upsert: true, new: true } // Cria o documento se não existir
-            );
+            yield Favorites.findOneAndUpdate({ username }, { $addToSet: { [updateField]: idAsString } }, { new: true });
+            yield Favorites.findOneAndUpdate({ username }, { $addToSet: { [updateFieldName]: nameAsString } }, { new: true });
+            yield Favorites.findOneAndUpdate({ username }, { $addToSet: { [updateFieldBadge]: badgeAsString } }, { new: true });
             res.send("added");
         }
     }
@@ -61,8 +70,12 @@ router.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         if (!favorites)
             res.send("not found");
         const leagueIds = favorites.leagueIds || [];
+        const leagueName = favorites.leagueName || [];
+        const leagueBadge = favorites.leagueBadge || [];
         const teamIds = favorites.teamIds || [];
-        res.json({ leagueIds, teamIds });
+        const teamName = favorites.teamName || [];
+        const teamBadge = favorites.teamBadge || [];
+        res.json({ leagueIds, leagueName, leagueBadge, teamIds, teamName, teamBadge });
     }
     catch (err) {
         next(err);

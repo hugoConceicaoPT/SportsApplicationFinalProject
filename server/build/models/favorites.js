@@ -11,7 +11,23 @@ const favoritesSchema = new mongoose_1.Schema({
         type: [String],
         default: [],
     },
+    leagueName: {
+        type: [String],
+        default: [],
+    },
+    leagueBadge: {
+        type: [String],
+        default: [],
+    },
     teamIds: {
+        type: [String],
+        default: [],
+    },
+    teamName: {
+        type: [String],
+        default: [],
+    },
+    teamBadge: {
         type: [String],
         default: [],
     },

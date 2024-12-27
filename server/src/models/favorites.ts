@@ -3,7 +3,11 @@ import mongoose, { Schema, Document, model } from "mongoose";
 interface IFavorites extends Document {
     username: string; 
     leagueIds: string[];
+    leagueName: string[];
+    leagueBadge: string[];
     teamIds: string[];
+    teamName: string[];
+    teamBadge: string[];
 }
 
 const favoritesSchema = new Schema<IFavorites>({
@@ -16,7 +20,23 @@ const favoritesSchema = new Schema<IFavorites>({
         type: [String],
         default: [],
     },
+    leagueName: {
+        type: [String],
+        default: [],
+    },
+    leagueBadge: {
+        type: [String],
+        default: [],
+    },
     teamIds: {
+        type: [String],
+        default: [],
+    },
+    teamName: {
+        type: [String],
+        default: [],
+    },
+    teamBadge: {
         type: [String],
         default: [],
     },

@@ -121,7 +121,9 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
     const togFavorite = async () => {
       try {
         const response = await axios.post(`${config.serverAddress}/favorites`, {
-          id: leagueId
+          id: leagueId,
+          badge: imageSrc,
+          name: leagueName,
         });
       }
       catch (error) {
@@ -131,22 +133,29 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
     togFavorite();
 
     setFavorite(!favorite);
-
   };
 
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await axios.get(`${config.serverAddress}/favorites`);
-        const { leagueIds } = response.data;
-        setFavorite(leagueIds.includes(leagueId));
+        const response = await axios.get(`${config.serverAddress}/favorites`, {
+          withCredentials: true, // Inclui cookies na requisição para autenticação
+        });
+        console.log("Resposta da API de favoritos:", response); // Debug: log da resposta
+  
+        if (response.data === "Necessita de estar logado para ver os Favoritos") {
+          setFavorite(false);
+        } else {
+          const { leagueIds } = response.data;
+          setFavorite(leagueIds.includes(leagueId));
+        }
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);
       }
     };
-
+  
     fetchFavorites();
-  });
+  }, [leagueId]);
 
 
   const filteredEvents = events

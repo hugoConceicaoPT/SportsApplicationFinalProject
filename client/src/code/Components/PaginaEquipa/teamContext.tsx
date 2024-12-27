@@ -38,3 +38,6 @@ export const useTeamContext = () => {
   }
   return context;
 };
+
+// Exporta o contexto
+export default TeamContext;
