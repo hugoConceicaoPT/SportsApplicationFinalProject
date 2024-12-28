@@ -7,10 +7,14 @@ import { AppProps } from "../../main"; // Tipos de propriedades principais
 import { useTeamContext } from "../Context/TeamContext"; // Contexto para a equipe
 import Header from "../PaginaPrincipal/Header"; // Header compartilhado
 import Standings from "../PaginaLiga/Standings";
+import { Star, StarFill } from "react-bootstrap-icons";
+import axios from "axios";
+import { config } from "../../config";
 
 const TeamPage: React.FC<AppProps> = ({ setState }) => {
   const { team } = useTeamContext(); // Contexto da equipe selecionada
   const [view, setView] = useState<"standings" | "results" | "list">("standings");
+  const [favorite, setFavorite] = useState(true);
 
   useEffect(() => {
     // Define a view padrão como 'standings' quando o componente é montado
@@ -20,6 +24,48 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
   if (!team) {
     return <div>Erro: Nenhuma equipe selecionada.</div>;
   }
+
+  const toggleFavorite = () => {
+    const togFavorite = async () => {
+      try {
+        const response = await axios.post(`${config.serverAddress}/favorites`, {
+          id: team.teamId,
+          badge: team.imageSrc,
+          name: team.teamName,
+        });
+      }
+      catch (error) {
+        console.error("Erro ao adicionar favorito:", error);
+      }
+    }
+    togFavorite();
+
+    setFavorite(!favorite);
+  };
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const response = await axios.get(`${config.serverAddress}/favorites`, {
+          withCredentials: true, // Inclui cookies na requisição para autenticação
+        });
+
+        if (response.status === 401) {
+          setFavorite(false);
+        } else if (response.status === 404) {
+          setFavorite(false);
+        } else {
+          const { teamIds } = response.data;
+          setFavorite(teamIds.includes(team.teamId));
+        }
+      } catch (error) {
+        console.error("Erro ao buscar favoritos:", error);
+        setFavorite(false);
+      }
+    };
+
+    fetchFavorites();
+  }, [team.teamId]);
 
   return (
     <>
@@ -33,6 +79,16 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
               className="team-logo me-3"
             />
             <h1 className="team-logo-text">{team.teamName}</h1>
+            <Button
+              style={{
+                color: favorite ? "#FFCD00" : "white",
+                backgroundColor: "black",
+                borderColor: "black",
+              }}
+              onClick={toggleFavorite}
+            >
+              {favorite ? <StarFill /> : <Star />}
+            </Button>
           </div>
         </div>
 
@@ -77,10 +133,10 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
         <div className="content mt-4">
           {/* Exibe classificações */}
           {view === "standings" && <Standings setState={setState} />}
-          
+
           {/* Exibe resultados */}
           {view === "results" && <TeamResults teamId={team.teamId} />}
-          
+
           {/* Exibe lista de próximos jogos */}
           {view === "list" && <TeamList teamId={team.teamId} />}
         </div>

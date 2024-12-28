@@ -182,6 +182,20 @@ body li {
   margin: 0;
 }
 
+.team-logo {
+  object-fit: cover;
+  width: 100px;
+  height: auto;
+  /* Mantém a proporção da imagem */
+}
+
+.team-logo-text {
+  font-size: 1.25rem;
+  color: #fff;
+  /* Cor do título */
+  margin: 0;
+}
+
 .leagueEvents {
   background-color: #01203E;
   width: 700px;
