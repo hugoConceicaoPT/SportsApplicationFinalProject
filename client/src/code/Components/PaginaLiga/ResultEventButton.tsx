@@ -2,6 +2,7 @@ import React from "react";
 import { IPastLeagueResults } from "../../league";
 import { Button, ListGroup } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
+import { useTeamContext } from "../Context/TeamContext";
 
 interface ResultEventButtonProps {
   result: IPastLeagueResults;
@@ -10,13 +11,30 @@ interface ResultEventButtonProps {
 }
 
 const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, setState }) => {
+
+  const { setTeam } = useTeamContext();
+
   const handleClick = () => {
     // Exemplo de ação quando um resultado é clicado
     setState({ selectedResult: result });
   };
 
-  const redirectToTeamPage = () => {
+  const redirectToTeamHomePage = () => {
     setState({ view: "teampage" });
+    setTeam({
+      teamId: result.idHomeTeam,
+      teamName: result.strHomeTeam,
+      imageSrc: result.strHomeTeamBadge
+    })
+  }
+
+  const redirectToTeamAwayPage = () => {
+    setState({ view: "teampage" });
+    setTeam({
+      teamId: result.idAwayTeam,
+      teamName: result.strAwayTeam,
+      imageSrc: result.strAwayTeamBadge
+    })
   }
 
   return (
@@ -29,7 +47,7 @@ const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, se
         alt="Home Team Badge"
         className="me-2"
         style={{ width: "24px", height: "24px", cursor: "pointer" }}
-        onClick={redirectToTeamPage}
+        onClick={redirectToTeamHomePage}
       />
       <span className="me-2">{result.strHomeTeam}</span>
       <span className="results-vs">vs</span>
@@ -39,7 +57,7 @@ const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, se
         alt="Away Team Badge"
         className="me-2"
         style={{ width: "24px", height: "24px", cursor: "pointer" }}
-        onClick={redirectToTeamPage}
+        onClick={redirectToTeamAwayPage}
       />
       <span className="me-2 fw-bold">
         {result.intHomeScore} - {result.intAwayScore}

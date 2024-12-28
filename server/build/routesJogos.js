@@ -20,6 +20,10 @@ router.get("/estatisticas/:id", (0, cachingRoutes_1.default)(120), (req, res, ne
     try {
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookupeventstats.php?id=${req.params.id}`);
         const responseData = yield response.json();
+        if (!responseData.eventstats) {
+            res.status(404).json({ message: "Estatísticas não encontradas." });
+            return;
+        }
         const arr = Object.entries(responseData.eventstats).map(transformData_1.transformEventStatistics);
         res.json(arr);
     }
@@ -31,6 +35,10 @@ router.get("/formacao/:id", (0, cachingRoutes_1.default)(120), (req, res, next) 
     try {
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuplineup.php?id=${req.params.id}`);
         const responseData = yield response.json();
+        if (!responseData.lineup) {
+            res.status(404).json({ message: "Formação não encontrada." });
+            return;
+        }
         const arr = Object.entries(responseData.lineup).map(transformData_1.transformEventLineup);
         res.json(arr);
     }
@@ -42,6 +50,10 @@ router.get("/timeline/:id", (0, cachingRoutes_1.default)(120), (req, res, next) 
     try {
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookuptimeline.php?id=${req.params.id}`);
         const responseData = yield response.json();
+        if (!responseData.timeline) {
+            res.status(404).json({ message: "Timeline não encontrada." });
+            return;
+        }
         const arr = Object.entries(responseData.timeline).map(transformData_1.transformEventTimeline);
         res.json(arr);
     }

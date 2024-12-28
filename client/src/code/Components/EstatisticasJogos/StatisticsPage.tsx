@@ -21,7 +21,7 @@ const StatisticsPage: React.FC<AppProps> = () => {
                     setGameStatistics(data);
                 }
             } catch (error) {
-                console.error("Error fetching league results:", error);
+                console.error("Error fetching league statistics:", error);
             }
         };
 

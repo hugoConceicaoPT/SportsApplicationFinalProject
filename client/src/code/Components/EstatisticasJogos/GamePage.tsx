@@ -25,7 +25,7 @@ const GamePage: React.FC<AppProps> = () => {
                     console.log(selectedEvent.idEvent);
                 }
             } catch (error) {
-                console.error("Error fetching league results:", error);
+                console.error("Error fetching league timeline:", error);
             }
         };
 

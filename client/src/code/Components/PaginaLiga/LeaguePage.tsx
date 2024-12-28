@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Button, Image } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons"; // Importar os ícones
 import LeagueStandings from "./Standings";
-import LeagueResults from "./Results";
-import LeagueList from "./List";
+import LeagueResults from "./LeagueResults";
+import LeagueList from "./LeagueList";
 import { AppProps } from "../../main";
 import { useLeagueContext } from "../Context/LeagueContext";
 import Header from "../PaginaPrincipal/Header";

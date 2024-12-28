@@ -11,7 +11,9 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
 
         if(!req.isAuthenticated()) {
+            console.log("add");
             res.send("Necessita de estar logado para adicionar aos Favoritos");
+            return;
         }
         if (!req.user) {
             return;
@@ -31,6 +33,12 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
         if(!isLeague && !isTeam) {
             res.send("ID inválido");
         }
+
+        req.login(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+        });
 
         const updateField = isLeague ? "leagueIds" : "teamIds";
         const updateFieldBadge = isLeague ? "leagueBadge" : "teamBadge";
@@ -79,6 +87,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
                 { $addToSet: { [updateFieldBadge]: badgeAsString } },
                 { new: true }
             );
+
             res.send("added");
         }
     }

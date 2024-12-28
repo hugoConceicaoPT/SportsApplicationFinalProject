@@ -41,7 +41,6 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index, l
   if(gameStatus == "1H")
     gameStatus = "HT";
   return (
-    <>
       <li key={index} className="list-group-item-event">
         {isGameFinished ? (
           <Button variant="secondary" onClick={handleClick}>
@@ -132,7 +131,6 @@ const NextEventButton: React.FC<INextEventButton> = ({ setState, event, index, l
           </>
         )}
       </li>
-    </>
   );
 }
 

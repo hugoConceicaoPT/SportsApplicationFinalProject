@@ -21,7 +21,9 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     var _a;
     try {
         if (!req.isAuthenticated()) {
+            console.log("add");
             res.send("Necessita de estar logado para adicionar aos Favoritos");
+            return;
         }
         if (!req.user) {
             return;
@@ -39,6 +41,11 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         if (!isLeague && !isTeam) {
             res.send("ID inválido");
         }
+        req.login(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+        });
         const updateField = isLeague ? "leagueIds" : "teamIds";
         const updateFieldBadge = isLeague ? "leagueBadge" : "teamBadge";
         const updateFieldName = isLeague ? "leagueName" : "teamName";

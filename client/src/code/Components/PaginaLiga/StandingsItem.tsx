@@ -1,6 +1,7 @@
 import React from "react";
 import { ILeagueStandings } from "../../league";
 import { AppProps } from "../../main";
+import { useTeamContext } from "../Context/TeamContext";
 
 interface StandingsItemProps extends AppProps {
   team: ILeagueStandings;
@@ -9,8 +10,14 @@ interface StandingsItemProps extends AppProps {
 
 
 const StandingsItem: React.FC<StandingsItemProps> = ({ setState, team, index }) => {
+  const { setTeam } = useTeamContext();
   const redirectToTeamPage = () => {
     setState({ view: "teampage" });
+    setTeam({
+      teamId: team.idTeam,
+      teamName: team.strTeam,
+      imageSrc: team.strBadge
+    })
   }
   return (
     <li className="list-group-item d-flex align-items-center">

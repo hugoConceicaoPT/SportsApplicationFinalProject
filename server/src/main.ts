@@ -19,7 +19,6 @@ import { WebSocketServer } from "ws";
 import { leagueIds } from "./leagueIds";
 import { transformLiveEvents } from "./transformData";
 const User = require('./models/User');
-type LeagueName = keyof typeof leagueIds;
 
 const app: Express = express();
 dotenv.config();
