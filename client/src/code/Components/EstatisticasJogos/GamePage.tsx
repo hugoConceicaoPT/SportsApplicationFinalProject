@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { AppProps } from "../../main";
 import { useEvent } from "../Context/EventContext";
 import { TbRectangleVerticalFilled } from "react-icons/tb";
 import { MdSportsSoccer } from "react-icons/md";
 import { ArrowRepeat } from "react-bootstrap-icons";
 import { Container, Row } from "react-bootstrap";
 import { IGameTimeline, WorkerGame } from "../../game";
-const GamePage: React.FC<AppProps> = () => {
+
+const GamePage: React.FC = () => {
     const { selectedEvent } = useEvent();
     const workerGame = new WorkerGame();
     const [gameTimeline, setGameTimeline] = useState<IGameTimeline[]>([]);

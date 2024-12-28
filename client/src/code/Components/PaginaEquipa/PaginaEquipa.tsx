@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import TeamStandings from "./TeamStadings"; // Componente para classificações
 import TeamResults from "./TeamResults"; // Componente para resultados
 import TeamList from "./TeamList"; // Componente para lista de jogos futuros
 import { AppProps } from "../../main"; // Tipos de propriedades principais
@@ -10,6 +9,9 @@ import Standings from "../PaginaLiga/Standings";
 import { Star, StarFill } from "react-bootstrap-icons";
 import axios from "axios";
 import { config } from "../../config";
+import FilterClassificationButton from "./FilterClassificationButton";
+import FilterResultsButton from "./FilterResultsButton";
+import FilterListButton from "./FilterListButton";
 
 const TeamPage: React.FC<AppProps> = ({ setState }) => {
   const { team } = useTeamContext(); // Contexto da equipe selecionada
@@ -70,7 +72,6 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
             <img
               src={team.imageSrc}
               alt={`${team.teamName} logo`}
-              className="team-logo me-3"
             />
             <h1 className="team-logo-text">{team.teamName}</h1>
             <Button
@@ -88,16 +89,7 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
 
         <div className="navigation d-flex justify-content-around my-3">
           {/* Botão Classificações */}
-          <Button
-            style={{
-              backgroundColor: view === "standings" ? "red" : "gray",
-              color: "white",
-              borderColor: view === "standings" ? "red" : "gray",
-            }}
-            onClick={() => setView("standings")}
-          >
-            Classificações
-          </Button>
+          <FilterClassificationButton view={view} setView={setView} />
 
           {/* Botão Resultados */}
           <Button
@@ -112,16 +104,7 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
           </Button>
 
           {/* Botão Lista */}
-          <Button
-            style={{
-              backgroundColor: view === "list" ? "red" : "gray",
-              color: "white",
-              borderColor: view === "list" ? "red" : "gray",
-            }}
-            onClick={() => setView("list")}
-          >
-            Lista
-          </Button>
+          <FilterListButton view={view} setView={setView} />
         </div>
 
         <div className="content mt-4">

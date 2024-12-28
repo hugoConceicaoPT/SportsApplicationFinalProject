@@ -6,7 +6,7 @@ import { useTeamContext } from "../Context/TeamContext";
 import axios from "axios";
 import { config } from "../../config";
 
-interface ButtonTeamProps extends AppProps {
+export interface ButtonTeamProps extends AppProps {
     teamId: string,
     teamBadge: string,
     teamName: string

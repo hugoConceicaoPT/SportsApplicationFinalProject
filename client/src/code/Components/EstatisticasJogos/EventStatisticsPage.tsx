@@ -16,7 +16,6 @@ import GamePage from "./GamePage";
 import StatisticsPage from "./StatisticsPage";
 import Standings from "../PaginaLiga/Standings";
 import { useLeagueContext } from "../Context/LeagueContext";
-import { useTeamContext } from "../Context/TeamContext";
 
 
 const EventStatisticsPage: React.FC<AppProps> = ({ setState }) => {
@@ -47,11 +46,11 @@ const EventStatisticsPage: React.FC<AppProps> = ({ setState }) => {
                 </div>
                 <hr className="text-white" />
                 {filter === "formation" ? (
-                    <FormationPage setState={setState}/>
+                    <FormationPage />
                 ) : filter === "game" ? (
-                    <GamePage setState={setState} />
+                    <GamePage />
                 ) : filter === "statistic" ? (
-                    <StatisticsPage setState={setState}/>
+                    <StatisticsPage />
                 ): (
                     <Standings setState={setState}/>
                 )}

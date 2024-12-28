@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Container, ProgressBar } from "react-bootstrap";
-import { AppProps } from "../../main";
 import { useEvent } from "../Context/EventContext";
 import { IGameStatistics, WorkerGame } from "../../game";
 
-const StatisticsPage: React.FC<AppProps> = () => {
+const StatisticsPage: React.FC = () => {
     const { selectedEvent } = useEvent();
     const [gameStatistics, setGameStatistics] = useState<IGameStatistics[]>([]);
     const workerGame = new WorkerGame();
