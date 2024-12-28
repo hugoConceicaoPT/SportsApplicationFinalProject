@@ -23,20 +23,8 @@ const LeagueList: React.FC<LeagueListProps> = ({ setState, leagueId, leagueName,
         console.log("Dados brutos da API:", rawData);
 
         // Mapeando os dados da API para o formato correto
-        const formattedData: INextLeagueEvents[] = rawData.map((item: INextLeagueEvents) => ({
-          _id: item._id || 0,
-          strHomeTeam: item.strHomeTeam || "Time não identificado",
-          strAwayTeam: item.strAwayTeam || "Time não identificado",
-          dateEvent: item.dateEvent || "",
-          strTime: item.strTime || "",
-          strHomeTeamBadge: item.strHomeTeamBadge || "",
-          strAwayTeamBadge: item.strAwayTeamBadge || "",
-          intHomeScore: item.intHomeScore || "-",
-          intAwayScore: item.intAwayScore || "-",
-          intRound: item.intRound || "Unknown Round", // Garantir que intRound seja atribuído
-        }));
 
-        setEvents(formattedData);
+        setEvents(rawData);
       } catch (error) {
         console.error("Erro ao buscar os próximos eventos da liga:", error);
       }

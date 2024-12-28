@@ -36,7 +36,7 @@ mongoose.connect(process.env.MONGODB_URI as string).then(() => {
 
 app.use(function (inRequest: Request, inResponse: Response, inNext: NextFunction) {
     inResponse.header("Access-Control-Allow-Origin", "*");
-    inResponse.header("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS");
+    inResponse.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
     inResponse.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept");
     inNext();
 });
@@ -57,6 +57,7 @@ app.use(session(sessionConfig));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());

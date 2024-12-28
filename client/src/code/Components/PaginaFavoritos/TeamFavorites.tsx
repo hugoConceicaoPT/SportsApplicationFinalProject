@@ -4,7 +4,6 @@ import { config } from "../../config"; // Importa a configuração geral, inclui
 import { AppProps } from "../../main";
 import axios from "axios"; // Usaremos axios para buscar os favoritos do utilizador
 import ButtonTeam from "./buttonTeam";
-import { Team } from "../PaginaEquipa/teamContext";
 
 const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
   // Declara um estado local `ids` com `useState`.
@@ -29,9 +28,6 @@ const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
 
     fetchFavorites();
   }, []);
-
-  
-  
 
   return (
     <div className="favorite-team-block-container">

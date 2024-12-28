@@ -4,7 +4,7 @@ import React, { useState } from "react";
 // Este tipo é usado para definir as propriedades esperadas pelo componente.
 import { AppProps } from "../../main";
 import Header from "../PaginaPrincipal/Header";
-import { useEvent } from "../../eventContext";
+import { useEvent } from "../Context/EventContext";
 import { Container } from "react-bootstrap";
 import TeamVsContainer from "./TeamsVsContainer";
 import FilterFormattionButton from "./FilterFormattionButton";
@@ -15,13 +15,15 @@ import FormationPage from "./FormationPage";
 import GamePage from "./GamePage";
 import StatisticsPage from "./StatisticsPage";
 import Standings from "../PaginaLiga/Standings";
-import { useLeagueContext } from "../../leagueContext";
+import { useLeagueContext } from "../Context/LeagueContext";
+import { useTeamContext } from "../Context/TeamContext";
 
 
 const EventStatisticsPage: React.FC<AppProps> = ({ setState }) => {
     const { selectedEvent } = useEvent();
     const [filter, setFilter] = useState<"formation" | "game" | "statistic" | "classification">("game");
     const { league } = useLeagueContext();
+
 
     if (!selectedEvent) {
         return <div>Evento não encontrado</div>; // Tratamento para casos onde o evento não foi definido

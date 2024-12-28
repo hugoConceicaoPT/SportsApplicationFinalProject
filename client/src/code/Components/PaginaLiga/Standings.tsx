@@ -6,7 +6,7 @@ import { Container } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import StandingsItem from "./StandingsItem";
 import { AppProps } from "../../main";
-import { useLeagueContext } from "../../leagueContext";
+import { useLeagueContext } from "../Context/LeagueContext";
 
 const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
   const [standings, setStandings] = useState<ILeagueStandings[]>([]);

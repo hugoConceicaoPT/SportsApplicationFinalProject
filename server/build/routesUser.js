@@ -115,6 +115,7 @@ router.post('/login', passport_1.default.authenticate('local', { failureRedirect
 }));
 router.put('/:username/change-username', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("Authenticated:", req.isAuthenticated());
         if (!req.isAuthenticated()) {
             res.status(401).send("Você precisa estar autenticado para alterar o username da sua conta.");
             return;
@@ -136,8 +137,12 @@ router.put('/:username/change-username', (req, res, next) => __awaiter(void 0, v
             res.status(404).send("Usuário não encontrado.");
             return;
         }
-        res.status(200).send("ok");
-        return;
+        req.login(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).send("Username alterado com sucesso.");
+        });
     }
     catch (err) {
         next(err);
@@ -164,7 +169,6 @@ router.delete('/:username/delete', (req, res, next) => __awaiter(void 0, void 0,
             return;
         }
         res.status(200).send("Usuário excluído com sucesso.");
-        return;
     }
     catch (err) {
         next(err);

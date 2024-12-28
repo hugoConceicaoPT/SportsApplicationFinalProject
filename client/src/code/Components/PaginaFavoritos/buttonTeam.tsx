@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { useTeamContext } from '../PaginaEquipa/teamContext';
+import { useTeamContext } from '../Context/TeamContext';
 
 interface AppProps {
   setState: (state: { view: string }) => void;

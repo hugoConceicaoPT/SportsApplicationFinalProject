@@ -21,17 +21,18 @@ import Home from "./Components/Home";
 import Login from "./Components/Registo/Login";
 
 // Importa o componente de contexto `UserProvider` que provavelmente gerencia o estado global relacionado ao usuário.
-import UserProvider from './userContext';
+import UserProvider from './Components/Context/UserContext';
 
 // Importa o módulo `ReactDOM` para renderizar a aplicação na árvore DOM.
 import ReactDOM from 'react-dom/client';
 import Favorites from './Components/PaginaPrincipal/Favorites';
 import LeaguePage from './Components/PaginaLiga/LeaguePage';
-import LeagueProvider from './leagueContext';
+import LeagueProvider from './Components/Context/LeagueContext';
 import EventStatisticsPage from './Components/EstatisticasJogos/EventStatisticsPage';
 import UpdateUsername from './Components/Registo/UpdateUsername';
-import { EventProvider } from './eventContext';
+import { EventProvider } from './Components/Context/EventContext';
 import PaginaEquipa from './Components/PaginaEquipa/PaginaEquipa';
+import { TeamProvider } from './Components/Context/TeamContext';
 
 // Define uma interface TypeScript chamada `AppProps`.
 // Ela especifica o formato esperado da propriedade `setState` no componente.
@@ -58,9 +59,9 @@ function App() {
     return <LeaguePage setState={setState} />
   else if (state.view === "statistics")
     return <EventStatisticsPage setState={setState} />
-  else if(state.view === "updateUsername")
+  else if (state.view === "updateUsername")
     return <UpdateUsername setState={setState} />
-  else if(state.view === "teampage")
+  else if (state.view === "teampage")
     return <PaginaEquipa setState={setState} />
 }
 
@@ -74,7 +75,9 @@ root.render(
   <UserProvider>
     <LeagueProvider>
       <EventProvider>
-        <App />
+        <TeamProvider>
+          <App />
+        </TeamProvider>
       </EventProvider>
     </LeagueProvider>
   </UserProvider>

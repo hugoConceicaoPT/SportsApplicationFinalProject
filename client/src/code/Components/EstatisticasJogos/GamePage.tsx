@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AppProps } from "../../main";
-import { useEvent } from "../../eventContext";
+import { useEvent } from "../Context/EventContext";
 import { TbRectangleVerticalFilled } from "react-icons/tb";
 import { MdSportsSoccer } from "react-icons/md";
 import { ArrowRepeat } from "react-bootstrap-icons";

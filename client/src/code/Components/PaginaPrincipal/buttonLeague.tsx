@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { useLeagueContext } from '../../leagueContext';
+import { useLeagueContext } from '../Context/LeagueContext';
 
 interface AppProps {
   setState: (state: { view: string }) => void;

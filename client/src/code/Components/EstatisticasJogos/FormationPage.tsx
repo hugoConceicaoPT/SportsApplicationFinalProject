@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AppProps } from "../../main";
-import { useEvent } from "../../eventContext";
+import { useEvent } from "../Context/EventContext";
 import { IGameLineup, Worker } from "../../league";
 import { Container } from "react-bootstrap";
 

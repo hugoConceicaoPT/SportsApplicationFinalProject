@@ -46,7 +46,7 @@ mongoose_1.default.connect(process.env.MONGODB_URI).then(() => {
 });
 app.use(function (inRequest, inResponse, inNext) {
     inResponse.header("Access-Control-Allow-Origin", "*");
-    inResponse.header("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS");
+    inResponse.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
     inResponse.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept");
     inNext();
 });

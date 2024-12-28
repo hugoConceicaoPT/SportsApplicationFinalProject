@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, ProgressBar } from "react-bootstrap";
 import { AppProps } from "../../main";
-import { useEvent } from "../../eventContext";
+import { useEvent } from "../Context/EventContext";
 import { IGameStatistics, Worker } from "../../league";
 
 const StatisticsPage: React.FC<AppProps> = () => {

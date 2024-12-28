@@ -9,7 +9,7 @@ import Image from 'react-bootstrap/Image';
 import NextEventButton from "./NextEventButton";
 import { config } from "../../config";
 import axios from "axios";
-import { useLeagueContext } from "../../leagueContext";
+import { useLeagueContext } from "../Context/LeagueContext";
 
 
 interface LeagueButtonEventsProps extends AppProps {
@@ -27,6 +27,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
   const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(true);
   const worker = new Worker();
+  const { setLeague } = useLeagueContext();
 
   useEffect(() => {
     const fetchInitialEvents = async () => {
@@ -182,6 +183,14 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
       return dateTimeA.getTime() - dateTimeB.getTime();
     })
 
+    const redirectToLeaguePage = () => {
+      setState({view: "LeaguePage"});
+      setLeague({
+        leagueId,
+        leagueName,
+        imageSrc
+      })
+    }
   return filteredEvents.length === 0 ? null : (
     <Container className="leagueEvents rounded p-0 mb-1">
       {/* Button to expand/collapse */}
@@ -204,7 +213,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
             alt="icon"
             style={{ marginRight: "5px", width: "14px", height: "14px" }}
           />
-          {leagueName}
+          <span onClick={redirectToLeaguePage}>{leagueName}</span>
         </Nav.Link>
         <Button
           variant="secondary"

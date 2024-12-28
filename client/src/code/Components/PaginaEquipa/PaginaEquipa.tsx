@@ -4,7 +4,7 @@ import TeamStandings from "./TeamStadings"; // Componente para classificações
 import TeamResults from "./TeamResults"; // Componente para resultados
 import TeamList from "./TeamList"; // Componente para lista de jogos futuros
 import { AppProps } from "../../main"; // Tipos de propriedades principais
-import { useTeamContext } from "./teamContext"; // Contexto para a equipe
+import { useTeamContext } from "../Context/TeamContext"; // Contexto para a equipe
 import Header from "../PaginaPrincipal/Header"; // Header compartilhado
 
 const TeamPage: React.FC<AppProps> = ({ setState }) => {

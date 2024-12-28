@@ -5,7 +5,7 @@ import LeagueStandings from "./Standings";
 import LeagueResults from "./Results";
 import LeagueList from "./List";
 import { AppProps } from "../../main";
-import { useLeagueContext } from "../../leagueContext";
+import { useLeagueContext } from "../Context/LeagueContext";
 import Header from "../PaginaPrincipal/Header";
 import axios from "axios";
 import { config } from "../../config";

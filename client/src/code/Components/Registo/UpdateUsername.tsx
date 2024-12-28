@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import { config } from "../../config";
-import { useUserContext } from '../../userContext';
+import { useUserContext } from '../Context/UserContext';
 import { AppProps } from "../../main";
 
 
@@ -45,9 +45,10 @@ const UpdateUsername: React.FC<AppProps> = ({ setState }) => {
 
         try {
             // Envia uma solicitação POST para o servidor com as credenciais do usuário.
-            const response = await axios.put(`${config.serverAddress}/user/${user?.username}/change-username`, {
-                newUsername: formState.username
-            });
+            const response = await axios.put(`${config.serverAddress}/user/${user?.username}/change-username`, 
+                { newUsername: formState.username },
+                { withCredentials: true }
+            );
             if (response.status != 200) {
                 throw new Error("Nome do usuário já existente. Tente novamente");
             } else {
@@ -56,6 +57,7 @@ const UpdateUsername: React.FC<AppProps> = ({ setState }) => {
                     ...prevUser,
                     username: formState.username,
                 }));
+                setError(''); 
             }
         } catch (error) {
             // Exibe a mensagem de erro em caso de falha.

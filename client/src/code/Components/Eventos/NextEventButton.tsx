@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button';
 import { ILiveEvents, INextLeagueEvents } from "../../league";
 import { Dash } from "react-bootstrap-icons";
 import EventStatisticsPage from "../EstatisticasJogos/EventStatisticsPage";
-import { useEvent } from "../../eventContext";
-import { useLeagueContext } from "../../leagueContext";
+import { useEvent } from "../Context/EventContext";
+import { useLeagueContext } from "../Context/LeagueContext";
 
 
 interface INextEventButton extends AppProps {

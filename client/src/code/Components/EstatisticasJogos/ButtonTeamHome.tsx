@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { AppProps } from "../../main";
 import { Button, Image } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
+import { useTeamContext } from "../Context/TeamContext";
 
 interface ButtonTeamProps extends AppProps {
+    teamId: string,
     teamBadge: string,
     teamName: string
 }
 
-const ButtonTeamHome: React.FC<ButtonTeamProps> = ({ setState, teamBadge, teamName }) => {
+const ButtonTeamHome: React.FC<ButtonTeamProps> = ({ setState, teamId, teamBadge, teamName }) => {
 
     const [favorite, setFavorite] = useState(false);
+    const { setTeam } = useTeamContext();
 
     const toggleFavorite = () => {
         setFavorite(!favorite);
@@ -19,6 +22,11 @@ const ButtonTeamHome: React.FC<ButtonTeamProps> = ({ setState, teamBadge, teamNa
 
     const redirectToTeamPage = () => {
         setState({ view: "teampage" });
+        setTeam({
+            teamId,
+            teamName,
+            imageSrc: teamBadge
+        })
     }
 
     return (
