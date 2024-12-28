@@ -18,11 +18,9 @@ const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
     const fetchFavorites = async () => {
       try {
         const response = await axios.get(`${config.serverAddress}/favorites`); // API para buscar favoritos do utilizador
-        const { teamIds } = response.data; // Supomos que a API retorna um array `leagueIds`
-        const { teamBadges } = response.data;
-        const { teamNames } = response.data;
-        setTeams(teamNames || []);
-        setBadge(teamBadges || []);
+        const { teamIds, teamName, teamBadge } = response.data; // Supomos que a API retorna arrays `teamIds`, `teamNames` e `teamBadges`
+        setTeams(teamName || []);
+        setBadge(teamBadge || []);
         setIds(teamIds || []); // Atualiza o estado com os IDs retornados
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);
@@ -32,22 +30,22 @@ const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
     fetchFavorites();
   }, []);
 
-  // Lista de todas as ligas disponíveis
-  const filteredTeams = ids.filter(id => id.length === 6);
+  
+  
 
   return (
     <div className="favorite-team-block-container">
       {/* Verifica se há favoritos */}
-      {filteredTeams.length === 0 ? (
+      {ids.length === 0 ? (
         <div>Você não possui equipes favoritas.</div>
       ) : (
-        filteredTeams.map((teamId, index) => (
+        ids.map((teamId, index) => (
           <ButtonTeam
             key={teamId}
-            teamId={ids[index]}
+            setState={setState}
+            teamId={teamId}
             label={teams[index]}
             imageSrc={badge[index]}
-            setState={setState}
           />
         ))
       )}

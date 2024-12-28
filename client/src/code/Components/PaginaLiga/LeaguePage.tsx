@@ -54,6 +54,7 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
         }
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);
+        setFavorite(false);
       }
     };
 

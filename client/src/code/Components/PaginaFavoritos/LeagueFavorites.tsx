@@ -62,7 +62,7 @@ const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
   const filteredLeagues = allLeagues.filter((league) => ids.includes(league.id));
 
   return (
-    <div className="league-block-container">
+    <div className="favorite-league-block-container">
       {/* Verifica se há favoritos */}
       {filteredLeagues.length === 0 ? (
         <div>Você não possui ligas favoritas.</div>
