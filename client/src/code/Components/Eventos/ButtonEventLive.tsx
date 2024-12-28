@@ -4,15 +4,10 @@ import { AppProps } from "../../main"
 import { useEvent } from "../Context/EventContext";
 import { useLeagueContext } from "../Context/LeagueContext";
 import React from "react";
+import { IButtonEventType } from "./ButtonEventFinished";
 
-interface IButtonEventLive extends AppProps {
-    event: INextLeagueEvents | ILiveEvents,
-    leagueId: string,
-    leagueName: string,
-    imageSrc: string
-}
 
-const ButtonEventLive: React.FC<IButtonEventLive> = ({ setState, event, leagueId, leagueName, imageSrc }) => {
+const ButtonEventLive: React.FC<IButtonEventType> = ({ setState, event, leagueId, leagueName, imageSrc }) => {
 
     const { setSelectedEvent } = useEvent();
     const { setLeague } = useLeagueContext();

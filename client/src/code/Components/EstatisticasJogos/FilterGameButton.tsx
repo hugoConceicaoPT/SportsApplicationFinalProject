@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
-
-interface FilterAllButtonProps {
-    setFilter: (filter: "formation" | "game" | "statistic" | "classification") => void;
-    filter: string
-}
+import { FilterAllButtonProps } from "./FilterClassificationButton";
 
 const FilterGameButton: React.FC<FilterAllButtonProps> = ({ setFilter, filter }) => {
 

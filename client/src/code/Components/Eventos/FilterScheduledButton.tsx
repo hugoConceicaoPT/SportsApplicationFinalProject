@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import { AppProps } from "../../main";
 import { Button } from "react-bootstrap";
-
-interface FilterAllButtonProps{
-    setFilter: (filter: "all" | "finished" | "scheduled" | "live") => void;
-    filter: string
-}
+import { FilterAllButtonProps } from "./FilterAllButton";
 
 const FilterScheduledButton: React.FC<FilterAllButtonProps> = ({setFilter, filter }) => {
 

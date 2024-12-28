@@ -3,7 +3,6 @@ import { Worker, INextLeagueEvents } from "../../league";
 import { Container } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { AppProps } from "../../main";
-import { useTeamContext } from "../Context/TeamContext";
 import ListButton from "./ListButton";
 
 interface LeagueListProps extends AppProps {
@@ -14,7 +13,6 @@ interface LeagueListProps extends AppProps {
 
 const LeagueList: React.FC<LeagueListProps> = ({ setState, leagueId, leagueName, imageSrc }) => {
   const [events, setEvents] = useState<INextLeagueEvents[]>([]);
-  const { setTeam } = useTeamContext();
 
   useEffect(() => {
     const worker = new Worker();

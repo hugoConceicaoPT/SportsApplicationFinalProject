@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { AppProps } from "../../main";
 import { Button, Image } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
 import { useTeamContext } from "../Context/TeamContext";
 import axios from "axios";
 import { config } from "../../config";
-
-interface ButtonTeamProps extends AppProps {
-    teamId: string,
-    teamBadge: string,
-    teamName: string
-}
+import { ButtonTeamProps } from "./ButtonTeamAway";
 
 const ButtonTeamHome: React.FC<ButtonTeamProps> = ({ setState, teamId, teamBadge, teamName }) => {
 

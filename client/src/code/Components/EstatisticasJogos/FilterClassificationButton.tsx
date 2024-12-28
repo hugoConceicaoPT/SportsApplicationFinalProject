@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-interface FilterAllButtonProps {
+export interface FilterAllButtonProps {
     setFilter: (filter: "formation" | "game" | "statistic" | "classification") => void;
     filter: string
 }

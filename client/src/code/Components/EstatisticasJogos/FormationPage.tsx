@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { AppProps } from "../../main";
 import { useEvent } from "../Context/EventContext";
 import { Container } from "react-bootstrap";
 import { IGameLineup, WorkerGame } from "../../game";
 
-const FormationPage: React.FC<AppProps> = ({ setState }) => {
+const FormationPage: React.FC = () => {
     const { selectedEvent } = useEvent();
     const [gameLineupEvent, setGameLineupEvent] = useState<IGameLineup[]>([]);
     const workerGame = new WorkerGame();

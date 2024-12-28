@@ -5,9 +5,6 @@ import LeagueFavorites from "../PaginaFavoritos/LeagueFavorites";
 import TeamFavorites from "../PaginaFavoritos/TeamFavorites";
 import CardListFavorites from "../PaginaFavoritos/CardListFavorites";
 
-
-
-
 const Favorites: React.FC<AppProps> = ({setState}) => {
     return (
         <>

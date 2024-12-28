@@ -7,7 +7,6 @@ interface DateButtonProps {
   setDate: React.Dispatch<React.SetStateAction<Date>>;
 }
 
-
 const DateButton: React.FC<DateButtonProps> = ({ date, setDate }) => {
   const [isMouseOverLeft, setMouseOverLeft] = useState(false);
   const [isMouseOverRight, setMouseOverRight] = useState(false);
