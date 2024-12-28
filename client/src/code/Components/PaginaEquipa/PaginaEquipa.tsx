@@ -7,6 +7,7 @@ import TeamList from "./TeamList"; // Componente para lista de jogos futuros
 import { AppProps } from "../../main"; // Tipos de propriedades principais
 import { useTeamContext } from "../Context/TeamContext"; // Contexto para a equipe
 import Header from "../PaginaPrincipal/Header"; // Header compartilhado
+import Standings from "../PaginaLiga/Standings";
 import axios from "axios"; // Para integração com API
 import { config } from "../../config"; // Configuração da API
 
@@ -127,8 +128,8 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
 
         <div className="content mt-4">
           {/* Exibe classificações */}
-          {view === "standings" && <TeamStandings teamId={team.teamId} />}
-
+          {view === "standings" && <Standings setState={setState} />}
+          
           {/* Exibe resultados */}
           {view === "results" && <TeamResults teamId={team.teamId} />}
 
