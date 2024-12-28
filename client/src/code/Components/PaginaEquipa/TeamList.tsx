@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { config } from "../../config";
 
 const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
   const [list, setList] = useState([]);
@@ -8,7 +9,7 @@ const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
     const fetchList = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/team/${teamId}/lista`);
+        const res = await fetch(`${config.serverAddress}/equipa/${teamId}/lista`);
         const data = await res.json();
         setList(data || []);
       } catch (error) {

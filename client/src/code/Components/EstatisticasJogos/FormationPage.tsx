@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { AppProps } from "../../main";
 import { useEvent } from "../Context/EventContext";
-import { IGameLineup, Worker } from "../../league";
 import { Container } from "react-bootstrap";
+import { IGameLineup, WorkerGame } from "../../game";
 
 const FormationPage: React.FC<AppProps> = ({ setState }) => {
     const { selectedEvent } = useEvent();
     const [gameLineupEvent, setGameLineupEvent] = useState<IGameLineup[]>([]);
-    const worker = new Worker();
+    const workerGame = new WorkerGame();
 
     if (!selectedEvent) {
         return <div>Evento não encontrado</div>;
@@ -17,7 +17,7 @@ const FormationPage: React.FC<AppProps> = ({ setState }) => {
         const fetchGameLineup = async () => {
             try {
                 if (selectedEvent.idEvent) {
-                    const data = await worker.getLineup(selectedEvent.idEvent);
+                    const data = await workerGame.getLineup(selectedEvent.idEvent);
                     setGameLineupEvent(data);
                 }
             } catch (error) {

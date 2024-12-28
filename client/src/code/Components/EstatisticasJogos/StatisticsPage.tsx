@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Container, ProgressBar } from "react-bootstrap";
 import { AppProps } from "../../main";
 import { useEvent } from "../Context/EventContext";
-import { IGameStatistics, Worker } from "../../league";
+import { IGameStatistics, WorkerGame } from "../../game";
 
 const StatisticsPage: React.FC<AppProps> = () => {
     const { selectedEvent } = useEvent();
     const [gameStatistics, setGameStatistics] = useState<IGameStatistics[]>([]);
-    const worker = new Worker();
+    const workerGame = new WorkerGame();
 
     if (!selectedEvent) {
         return <div>Evento não encontrado</div>; // Tratamento para casos onde o evento não foi definido
@@ -17,7 +17,7 @@ const StatisticsPage: React.FC<AppProps> = () => {
         const fetchGameStatistics = async () => {
             try {
                 if (selectedEvent.idEvent) {
-                    const data = await worker.getGameStatistics(selectedEvent.idEvent);
+                    const data = await workerGame.getStatistics(selectedEvent.idEvent);
                     setGameStatistics(data);
                 }
             } catch (error) {

@@ -5,11 +5,10 @@ import { TbRectangleVerticalFilled } from "react-icons/tb";
 import { MdSportsSoccer } from "react-icons/md";
 import { ArrowRepeat } from "react-bootstrap-icons";
 import { Container, Row } from "react-bootstrap";
-import { IGameTimeline, Worker } from "../../league";
-
+import { IGameTimeline, WorkerGame } from "../../game";
 const GamePage: React.FC<AppProps> = () => {
     const { selectedEvent } = useEvent();
-    const worker = new Worker();
+    const workerGame = new WorkerGame();
     const [gameTimeline, setGameTimeline] = useState<IGameTimeline[]>([]);
 
     if (!selectedEvent) {
@@ -20,8 +19,8 @@ const GamePage: React.FC<AppProps> = () => {
         const fetchGameTimeline = async () => {
             try {
                 if (selectedEvent.idEvent) {
-                    const data = await worker.getGameTimeline(selectedEvent.idEvent);
-                    setGameTimeline(data);
+                    const data = await workerGame.getTimeline(selectedEvent.idEvent);
+                    setGameTimeline(Array.isArray(data) ? data : []);
                     console.log(selectedEvent.idEvent);
                 }
             } catch (error) {
