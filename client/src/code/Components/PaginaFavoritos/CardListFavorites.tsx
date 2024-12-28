@@ -92,9 +92,8 @@ const CardListFavorites: React.FC<AppProps> = ({ setState }) => {
                             <DateButton date={selectedDate} setDate={setSelectedDate} />
                         </div>
                     </div>
-                    
-                    {favorites.teamIds.map((teamId, index) =>
-                        renderTeamEvents(teamId, favorites.teamName[index], favorites.teamBadge[index])
+                    {favorites.leagueIds.map((leagueId, index) =>
+                        renderLeagueEvents(leagueId, favorites.leagueName[index], favorites.leagueBadge[index])
                     )}
                 </Card.Body>
             </Card>
