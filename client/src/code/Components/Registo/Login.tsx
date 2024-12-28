@@ -22,7 +22,7 @@ export interface User {
 
 const Login: React.FC<AppProps> = ({ setState }) => {
     // Contexto e estados para manipular informações do formulário e interatividade.
-    const { setUser } = useUserContext(); // Função para atualizar o contexto do usuário.
+    const { setUser } = useUserContext();
     
     const [formState, setFormState] = React.useState<FormState>({
         username: '', // Estado inicial para o nome de usuário.
@@ -33,6 +33,7 @@ const Login: React.FC<AppProps> = ({ setState }) => {
     const [isSubmitting, setIsSubmitting] = React.useState(false); // Estado para gerenciar o botão "Entrar".
     const [showPassword, setShowPassword] = React.useState(false); // Estado para alternar entre exibir/esconder senha.
     const [hoverStyle, setHoverStyle] = React.useState(false); // Estado para alterar o estilo no botão "Registar".
+    const [successMessage, setSuccessMessage] = React.useState('');
 
     // Função que alterna entre exibir ou ocultar o texto da senha.
     const toggleShowPassword = () => {
@@ -70,6 +71,8 @@ const Login: React.FC<AppProps> = ({ setState }) => {
                 throw new Error("Utilizador(a) ou password incorretos. Tente novamente");
             } else {
                 // Caso o login tenha sucesso, atualiza o contexto do usuário e navega para a página "home".
+                setError('');
+                setSuccessMessage(response.data.message);
                 setUser({ username: formState.username });
                 setState({ view: "home" });
             }
@@ -92,6 +95,7 @@ const Login: React.FC<AppProps> = ({ setState }) => {
             <Card style={{ width: '18rem' }} className="mt-4" data-bs-theme="dark">
                 <Card.Title className="text-center mt-3">Entre com a sua conta</Card.Title>
                 {/* Exibe uma mensagem de erro caso haja alguma. */}
+                {successMessage && <div className="ms-4 text-success fs-6">{successMessage}</div>}
                 {error && <div className="ms-4 text-danger fs-6">{error}</div>}
                 <Card.Body className="p-4">
                     <Form onSubmit={handleSubmit}>

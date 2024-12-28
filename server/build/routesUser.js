@@ -51,7 +51,7 @@ router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, f
         const { username, email, password } = req.body;
         const userExits = yield User.findOne({ email });
         if (userExits)
-            res.send("email or password already exists.");
+            res.status(409).send("Email, Usuário ou Password já existentes.");
         else {
             const user = new User({ username, email, password });
             yield User.register(user, password);
@@ -98,7 +98,8 @@ router.post('/login', passport_1.default.authenticate('local', { failureRedirect
                 return;
             }
             res.json({
-                status: 'ok',
+                status: "ok",
+                message: "Login realizado com sucesso!",
                 user: {
                     username: user.username,
                     email: user.email,
