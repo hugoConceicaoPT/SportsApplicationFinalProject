@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { Star, StarFill } from "react-bootstrap-icons"; // Ícones para o botão de favoritos
 import TeamStandings from "./TeamStadings"; // Componente para classificações
 import TeamResults from "./TeamResults"; // Componente para resultados
 import TeamList from "./TeamList"; // Componente para lista de jogos futuros
@@ -62,48 +61,6 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
     return <div>Erro: Nenhuma equipe selecionada.</div>;
   }
 
-  const toggleFavorite = () => {
-    const togFavorite = async () => {
-      try {
-        const response = await axios.post(`${config.serverAddress}/favorites`, {
-          id: team.teamId,
-          badge: team.imageSrc,
-          name: team.teamName,
-        });
-      }
-      catch (error) {
-        console.error("Erro ao adicionar favorito:", error);
-      }
-    }
-    togFavorite();
-
-    setFavorite(!favorite);
-  };
-
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const response = await axios.get(`${config.serverAddress}/favorites`, {
-          withCredentials: true, // Inclui cookies na requisição para autenticação
-        });
-
-        if (response.status === 401) {
-          setFavorite(false);
-        } else if (response.status === 404) {
-          setFavorite(false);
-        } else {
-          const { teamIds } = response.data;
-          setFavorite(teamIds.includes(team.teamId));
-        }
-      } catch (error) {
-        console.error("Erro ao buscar favoritos:", error);
-        setFavorite(false);
-      }
-    };
-
-    fetchFavorites();
-  }, [team.teamId]);
-
   return (
     <>
       <Header setState={setState} />
@@ -111,7 +68,6 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
         <div className="team-header d-flex align-items-center justify-content-between">
           <div className="cabecalho-league-page d-flex align-items-center">
             <img
-              className="cabecalho-league-page-logo"
               src={team.imageSrc}
               alt={`${team.teamName} logo`}
               className="team-logo me-3"

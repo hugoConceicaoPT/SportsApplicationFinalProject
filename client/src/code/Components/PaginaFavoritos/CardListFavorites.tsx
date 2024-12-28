@@ -11,6 +11,7 @@ import FilterOnLiveButton from "../Eventos/FilterOnLiveButton";
 import FilterScheduledButton from "../Eventos/FilterScheduledButton";
 import axios from "axios";
 import { config } from "../../config";
+import TeamEvents from "./Teamevents";
 
 const CardListFavorites: React.FC<AppProps> = ({ setState }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -61,7 +62,21 @@ const CardListFavorites: React.FC<AppProps> = ({ setState }) => {
           />
         );
       };
-    
+
+    const renderTeamEvents = (teamId: string, teamName: string, imageSrc: string) => {
+        return (
+          <TeamEvents
+            key={teamId}
+            filter={filter}
+            selectedDate={selectedDate}
+            setState={setState}
+            teamId={teamId}
+            teamName={teamName}
+            imageSrc={imageSrc}
+          />
+        );
+    };
+
     return (
         <Container className="d-flex justify-content-center mt-4">
             <Card style={{ width: "46rem", backgroundColor: "#0b2129" }} className="d-flex justify-content-center">
@@ -77,8 +92,9 @@ const CardListFavorites: React.FC<AppProps> = ({ setState }) => {
                             <DateButton date={selectedDate} setDate={setSelectedDate} />
                         </div>
                     </div>
-                    {favorites.leagueIds.map((leagueId, index) =>
-                        renderLeagueEvents(leagueId, favorites.leagueName[index], favorites.leagueBadge[index])
+                    
+                    {favorites.teamIds.map((teamId, index) =>
+                        renderTeamEvents(teamId, favorites.teamName[index], favorites.teamBadge[index])
                     )}
                 </Card.Body>
             </Card>
