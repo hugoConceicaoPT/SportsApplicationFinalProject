@@ -27,6 +27,7 @@ const UpdateUsername: React.FC<AppProps> = ({ setState }) => {
     
     const [error, setError] = React.useState(''); // Estado para mensagens de erro.
     const [isSubmitting, setIsSubmitting] = React.useState(false); // Estado para gerenciar o botão "Entrar".// Estado para alternar entre exibir/esconder senha.
+    const [successMessage, setSuccessMessage] = React.useState('');
 
 
     // Função que atualiza os valores do estado `formState` com base no input do usuário.
@@ -50,7 +51,7 @@ const UpdateUsername: React.FC<AppProps> = ({ setState }) => {
                 { withCredentials: true }
             );
             if (response.status != 200) {
-                throw new Error("Nome do usuário já existente. Tente novamente");
+                throw new Error(response.data);
             } else {
                 setState({ view: "home" });
                 setUser((prevUser) => ({
@@ -58,6 +59,7 @@ const UpdateUsername: React.FC<AppProps> = ({ setState }) => {
                     username: formState.username,
                 }));
                 setError(''); 
+                setSuccessMessage(response.data);
             }
         } catch (error) {
             // Exibe a mensagem de erro em caso de falha.

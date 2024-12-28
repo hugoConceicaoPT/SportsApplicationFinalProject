@@ -26,7 +26,8 @@ const Register: React.FC<AppProps> = ({ setState }) => {
     const [error, setError] = React.useState(''); // Armazena mensagens de erro.
     const [isSubmitting, setIsSubmitting] = React.useState(false); // Controle do botão "Registar" durante o envio.
     const [showPassword, setShowPassword] = React.useState(false); // Alterna visibilidade da senha.
-    const [hoverStyle, setHoverStyle] = React.useState(false); // Estilo hover para o botão "Entrar".
+    const [hoverStyle, setHoverStyle] = React.useState(false); 
+    const [successMessage, setSuccessMessage] = React.useState('');
 
     // Alterna a visibilidade da senha entre texto e pontos.
     const toggleShowPassword = () => {
@@ -50,7 +51,9 @@ const Register: React.FC<AppProps> = ({ setState }) => {
     // Trata o envio do formulário e faz a requisição ao servidor para registrar um novo usuário.
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Evita que a página seja recarregada.
-        setIsSubmitting(true); // Desabilita o botão "Registar" durante o envio.
+        setIsSubmitting(true);
+        setError('');
+        setSuccessMessage(''); 
 
         try {
             // Envia os dados do usuário para o endpoint de registro.
@@ -64,8 +67,9 @@ const Register: React.FC<AppProps> = ({ setState }) => {
                 // Exibe um erro caso já exista um usuário com o mesmo email.
                 throw new Error("Já existe um(a) utilizador(a) com o mesmo email.");
             } else {
+                setSuccessMessage(response.data);
                 // Redireciona para a página "home" após o registro bem-sucedido.
-                setState({ view: "home" });
+                setTimeout(() => setState({ view: "home" }), 3000);
             }
         } catch (error) {
             // Define a mensagem de erro em caso de falha no registro.
@@ -86,6 +90,7 @@ const Register: React.FC<AppProps> = ({ setState }) => {
             <Card style={{ width: '18rem' }} className="mt-4" data-bs-theme="dark">
                 <Card.Title className="text-center mt-3">Criar uma nova conta</Card.Title>
                 {/* Exibe mensagens de erro, se houver. */}
+                {successMessage && <div className="ms-4 text-success fs-6">{successMessage}</div>}
                 {error && <div className="ms-4 text-danger fs-6">{error}</div>}
                 <Card.Body className="p-4">
                     <Form onSubmit={handleSubmit}>
