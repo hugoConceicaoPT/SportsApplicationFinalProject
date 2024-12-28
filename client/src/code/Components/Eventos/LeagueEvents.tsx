@@ -9,7 +9,6 @@ import Image from 'react-bootstrap/Image';
 import NextEventButton from "./NextEventButton";
 import { config } from "../../config";
 import axios from "axios";
-import { useLeagueContext } from "../Context/LeagueContext";
 
 
 interface LeagueButtonEventsProps extends AppProps {
@@ -27,7 +26,6 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
   const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(true);
   const worker = new Worker();
-  const { setLeague } = useLeagueContext();
 
   useEffect(() => {
     const fetchInitialEvents = async () => {
@@ -142,10 +140,10 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
         const response = await axios.get(`${config.serverAddress}/favorites`, {
           withCredentials: true, // Inclui cookies na requisição para autenticação
         });
-  
+
         if (response.status === 401) {
           setFavorite(false);
-        } else if(response.status === 404) {
+        } else if (response.status === 404) {
           setFavorite(false);
         } else {
           const { leagueIds } = response.data;
@@ -156,7 +154,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
         setFavorite(false);
       }
     };
-  
+
     fetchFavorites();
   }, [leagueId]);
 
@@ -183,14 +181,9 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
       return dateTimeA.getTime() - dateTimeB.getTime();
     })
 
-    const redirectToLeaguePage = () => {
-      setState({view: "LeaguePage"});
-      setLeague({
-        leagueId,
-        leagueName,
-        imageSrc
-      })
-    }
+  const redirectToLeaguePage = () => {
+    setState({ view: "LeaguePage" });
+  }
   return filteredEvents.length === 0 ? null : (
     <Container className="leagueEvents rounded p-0 mb-1">
       {/* Button to expand/collapse */}

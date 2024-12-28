@@ -8,7 +8,6 @@ import { AppProps } from "../../main"; // Tipos de propriedades principais
 import { useTeamContext } from "../Context/TeamContext"; // Contexto para a equipe
 import Header from "../PaginaPrincipal/Header"; // Header compartilhado
 import Standings from "../PaginaLiga/Standings";
-import { Star, StarFill } from "react-bootstrap-icons";
 import axios from "axios";
 import { config } from "../../config";
 
@@ -21,24 +20,6 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
     // Define a view padrão como 'standings' quando o componente é montado
     setView("standings");
   }, []);
-
-  // Função para alternar o estado de favorito
-  const toggleFavorite = () => {
-    const togFavorite = async () => {
-      try {
-        await axios.post(`${config.serverAddress}/favorites`, {
-          id: team?.teamId,
-          badge: team?.imageSrc,
-          name: team?.teamName,
-        });
-      } catch (error) {
-        console.error("Erro ao adicionar favorito:", error);
-      }
-    };
-    togFavorite();
-
-    setFavorite(!favorite); // Alterna o estado local
-  };
 
   // Verifica se o time está nos favoritos ao carregar a página
   useEffect(() => {
@@ -111,10 +92,9 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
         <div className="team-header d-flex align-items-center justify-content-between">
           <div className="cabecalho-league-page d-flex align-items-center">
             <img
-              className="cabecalho-league-page-logo"
+              className="cabecalho-league-page-logo team-logo me-3"
               src={team.imageSrc}
               alt={`${team.teamName} logo`}
-              className="team-logo me-3"
             />
             <h1 className="team-logo-text">{team.teamName}</h1>
             <Button

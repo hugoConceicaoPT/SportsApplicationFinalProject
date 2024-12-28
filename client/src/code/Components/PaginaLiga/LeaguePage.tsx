@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Button, Image } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons"; // Importar os ícones
 import LeagueStandings from "./Standings";
-import LeagueResults from "./LeagueResults";
 import LeagueList from "./LeagueList";
 import { AppProps } from "../../main";
 import { useLeagueContext } from "../Context/LeagueContext";
 import Header from "../PaginaPrincipal/Header";
 import axios from "axios";
 import { config } from "../../config";
+import LeagueResults from "./Results";
 
 const LeaguePage: React.FC<AppProps> = ({ setState }) => {
   const { league } = useLeagueContext();
