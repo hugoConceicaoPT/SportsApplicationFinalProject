@@ -23,6 +23,9 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         if (!req.isAuthenticated()) {
             res.send("Necessita de estar logado para adicionar aos Favoritos");
         }
+        if (!req.user) {
+            return;
+        }
         const user = req.user;
         const username = user.username;
         const { id } = req.body;
@@ -68,6 +71,9 @@ router.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
     try {
         if (!req.isAuthenticated()) {
             res.status(401).send("Necessita de estar logado para ver os Favoritos");
+        }
+        if (!req.user) {
+            return;
         }
         const user = req.user;
         const username = user.username;

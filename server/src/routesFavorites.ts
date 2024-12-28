@@ -13,6 +13,9 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
         if(!req.isAuthenticated()) {
             res.send("Necessita de estar logado para adicionar aos Favoritos");
         }
+        if (!req.user) {
+            return;
+        }
         const user = req.user as IUser
         const username = user.username
         const {id} = req.body;
@@ -89,6 +92,9 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
         
         if(!req.isAuthenticated()) {
             res.status(401).send("Necessita de estar logado para ver os Favoritos");
+        }
+        if(!req.user) {
+            return;
         }
         const user = req.user as IUser
         const username = user.username

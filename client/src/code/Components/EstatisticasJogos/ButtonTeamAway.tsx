@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppProps } from "../../main";
 import { Button, Image } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
 import { useTeamContext } from "../Context/TeamContext";
+import axios from "axios";
+import { config } from "../../config";
 
 interface ButtonTeamProps extends AppProps {
     teamId: string,
@@ -16,8 +18,46 @@ const ButtonTeamAway: React.FC<ButtonTeamProps> = ({ setState, teamId, teamBadge
     const { setTeam } = useTeamContext();
 
     const toggleFavorite = () => {
+        const togFavorite = async () => {
+          try {
+            const response = await axios.post(`${config.serverAddress}/favorites`, {
+              id: teamId,
+              badge: teamBadge,
+              name: teamName,
+            });
+          }
+          catch (error) {
+            console.error("Erro ao adicionar favorito:", error);
+          }
+        }
+        togFavorite();
+    
         setFavorite(!favorite);
-    }
+      };
+    
+      useEffect(() => {
+        const fetchFavorites = async () => {
+          try {
+            const response = await axios.get(`${config.serverAddress}/favorites`, {
+              withCredentials: true, // Inclui cookies na requisição para autenticação
+            });
+      
+            if (response.status === 401) {
+              setFavorite(false);
+            } else if(response.status === 404) {
+              setFavorite(false);
+            } else {
+              const { teamIds } = response.data;
+              setFavorite(teamIds.includes(teamId));
+            }
+          } catch (error) {
+            console.error("Erro ao buscar favoritos:", error);
+            setFavorite(false);
+          }
+        };
+      
+        fetchFavorites();
+      }, [teamId]);
 
     const redirectToTeamPage = () => {
         setState({ view: "teampage" });
