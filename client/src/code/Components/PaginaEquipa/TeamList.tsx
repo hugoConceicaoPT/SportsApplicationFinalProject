@@ -23,7 +23,9 @@ const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
     const fetchList = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${config.serverAddress}/equipa/${teamId}/lista`);
+        const res = await fetch(
+          `${config.serverAddress}/equipa/${teamId}/lista`
+        );
         const data = await res.json();
         setEvents(data || []);
       } catch (error) {
@@ -37,15 +39,19 @@ const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
 
   // Agrupar por jornada
   const groupByRound = (games: ITeamNextGame[]) => {
-    return games.reduce((acc, game) => {
-      const round = game.intRound || "Unknown Round";
-      if (!acc[round]) {
-        acc[round] = [];
-      }
-      acc[round].push(game);
-      return acc;
-    }, {} as Record<string, ITeamNextGame[]>);
+    return games.reduce(
+      (acc, game) => {
+        const round = game.intRound || "Unknown Round";
+        if (!acc[round]) {
+          acc[round] = [];
+        }
+        acc[round].push(game);
+        return acc;
+      },
+      {} as Record<string, ITeamNextGame[]>
+    );
   };
+  
 
   const groupedEvents = groupByRound(events);
 
@@ -65,43 +71,52 @@ const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
         {Object.keys(groupedEvents).length > 0 ? (
           Object.keys(groupedEvents).map((round) => (
             <div key={round} className="round-container mb-3">
-              <h5 className="text-center">Jornada {round}</h5>
-              <ul className="list-results-2" >
+              <h5> Jornada {round}</h5>
+              <ul className="list-results-2">
                 {groupedEvents[round].map((game, index) => (
                   <li
                     key={index}
                     className="list-group-item d-flex align-items-center justify-content-between"
-                    style={{ backgroundColor: "#0b2129", padding: "10px 15px", marginBottom: "10px", borderRadius: "5px" }}
+                    style={{
+                      backgroundColor: "#0b2129",
+                      padding: "10px",
+                      marginBottom: "10px",
+                      borderBottom: "#fff"
+                    }}
                   >
-                    {/* Equipa Casa */}
-                    <div className="d-flex align-items-center">
-                      <img
-                        src={game.strHomeTeamBadge}
-                        alt={game.strHomeTeam}
-                        style={{ width: "24px", height: "24px", marginRight: "10px", cursor: "pointer" }}
-                      />
-                      <span>{game.strHomeTeam}</span>
-                    </div>
+                    <img
+                      src={game.strHomeTeamBadge}
+                      alt={game.strHomeTeam}
+                      style={{
+                        width: "24px",
+                        height: "24px",
+                        marginRight: "10px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <span>{game.strHomeTeam}</span>
 
-                    {/* VS */}
-                    <div>
-                      <span className="list-vs">vs</span>
-                    </div>
+                    <span>vs</span>
 
-                    {/* Equipa Visitante */}
-                    <div className="d-flex align-items-center">
-                      <span>{game.strAwayTeam}</span>
-                      <img
-                        src={game.strAwayTeamBadge}
-                        alt={game.strAwayTeam}
-                        style={{ width: "24px", height: "24px", marginLeft: "10px", cursor: "pointer" }}
-                      />
-                    </div>
+                    <span>{game.strAwayTeam}
+                    <img
+                      src={game.strAwayTeamBadge}
+                      alt={game.strAwayTeam}
+                      style={{
+                        width: "24px",
+                        height: "24px",
+                        marginLeft: "10px",
+                        cursor: "pointer",
+                      }}
+                     
+                    />
+                    </span>
 
                     {/* Data/Hora */}
-                    <div>
-                      <span>{game.dateEvent} {game.strTime}</span>
-                    </div>
+
+                    <span>
+                      {game.dateEvent} {game.strTime}
+                    </span>
                   </li>
                 ))}
               </ul>

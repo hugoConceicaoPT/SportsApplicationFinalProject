@@ -38,17 +38,6 @@ const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
 
   return (
     <Container className="leagueStandings rounded">
-      <div className="d-flex justify-content-between align-items-center">
-        <div className="d-flex align-items-center">
-          <Image
-            className="standigs-league-logo me-2"
-            src={imageSrc}
-            style={{ marginRight: "15px", width: "16px", height: "16px" }}
-          />
-          <h5 style={{ margin: "0" }}>{leagueName}</h5>
-        </div>
-      </div>
-
       <div className="mt-3">
         {/* Cabeçalho fixo das colunas */}
         <div className="d-flex list-group-item" style={{ fontWeight: "bold" }}>

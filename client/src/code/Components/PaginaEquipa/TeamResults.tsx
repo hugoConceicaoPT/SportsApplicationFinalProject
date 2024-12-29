@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Image from "react-bootstrap/Image";
 import { config } from "../../config";
+import { ListGroup } from "react-bootstrap";
 
 interface ITeamResult {
   idEvent?: string;
@@ -68,6 +69,8 @@ const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
     (a, b) => Number(a) - Number(b)
   );
 
+
+
   return (
     <Container className="leagueResults-0">
       {/* Lista de resultados organizados por jornada */}
@@ -76,44 +79,44 @@ const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
           rounds.map((round) => (
             <div key={round}>
               <h5>Jornada {round}</h5>
-              <ul className="game-results-text">
+              <ListGroup className="game-results-text">
                 {groupedResults[round].map((result, index) => (
-                  <li key={index} style={{ marginBottom: "6px" }}>
-                    <div className="d-flex align-items-center justify-content-between">
-                      {/* Equipa Casa */}
-                      <div className="d-flex align-items-center">
-                        <Image
-                          src={result.strHomeTeamBadge}
-                          alt={result.strHomeTeam}
-                          style={{ width: "24px", height: "24px", marginRight: "8px" }}
-                        />
-                        <span>{result.strHomeTeam}</span>
-                      </div>
-                      
-                      {/* Placar */}
-                      <div style={{ margin: "0 10px" }}>
-                        {result.intHomeScore} - {result.intAwayScore}
-                      </div>
-                      
-                      {/* Equipa Visitante */}
-                      <div className="d-flex align-items-center">
-                        <span>{result.strAwayTeam}</span>
-                        <Image
-                          src={result.strAwayTeamBadge}
-                          alt={result.strAwayTeam}
-                          style={{ width: "24px", height: "24px", marginLeft: "8px" }}
-                        />
-                      </div>
-                      
-                      {/* Data/Hora se quiser mostrar */}
-                      <div style={{ marginLeft: "10px" }}>
-                        {result.dateEvent}
-                        {result.strTime ? ` ${result.strTime}` : ""}
-                      </div>
-                    </div>
-                  </li>
+                  <ListGroup.Item
+                    key={index}
+                    className="d-flex align-items-center justify-content-between"
+                    style={{
+                      marginBottom: "6px",
+                      padding: "10px",
+                      borderBottom: "1px solid #444",
+                      backgroundColor:"#0b2129",
+                      borderColor: "fff"
+                    }}
+                  >
+                    {/* Equipa da Casa */}
+                      <Image
+                        src={result.strHomeTeamBadge}
+                        alt={result.strHomeTeam}
+                        style={{ width: "24px", height: "24px", marginRight: "8px" }}
+                      />
+                      <span>{result.strHomeTeam}</span>
+                    {/* Placar */}
+                    <span style={{ margin: "0 10px",color: "#fff"}}>
+                      {result.intHomeScore} - {result.intAwayScore}
+                    </span>
+                      <span>{result.strAwayTeam}</span>
+                      <Image
+                        src={result.strAwayTeamBadge}
+                        alt={result.strAwayTeam}
+                        style={{ width: "24px", height: "24px", marginLeft: "8px" }}
+                      />
+                    {/* Data/Hora se quiser mostrar */}
+                    <span style={{ marginLeft: "10px",color: "#fff" }}>
+                      {result.dateEvent}
+                      {result.strTime ? ` ${result.strTime}` : ""}
+                    </span>
+                  </ListGroup.Item>
                 ))}
-              </ul>
+              </ListGroup>
             </div>
           ))
         ) : (
@@ -122,6 +125,7 @@ const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
       </div>
     </Container>
   );
+  
 };
 
 export default TeamResults;

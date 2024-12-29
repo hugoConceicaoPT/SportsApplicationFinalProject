@@ -1,63 +1,72 @@
-import React from "react"
-import { INextPastLeagueEvents } from "../../league"
-import { AppProps } from "../../main"
-import { useTeamContext } from "../Context/TeamContext"
+import React from "react";
+import { INextPastLeagueEvents } from "../../league";
+import { AppProps } from "../../main";
+import { useTeamContext } from "../Context/TeamContext";
+import { ListGroup } from "react-bootstrap";
 
 interface ListButtonProps extends AppProps {
-    event: INextPastLeagueEvents,
-    index: number
+  event: INextPastLeagueEvents;
+  index: number;
 }
 
-const ListButton: React.FC<ListButtonProps> = ({ setState, event, index}) => {
+const ListButton: React.FC<ListButtonProps> = ({ setState, event, index }) => {
+  const { setTeam } = useTeamContext();
 
-    const { setTeam } = useTeamContext();
+  const redirectToTeamHomePage = () => {
+    setState({ view: "teampage" });
+    setTeam({
+      teamId: event.idHomeTeam,
+      teamName: event.strHomeTeam,
+      imageSrc: event.strHomeTeamBadge,
+    });
+  };
 
-    const redirectToTeamHomePage = () => {
-        setState({ view: "teampage" });
-        setTeam({
-            teamId: event.idHomeTeam,
-            teamName: event.strHomeTeam,
-            imageSrc: event.strHomeTeamBadge
-        })
-    }
+  const redirectToTeamAwayPage = () => {
+    setState({ view: "teampage" });
+    setTeam({
+      teamId: event.idAwayTeam,
+      teamName: event.strAwayTeam,
+      imageSrc: event.strAwayTeamBadge,
+    });
+  };
 
-    const redirectToTeamAwayPage = () => {
-        setState({ view: "teampage" });
-        setTeam({
-            teamId: event.idAwayTeam,
-            teamName: event.strAwayTeam,
-            imageSrc: event.strAwayTeamBadge
-        })
-    }
+  return (
+    <ListGroup.Item
+      key={index} 
+    >
+        <img
+          src={event.strHomeTeamBadge}
+          alt={event.strHomeTeam}
+          style={{
+            width: "24px",
+            height: "24px",
+            marginRight: "10px",
+            cursor: "pointer",
+          }}
+          onClick={redirectToTeamHomePage}
+        />
+        <span>{event.strHomeTeam}</span>
+        <span className="list-vs">vs</span>
 
-    return (
-        <li key={index} className="list-group-item d-flex align-items-center justify-content-between">
-            <div className="d-flex align-items-center">
-                <img
-                    src={event.strHomeTeamBadge}
-                    alt={event.strHomeTeam}
-                    style={{ width: "24px", height: "24px", marginRight: "10px", cursor: "pointer" }}
-                    onClick={redirectToTeamHomePage}
-                />
-                <span>{event.strHomeTeam}</span>
-            </div>
-            <div>
-                <span className="list-vs">vs</span>
-            </div>
-            <div className="d-flex align-items-center">
-                <span>{event.strAwayTeam}</span>
-                <img
-                    src={event.strAwayTeamBadge}
-                    alt={event.strAwayTeam}
-                    style={{ width: "24px", height: "24px", marginLeft: "10px", cursor: "pointer" }}
-                    onClick={redirectToTeamAwayPage}
-                />
-            </div>
-            <div>
-                <span>{event.dateEvent} {event.strTime}</span>
-            </div>
-        </li>
-    )
-}
+        <img
+          src={event.strAwayTeamBadge}
+          alt={event.strAwayTeam}
+          style={{
+            width: "24px",
+            height: "24px",
+            marginRight: "10px",
+            cursor: "pointer",
+          }}
+          onClick={redirectToTeamAwayPage}
+        />
+        <span>{event.strAwayTeam}</span>
+       
+        <span>{event.dateEvent} {event.strTime}</span>
+     
+    </ListGroup.Item>
+  );
+  
+};
+
 
 export default ListButton;

@@ -46,21 +46,6 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
 
   return (
     <Container className="leagueResults-0">
-      {/* Cabeçalho da Liga */}
-      <div className="league-results-1">
-        <Nav.Link className="leagueResults-2 navLink d-flex align-items-center">
-          <Image
-            className="results-block-league-icon"
-            src={imageSrc}
-            alt="icon"
-            style={{ marginRight: "5px", width: "16px", height: "16px" }}
-          />
-          {leagueName}
-          
-        </Nav.Link>
-        
-      </div>
-
       {/* Lista de jogos organizados por jornadas */}
       <div className="game-results-1">
         {Object.keys(groupedResults).length > 0 ? (

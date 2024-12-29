@@ -47,18 +47,6 @@ const LeagueList: React.FC<LeagueListProps> = ({ setState, leagueId, leagueName,
 
   return (
     <Container className="league-list">
-      <div className="league-list-2 justify-content-between align-items-center">
-        <div className="d-flex align-items-center">
-          <Image
-            className="me-2"
-            src={imageSrc}
-            alt="icon"
-            style={{ marginRight: "5px", width: "16px", height: "16px" }}
-          />
-          <h5 style={{ margin: "0" }}>{leagueName}</h5>
-        </div>
-      </div>
-
       <div className="list-results">
         {Object.keys(groupedEvents).length > 0 ? (
           Object.keys(groupedEvents).map((round) => (
