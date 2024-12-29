@@ -2,6 +2,23 @@ body {
   background-color: black;
 }
 
+.team-list-container
+{
+  background-color: #0b2129; 
+  padding: 1rem;    
+  border-color: #0b2129;        
+  border-radius: 8px;
+  color: #fff;
+}
+.list-results-2
+{
+  background-color: #0b2129; 
+  padding: 1rem;    
+  border-color: #0b2129;        
+  border-radius: 8px;
+  color: #fff;
+}
+
 body li {
   list-style: none;
 }

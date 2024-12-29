@@ -1,8 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { config } from "../../config";
+import { Container } from "react-bootstrap";
+
+interface ITeamNextGame {
+  idEvent?: string;
+  dateEvent?: string;
+  strTime?: string;
+  strHomeTeam?: string;
+  strAwayTeam?: string;
+  strHomeTeamBadge?: string;
+  strAwayTeamBadge?: string;
+  idHomeTeam?: string;
+  idAwayTeam?: string;
+  intRound?: string | number;
+}
 
 const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
-  const [list, setList] = useState([]);
+  const [events, setEvents] = useState<ITeamNextGame[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -11,7 +25,7 @@ const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
       try {
         const res = await fetch(`${config.serverAddress}/equipa/${teamId}/lista`);
         const data = await res.json();
-        setList(data || []);
+        setEvents(data || []);
       } catch (error) {
         console.error("Failed to fetch team list", error);
       }
@@ -21,23 +35,83 @@ const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
     fetchList();
   }, [teamId]);
 
-  if (loading) return <div>Loading...</div>;
+  // Agrupar por jornada
+  const groupByRound = (games: ITeamNextGame[]) => {
+    return games.reduce((acc, game) => {
+      const round = game.intRound || "Unknown Round";
+      if (!acc[round]) {
+        acc[round] = [];
+      }
+      acc[round].push(game);
+      return acc;
+    }, {} as Record<string, ITeamNextGame[]>);
+  };
+
+  const groupedEvents = groupByRound(events);
+
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
 
   return (
-    <div>
-      <h2>Próximos Jogos</h2>
-      {list.length ? (
-        <ul>
-          {list.map((game: any, index: number) => (
-            <li key={index}>
-              {game.dateEvent} - {game.strHomeTeam} vs {game.strAwayTeam}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>Nenhum jogo na lista</p>
-      )}
-    </div>
+    <Container className="team-list-container">
+      {/* Cabeçalho */}
+      <div className="league-header text-center mb-4">
+        <h4>Próximos Jogos</h4>
+      </div>
+
+      {/* Lista de jogos */}
+      <div className="list-results">
+        {Object.keys(groupedEvents).length > 0 ? (
+          Object.keys(groupedEvents).map((round) => (
+            <div key={round} className="round-container mb-3">
+              <h5 className="text-center">Jornada {round}</h5>
+              <ul className="list-results-2" >
+                {groupedEvents[round].map((game, index) => (
+                  <li
+                    key={index}
+                    className="list-group-item d-flex align-items-center justify-content-between"
+                    style={{ backgroundColor: "#0b2129", padding: "10px 15px", marginBottom: "10px", borderRadius: "5px" }}
+                  >
+                    {/* Equipa Casa */}
+                    <div className="d-flex align-items-center">
+                      <img
+                        src={game.strHomeTeamBadge}
+                        alt={game.strHomeTeam}
+                        style={{ width: "24px", height: "24px", marginRight: "10px", cursor: "pointer" }}
+                      />
+                      <span>{game.strHomeTeam}</span>
+                    </div>
+
+                    {/* VS */}
+                    <div>
+                      <span className="list-vs">vs</span>
+                    </div>
+
+                    {/* Equipa Visitante */}
+                    <div className="d-flex align-items-center">
+                      <span>{game.strAwayTeam}</span>
+                      <img
+                        src={game.strAwayTeamBadge}
+                        alt={game.strAwayTeam}
+                        style={{ width: "24px", height: "24px", marginLeft: "10px", cursor: "pointer" }}
+                      />
+                    </div>
+
+                    {/* Data/Hora */}
+                    <div>
+                      <span>{game.dateEvent} {game.strTime}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        ) : (
+          <div className="text-center">Nenhum jogo disponível</div>
+        )}
+      </div>
+    </Container>
   );
 };
 
