@@ -54,14 +54,15 @@ const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, se
       />
       <span className="me-2">{result.strHomeTeam}</span>
       <span className="results-vs">vs</span>
-      <span className="me-2">{result.strAwayTeam}</span>
+
       <Image
         src={result.strAwayTeamBadge}
         alt="Away Team Badge"
         className="me-2"
-        style={{ width: "24px", height: "24px", cursor: "pointer" }}
+        style={{ width: "24px", height: "24px", cursor: "pointer",marginLeft:"8px" }}
         onClick={redirectToAwayTeamPage}
       />
+      <span>{result.strAwayTeam}</span>
       <span className="me-2 fw-bold">
         {result.intHomeScore} - {result.intAwayScore}
       </span>

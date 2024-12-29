@@ -98,7 +98,7 @@ const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
 
                     <span>vs</span>
 
-                    <span>{game.strAwayTeam}
+            
                     <img
                       src={game.strAwayTeamBadge}
                       alt={game.strAwayTeam}
@@ -109,7 +109,9 @@ const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
                         cursor: "pointer",
                       }}
                      
+                     
                     />
+                    <span style={{marginLeft: "8px"}}>{game.strAwayTeam}
                     </span>
 
                     {/* Data/Hora */}

@@ -103,12 +103,13 @@ const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
                     <span style={{ margin: "0 10px",color: "#fff"}}>
                       {result.intHomeScore} - {result.intAwayScore}
                     </span>
-                      <span>{result.strAwayTeam}</span>
+                    
                       <Image
                         src={result.strAwayTeamBadge}
                         alt={result.strAwayTeam}
                         style={{ width: "24px", height: "24px", marginLeft: "8px" }}
                       />
+                      <span style={{marginLeft: "8px"}}>{result.strAwayTeam }</span>
                     {/* Data/Hora se quiser mostrar */}
                     <span style={{ marginLeft: "10px",color: "#fff" }}>
                       {result.dateEvent}

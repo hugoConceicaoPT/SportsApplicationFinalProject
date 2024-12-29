@@ -15,9 +15,9 @@ const ButtonTeam: React.FC<ButtonLeagueProps> = ({ setState, imageSrc, label, te
   const redirectToTeam = () => {
     setState({ view: "teampage" });
     setTeam({
-      teamId,
+      teamId: teamId,
       teamName: label,
-      imageSrc
+      imageSrc: imageSrc
     })
   };
 

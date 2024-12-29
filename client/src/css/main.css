@@ -170,7 +170,7 @@ body li {
 .favorite-team-block-container {
   position: absolute;
   /* Pode ser 'relative', 'fixed' ou 'absolute', dependendo do comportamento desejado */
-  top: 500px; /* 300px + 100px */
+  top: 550px; /* 300px + 100px */
   /* Define a distância do topo */
   left: 20px;
   /* Define a distância da esquerda */
