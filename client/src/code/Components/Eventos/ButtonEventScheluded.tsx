@@ -1,10 +1,10 @@
 import { Button } from "react-bootstrap";
-import { ILiveEvents, INextLeagueEvents } from "../../league"
+import { ILiveEvents, INextPastLeagueEvents } from "../../league"
 import React from "react";
 import { Dash } from "react-bootstrap-icons";
 
 interface IButtonEventScheluded  {
-    event: INextLeagueEvents | ILiveEvents,
+    event: INextPastLeagueEvents | ILiveEvents,
 }
 
 const ButtonEventScheluded: React.FC<IButtonEventScheluded> = ({ event }) => {

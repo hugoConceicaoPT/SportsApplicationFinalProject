@@ -1,6 +1,4 @@
 import { Button } from "react-bootstrap";
-import { ILiveEvents, INextLeagueEvents } from "../../league"
-import { AppProps } from "../../main"
 import { useEvent } from "../Context/EventContext";
 import { useLeagueContext } from "../Context/LeagueContext";
 import React from "react";

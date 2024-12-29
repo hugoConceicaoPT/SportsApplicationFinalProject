@@ -8,7 +8,6 @@ export interface FilterButtonProps {
 
 
 const FilterClassificationButton: React.FC<FilterButtonProps> = ({ view, setView }) => {
-
     return (
         <Button
             style={{

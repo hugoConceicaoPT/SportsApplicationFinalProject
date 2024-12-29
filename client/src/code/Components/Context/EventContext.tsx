@@ -1,15 +1,15 @@
 import React, { createContext, useContext, useState } from "react";
-import { ILiveEvents, INextLeagueEvents } from "../../league";
+import { ILiveEvents, INextPastLeagueEvents } from "../../league";
 
 interface EventContextType {
-  selectedEvent: ILiveEvents | INextLeagueEvents | null;
-  setSelectedEvent: (event: ILiveEvents | INextLeagueEvents | null) => void;
+  selectedEvent: ILiveEvents | INextPastLeagueEvents | null;
+  setSelectedEvent: (event: ILiveEvents | INextPastLeagueEvents | null) => void;
 }
 
 const EventContext = createContext<EventContextType | undefined>(undefined);
 
 export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [selectedEvent, setSelectedEvent] = useState<ILiveEvents | INextLeagueEvents | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<ILiveEvents | INextPastLeagueEvents | null>(null);
 
   return (
     <EventContext.Provider value={{ selectedEvent, setSelectedEvent }}>

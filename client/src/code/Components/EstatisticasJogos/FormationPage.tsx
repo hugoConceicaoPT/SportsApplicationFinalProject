@@ -17,12 +17,18 @@ const FormationPage: React.FC = () => {
             try {
                 if (selectedEvent.idEvent) {
                     const data = await workerGame.getLineup(selectedEvent.idEvent);
-                    setGameLineupEvent(data);
+                    if (Array.isArray(data)) {
+                        setGameLineupEvent(data);
+                    } else {
+                        setGameLineupEvent([]); // Evita erros no render
+                    }
                 }
             } catch (error) {
-                console.error("Error fetching league results:", error);
+                console.error("Erro ao buscar lineup:", error);
+                setGameLineupEvent([]); // Define um valor padrão em caso de erro
             }
         };
+        
 
         fetchGameLineup();
     }, [selectedEvent.idEvent]);

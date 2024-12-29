@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { AppProps } from "../../main";
-import { ILiveEvents, INextLeagueEvents } from "../../league";
+import { ILiveEvents, INextPastLeagueEvents } from "../../league";
 import ButtonEventFinished from "./ButtonEventFinished";
 import ButtonEventLive from "./ButtonEventLive";
 import ButtonEventScheluded from "./ButtonEventScheluded";
 
 
 interface INextEventButton extends AppProps {
-  event: INextLeagueEvents | ILiveEvents,
+  event: INextPastLeagueEvents | ILiveEvents,
   index: number
   leagueId: string,
   leagueName: string,

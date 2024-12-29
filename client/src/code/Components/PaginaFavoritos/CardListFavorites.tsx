@@ -78,7 +78,7 @@ const CardListFavorites: React.FC<AppProps> = ({ setState }) => {
     };
 
     return (
-        <Container className="d-flex justify-content-center mt-4">
+        <Container className="d-flex justify-content-center">
             <Card style={{ width: "46rem", backgroundColor: "#0b2129" }} className="d-flex justify-content-center">
                 <Card.Body>
                     <div className="d-flex justify-content-between mb-4">

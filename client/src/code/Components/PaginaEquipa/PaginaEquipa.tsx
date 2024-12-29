@@ -92,16 +92,7 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
           <FilterClassificationButton view={view} setView={setView} />
 
           {/* Botão Resultados */}
-          <Button
-            style={{
-              backgroundColor: view === "results" ? "red" : "gray",
-              color: "white",
-              borderColor: view === "results" ? "red" : "gray",
-            }}
-            onClick={() => setView("results")}
-          >
-            Resultados
-          </Button>
+          <FilterResultsButton view={view} setView={setView} />
 
           {/* Botão Lista */}
           <FilterListButton view={view} setView={setView} />

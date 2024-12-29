@@ -3,7 +3,6 @@ import { Button } from "react-bootstrap";
 import { FilterButtonProps } from "./FilterClassificationButton";
 
 const FilterListButton: React.FC<FilterButtonProps> = ({ view, setView }) => {
-
     return (
         <Button
             style={{

@@ -32,7 +32,7 @@ const CardListLeague: React.FC<AppProps> = ({ setState }) => {
                         </div>
                     </div>
                     <LeagueEvents filter={filter} selectedDate={selectedDate} setState={setState} leagueId={leagueIds.premierLeague} leagueName="Inglaterra: Premier League" imageSrc="icons/Inglaterra.png" />
-                    <LeagueEvents filter={filter} selectedDate={selectedDate} setState={setState} leagueId={leagueIds.bundesliga} leagueName="Alemanha : Bundesliga" imageSrc="icons/Alemanha.png" />
+                    <LeagueEvents filter={filter} selectedDate={selectedDate} setState={setState} leagueId={leagueIds.bundesliga} leagueName="Alemanha: Bundesliga" imageSrc="icons/Alemanha.png" />
                     <LeagueEvents filter={filter} selectedDate={selectedDate} setState={setState} leagueId={leagueIds.laLiga} leagueName="Espanha: La Liga" imageSrc="icons/Espanha.png" />
                     <LeagueEvents filter={filter} selectedDate={selectedDate} setState={setState} leagueId={leagueIds.primeiraLiga} leagueName="Portugal: Liga Portugal Betclic" imageSrc="icons/Portugal.png" />
                     <LeagueEvents filter={filter} selectedDate={selectedDate} setState={setState} leagueId={leagueIds.ligue1} leagueName="França: Ligue 1" imageSrc="icons/França.png" />

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Worker, ITeamEvents } from "../../league";
 import { AppProps } from "../../main";
 import Button from 'react-bootstrap/Button';
 import { ArrowUp, ArrowDown, Star, StarFill } from "react-bootstrap-icons";
@@ -11,6 +10,8 @@ import { config } from "../../config";
 import axios from "axios";
 import { useTeamContext } from "../Context/TeamContext";
 import { leagueIds } from "../../../../../server/src/leagueIds";
+import { WorkerTeam } from "../../team";
+import { INextPastLeagueEvents } from "../../league";
 
 interface TeamButtonEventsProps extends AppProps {
   teamId: string;
@@ -23,17 +24,17 @@ interface TeamButtonEventsProps extends AppProps {
 let socket: WebSocket | null = null;
 
 const TeamEvents: React.FC<TeamButtonEventsProps> = ({ setState, teamId, teamName, imageSrc, selectedDate, filter }) => {
-  const [events, setEvents] = useState<ITeamEvents[]>([]);
+  const [events, setEvents] = useState<INextPastLeagueEvents[]>([]);
   const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(true);
-  const worker = new Worker();
+  const worker = new WorkerTeam();
   const { setTeam } = useTeamContext();
 
   useEffect(() => {
     const fetchInitialEvents = async () => {
       try {
         // Buscar eventos futuros
-        const futureEvents = await worker.getListNextTeamEvents(teamId, selectedDate);
+        const futureEvents = await worker.getNextTeamList(teamId);
 
         // Atualizar o estado com todos os eventos
         setEvents(futureEvents);
@@ -43,7 +44,7 @@ const TeamEvents: React.FC<TeamButtonEventsProps> = ({ setState, teamId, teamNam
     };
 
     fetchInitialEvents();
-  }, [teamId, selectedDate]); // Dependency array includes teamId
+  }, [teamId]); // Dependency array includes teamId
 
   useEffect(() => {
     if (!socket) {
@@ -67,7 +68,7 @@ const TeamEvents: React.FC<TeamButtonEventsProps> = ({ setState, teamId, teamNam
         const updatedEvents = data[teamId];
         setEvents((prevEvents) => {
           const updated = [...prevEvents];
-          updatedEvents.forEach((newEvent: ITeamEvents) => {
+          updatedEvents.forEach((newEvent: INextPastLeagueEvents) => {
             const index = updated.findIndex((event) => event.idEvent === newEvent.idEvent);
             if (index === -1) {
               updated.push(newEvent); // Adiciona o evento se não for duplicado

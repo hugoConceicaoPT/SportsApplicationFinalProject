@@ -1,12 +1,12 @@
 import { Button } from "react-bootstrap";
-import { ILiveEvents, INextLeagueEvents } from "../../league"
+import { ILiveEvents, INextPastLeagueEvents } from "../../league"
 import { AppProps } from "../../main"
 import { useEvent } from "../Context/EventContext";
 import { useLeagueContext } from "../Context/LeagueContext";
 import React from "react";
 
 export interface IButtonEventType extends AppProps {
-    event: INextLeagueEvents | ILiveEvents,
+    event: INextPastLeagueEvents | ILiveEvents,
     leagueId: string,
     leagueName: string,
     imageSrc: string

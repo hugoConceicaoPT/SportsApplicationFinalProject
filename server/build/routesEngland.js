@@ -47,8 +47,13 @@ router.get('/premier-league/resultados', (0, cachingRoutes_1.default)(120), (req
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventspastleague.php?id=${leagueIds_1.leagueIds.premierLeague}`);
         const responseData = yield response.json();
         const arr = Object.entries(responseData.events).map(transformData_1.transformNextLastLeagueEvent);
-        const filteredResults = date ? arr.filter(event => event.dateEvent === date) : arr;
-        res.json(filteredResults);
+        if (date) {
+            const filteredResults = date ? arr.filter(event => event.dateEvent === date) : arr;
+            res.json(filteredResults);
+        }
+        else {
+            res.json(arr);
+        }
     }
     catch (err) {
         next(err);

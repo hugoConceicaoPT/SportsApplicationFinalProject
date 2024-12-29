@@ -1,11 +1,12 @@
 import React from "react";
-import { IPastLeagueResults } from "../../league";
+import { INextPastLeagueEvents } from "../../league";
 import { Button, ListGroup } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { useTeamContext } from "../Context/TeamContext";
+import { useEvent } from "../Context/EventContext";
 
 interface ResultEventButtonProps {
-  result: IPastLeagueResults;
+  result: INextPastLeagueEvents;
   index: number;
   setState: (state: any) => void;
 }
@@ -13,10 +14,12 @@ interface ResultEventButtonProps {
 const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, setState }) => {
 
   const { setTeam } = useTeamContext();
+  const { setSelectedEvent } = useEvent();
 
   const handleClick = () => {
     // Exemplo de ação quando um resultado é clicado
-    setState({ selectedResult: result });
+    setState({ view: "statistics" });
+    setSelectedEvent(result);
   };
 
   const redirectToTeamHomePage = () => {

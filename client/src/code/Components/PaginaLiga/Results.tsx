@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Worker, IPastLeagueResults } from "../../league";
+import { Worker, INextPastLeagueEvents } from "../../league";
 import { AppProps } from "../../main";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
@@ -14,7 +14,7 @@ interface LeagueButtonResultsProps extends AppProps {
 }
 
 const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId, leagueName, imageSrc, round }) => {
-  const [results, setResults] = useState<IPastLeagueResults[]>([]);
+  const [results, setResults] = useState<INextPastLeagueEvents[]>([]);
   const worker = new Worker();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
   }, [leagueId, round]); // Dependency array includes leagueId and round
 
   // Função para agrupar resultados por jornada
-  const groupByRound = (results: IPastLeagueResults[]) => {
+  const groupByRound = (results: INextPastLeagueEvents[]) => {
     return results.reduce((groups, result) => {
       const round = result.intRound || "Unknown Round";
       if (!groups[round]) {
@@ -39,7 +39,7 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
       }
       groups[round].push(result);
       return groups;
-    }, {} as Record<string, IPastLeagueResults[]>);
+    }, {} as Record<string, INextPastLeagueEvents[]>);
   };
 
   const groupedResults = groupByRound(results);

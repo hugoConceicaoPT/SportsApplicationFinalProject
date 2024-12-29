@@ -9,6 +9,9 @@ import Header from "../PaginaPrincipal/Header";
 import axios from "axios";
 import { config } from "../../config";
 import LeagueResults from "./Results";
+import FilterClassificationButton from "../PaginaEquipa/FilterClassificationButton";
+import FilterResultsButton from "../PaginaEquipa/FilterResultsButton";
+import FilterListButton from "../PaginaEquipa/FilterListButton";
 
 const LeaguePage: React.FC<AppProps> = ({ setState }) => {
   const { league } = useLeagueContext();
@@ -98,40 +101,13 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
 
         <div className="navigation d-flex justify-content-around my-3">
           {/* Botão Classificações */}
-          <Button
-            style={{
-              backgroundColor: view === "standings" ? "red" : "gray",
-              color: "white",
-              borderColor: view === "standings" ? "red" : "gray",
-            }}
-            onClick={() => setView("standings")}
-          >
-            Classificações
-          </Button>
+          <FilterClassificationButton setView={setView} view={view}/>
 
           {/* Botão Resultados */}
-          <Button
-            style={{
-              backgroundColor: view === "results" ? "red" : "gray",
-              color: "white",
-              borderColor: view === "results" ? "red" : "gray",
-            }}
-            onClick={() => setView("results")}
-          >
-            Resultados
-          </Button>
+          <FilterResultsButton setView={setView} view={view} />
 
           {/* Botão Lista */}
-          <Button
-            style={{
-              backgroundColor: view === "list" ? "red" : "gray",
-              color: "white",
-              borderColor: view === "list" ? "red" : "gray",
-            }}
-            onClick={() => setView("list")}
-          >
-            Lista
-          </Button>
+          <FilterListButton setView={setView} view={view} />
         </div>
 
         <div className="content mt-4">
