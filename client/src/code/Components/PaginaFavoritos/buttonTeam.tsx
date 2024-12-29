@@ -1,16 +1,16 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useTeamContext } from '../Context/TeamContext';
+import { AppProps } from '../../main';
 
-interface AppProps {
-  setState: (state: { view: string }) => void;
+interface ButtonLeagueProps extends AppProps {
   teamId: string,
   imageSrc: string; 
   label: string; 
   isSubmitting?: boolean; 
 }
 
-const ButtonTeam: React.FC<AppProps> = ({ setState, imageSrc, label, teamId }) => {
+const ButtonTeam: React.FC<ButtonLeagueProps> = ({ setState, imageSrc, label, teamId }) => {
   const { setTeam } = useTeamContext();
   const redirectToTeam = () => {
     setState({ view: "teampage" });

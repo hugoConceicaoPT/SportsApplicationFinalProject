@@ -22,7 +22,7 @@ const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, se
     setSelectedEvent(result);
   };
 
-  const redirectToTeamHomePage = () => {
+  const redirectToHomeTeamPage = () => {
     setState({ view: "teampage" });
     setTeam({
       teamId: result.idHomeTeam,
@@ -31,7 +31,7 @@ const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, se
     })
   }
 
-  const redirectToTeamAwayPage = () => {
+  const redirectToAwayTeamPage = () => {
     setState({ view: "teampage" });
     setTeam({
       teamId: result.idAwayTeam,
@@ -50,7 +50,7 @@ const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, se
         alt="Home Team Badge"
         className="me-2"
         style={{ width: "24px", height: "24px", cursor: "pointer" }}
-        onClick={redirectToTeamHomePage}
+        onClick={redirectToHomeTeamPage}
       />
       <span className="me-2">{result.strHomeTeam}</span>
       <span className="results-vs">vs</span>
@@ -60,7 +60,7 @@ const ResultEventButton: React.FC<ResultEventButtonProps> = ({ result, index, se
         alt="Away Team Badge"
         className="me-2"
         style={{ width: "24px", height: "24px", cursor: "pointer" }}
-        onClick={redirectToTeamAwayPage}
+        onClick={redirectToAwayTeamPage}
       />
       <span className="me-2 fw-bold">
         {result.intHomeScore} - {result.intAwayScore}
