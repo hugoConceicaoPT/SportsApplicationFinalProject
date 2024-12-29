@@ -5,7 +5,7 @@ import { AppProps } from "../../main";
 import axios from "axios"; // Usaremos axios para buscar os favoritos do utilizador
 import ButtonTeam from "./buttonTeam";
 
-const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
+const TeamFavorites: React.FC<AppProps> = ({ setState }) => {
   // Declara um estado local `ids` com `useState`.
   // O estado inicial é um array vazio.
   const [ids, setIds ] = useState<string[]>([]);
@@ -49,4 +49,4 @@ const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
   );
 };
 
-export default LeagueFavorites;
+export default TeamFavorites;

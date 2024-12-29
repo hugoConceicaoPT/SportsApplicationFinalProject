@@ -11,7 +11,6 @@ import FilterOnLiveButton from "../Eventos/FilterOnLiveButton";
 import FilterScheduledButton from "../Eventos/FilterScheduledButton";
 import axios from "axios";
 import { config } from "../../config";
-import TeamEvents from "./Teamevents";
 
 const CardListFavorites: React.FC<AppProps> = ({ setState }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -63,22 +62,8 @@ const CardListFavorites: React.FC<AppProps> = ({ setState }) => {
     );
   };
 
-  const renderTeamEvents = (teamId: string, teamName: string, imageSrc: string) => {
-    return (
-      <TeamEvents
-        key={teamId}
-        filter={filter}
-        selectedDate={selectedDate}
-        setState={setState}
-        teamId={teamId}
-        teamName={teamName}
-        imageSrc={imageSrc}
-      />
-    );
-  };
-
   return (
-    <Container className="d-flex justify-content-center">
+    <Container className="d-flex justify-content-center mt-4">
       <Card style={{ width: "46rem", backgroundColor: "#0b2129" }} className="d-flex justify-content-center">
         <Card.Body>
           <div className="d-flex justify-content-between mb-4">
