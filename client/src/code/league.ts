@@ -6,9 +6,9 @@ import { leagueIds } from "../../../server/src/leagueIds";
 
 // Define interface to describe a contact.  Note that we'll only have an _id field when retrieving or adding, so
 // it has to be optional.
-export interface INextLeagueEvents {
+export interface INextPastLeagueEvents {
     _id?: number,
-    idEvent?: string,
+    idEvent: string,
     strHomeTeam: string,
     strAwayTeam: string,
     dateEvent: string,
@@ -22,7 +22,8 @@ export interface INextLeagueEvents {
     intAwayScore: string,
     strStatus?: string,
     strProgress?: string,
-    strLeague?: string
+    strLeague?: string,
+    idLeague: string
 }
 
 export interface ILiveEvents {
@@ -57,24 +58,6 @@ export interface ILeagueStandings {
     intPoints: string
 }
 
-// Define interface to describe past league results.
-export interface IPastLeagueResults {
-    _id?: number,
-    idEvent: string,
-    strHomeTeam: string,
-    strAwayTeam: string,
-    dateEvent: string,
-    strTime: string,
-    idHomeTeam: string,
-    idAwayTeam: string,
-    strHomeTeamBadge: string,
-    strAwayTeamBadge: string,
-    intRound?: string,
-    intHomeScore: string,
-    intAwayScore: string,
-    strStatus: string,
-    strLeague?: string
-}
 
 const leagueEndpoints: Record<string, string> = {
     [leagueIds.premierLeague]: `${config.serverAddress}/inglaterra/premier-league`,
@@ -88,7 +71,7 @@ const leagueEndpoints: Record<string, string> = {
 // The worker that will perform contact operations.
 export class Worker {
 
-    public async getListNextLeagueEvents(leagueId: string, currentDate: Date): Promise<INextLeagueEvents[]> {
+    public async getListNextLeagueEvents(leagueId: string, currentDate?: Date): Promise<INextPastLeagueEvents[]> {
 
         let endpoint = leagueEndpoints[leagueId];
         endpoint += "/lista";
@@ -97,12 +80,18 @@ export class Worker {
         }
 
         try {
-            const response: AxiosResponse = await axios.get(endpoint, {
-                params: {
-                    date: currentDate.toISOString().split('T')[0], // Formata a data para o formato YYYY-MM-DD
-                },
-            });
-            return response.data;
+            if (currentDate) {
+                const response: AxiosResponse = await axios.get(endpoint, {
+                    params: {
+                        date: currentDate.toISOString().split('T')[0], // Formata a data para o formato YYYY-MM-DD
+                    },
+                });
+                return response.data;
+            }
+            else {
+                const response: AxiosResponse = await axios.get(endpoint);
+                return response.data;
+            }
         } catch (error) {
             console.error(`Failed to fetch league events for league ID: ${leagueId}`, error);
             throw new Error("Unable to retrieve league events. Please try again later.");
@@ -126,7 +115,7 @@ export class Worker {
         }
     }
 
-    public async getPastLeagueResults(leagueId: string, currentDate: Date): Promise<IPastLeagueResults[]> {
+    public async getPastLeagueResults(leagueId: string, currentDate: Date): Promise<INextPastLeagueEvents[]> {
         let endpoint = leagueEndpoints[leagueId];
         endpoint += "/resultados";
         if (!endpoint) {
@@ -147,7 +136,7 @@ export class Worker {
     }
 
 
-    public async getPastLeagueResultsByRound(leagueId: string, round?: string): Promise<IPastLeagueResults[]> {
+    public async getPastLeagueResultsByRound(leagueId: string, round?: string): Promise<INextPastLeagueEvents[]> {
         let endpoint = leagueEndpoints[leagueId];
         endpoint += "/resultados";
         if (!endpoint) {
@@ -168,19 +157,4 @@ export class Worker {
         }
     }
 
-    public async getNextLeagueList(leagueId: string): Promise<INextLeagueEvents[]> {
-        let endpoint = leagueEndpoints[leagueId];
-        endpoint += "/lista";
-        if (!endpoint) {
-            throw new Error(`No endpoint found for league ID: ${leagueId}`);
-        }
-    
-        try {
-            const response: AxiosResponse = await axios.get(endpoint);
-            return response.data;
-        } catch (error) {
-            console.error(`Failed to fetch league events for league ID: ${leagueId}`, error);
-            throw new Error("Unable to retrieve league events. Please try again later.");
-        }
-    }
 }

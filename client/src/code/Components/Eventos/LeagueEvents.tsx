@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Worker, INextLeagueEvents } from "../../league";
+import { Worker, INextPastLeagueEvents } from "../../league";
 import { AppProps } from "../../main";
 import Button from 'react-bootstrap/Button';
 import { ArrowUp, ArrowDown, Star, StarFill } from "react-bootstrap-icons";
@@ -9,7 +9,6 @@ import Image from 'react-bootstrap/Image';
 import NextEventButton from "./NextEventButton";
 import { config } from "../../config";
 import axios from "axios";
-import { useLeagueContext } from "../Context/LeagueContext";
 
 
 interface LeagueButtonEventsProps extends AppProps {
@@ -23,11 +22,10 @@ interface LeagueButtonEventsProps extends AppProps {
 let socket: WebSocket | null = null;
 
 const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, leagueName, imageSrc, selectedDate, filter }) => {
-  const [events, setEvents] = useState<INextLeagueEvents[]>([]);
+  const [events, setEvents] = useState<INextPastLeagueEvents[]>([]);
   const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(true);
   const worker = new Worker();
-  const { setLeague } = useLeagueContext();
 
   useEffect(() => {
     const fetchInitialEvents = async () => {
@@ -40,7 +38,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
 
         // Combinar ambos os resultados (futuros e passados) em um único array
         // Combinar ambos os resultados (priorizando os passados)
-        const combinedEventsMap = new Map<string, INextLeagueEvents>();
+        const combinedEventsMap = new Map<string, INextPastLeagueEvents>();
 
         // Adicionar eventos passados ao mapa
         pastResults.forEach((event) => {
@@ -88,7 +86,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
         const updatedEvents = data[leagueId];
         setEvents((prevEvents) => {
           const updated = [...prevEvents];
-          updatedEvents.forEach((newEvent: INextLeagueEvents) => {
+          updatedEvents.forEach((newEvent: INextPastLeagueEvents) => {
             const index = updated.findIndex((event) => event.idEvent === newEvent.idEvent);
             if (index === -1) {
               updated.push(newEvent); // Adiciona o evento se não for duplicado
@@ -142,10 +140,10 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
         const response = await axios.get(`${config.serverAddress}/favorites`, {
           withCredentials: true, // Inclui cookies na requisição para autenticação
         });
-  
+
         if (response.status === 401) {
           setFavorite(false);
-        } else if(response.status === 404) {
+        } else if (response.status === 404) {
           setFavorite(false);
         } else {
           const { leagueIds } = response.data;
@@ -156,7 +154,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
         setFavorite(false);
       }
     };
-  
+
     fetchFavorites();
   }, [leagueId]);
 
@@ -183,14 +181,9 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
       return dateTimeA.getTime() - dateTimeB.getTime();
     })
 
-    const redirectToLeaguePage = () => {
-      setState({view: "LeaguePage"});
-      setLeague({
-        leagueId,
-        leagueName,
-        imageSrc
-      })
-    }
+  const redirectToLeaguePage = () => {
+    setState({ view: "LeaguePage" });
+  }
   return filteredEvents.length === 0 ? null : (
     <Container className="leagueEvents rounded p-0 mb-1">
       {/* Button to expand/collapse */}

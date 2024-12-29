@@ -22,25 +22,7 @@ const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
       try {
         if (leagueId) {
           const rawData = await worker.getLeagueStanding(leagueId);
-
-          const formattedData: ILeagueStandings[] = rawData.map((item: ILeagueStandings) => ({
-            _id: parseInt(item.intRank, 10) || 0,
-            intRank: item.intRank || "0",
-            idTeam: item.idTeam || "",
-            strTeam: item.strTeam || "Equipa não identificada",
-            strBadge: item.strBadge || "",
-            strForm: item.strForm || "-",
-            intPlayed: item.intPlayed || "0",
-            intWin: item.intWin || "0",
-            intDraw: item.intDraw || "0",
-            intLoss: item.intLoss || "0",
-            intGoalsFor: item.intGoalsFor || "0",
-            intGoalsAgainst: item.intGoalsAgainst || "0",
-            intGoalDifference: item.intGoalDifference || "0",
-            intPoints: item.intPoints || "0",
-          }));
-
-          setStandings(formattedData);
+          setStandings(rawData);
         }
       } catch (error) {
         console.error("Erro ao buscar classificações:", error);

@@ -1,16 +1,16 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useTeamContext } from '../Context/TeamContext';
+import { AppProps } from '../../main';
 
-interface AppProps {
-  setState: (state: { view: string }) => void;
+interface ButtonLeagueProps extends AppProps {
   teamId: string,
   imageSrc: string; 
   label: string; 
   isSubmitting?: boolean; 
 }
 
-const ButtonTeam: React.FC<AppProps> = ({ setState, imageSrc, label, teamId }) => {
+const ButtonTeam: React.FC<ButtonLeagueProps> = ({ setState, imageSrc, label, teamId }) => {
   const { setTeam } = useTeamContext();
   const redirectToTeam = () => {
     setState({ view: "teampage" });
@@ -22,10 +22,9 @@ const ButtonTeam: React.FC<AppProps> = ({ setState, imageSrc, label, teamId }) =
   };
 
   return (
-    <div>
       <Button
         type="submit"
-        className="custom-button w-30 pb-2"
+        className="custom-button pb-2"
         style={{
           backgroundColor: "black",
           color: "white",
@@ -47,7 +46,6 @@ const ButtonTeam: React.FC<AppProps> = ({ setState, imageSrc, label, teamId }) =
         />
         {label}
       </Button>
-    </div>
   );
 };
 

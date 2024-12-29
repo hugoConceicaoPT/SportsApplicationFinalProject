@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AppProps } from "../../main";
 import { Button } from 'react-bootstrap';
 import { ChevronLeft, ChevronRight, Calendar } from "react-bootstrap-icons";
 
@@ -7,7 +6,6 @@ interface DateButtonProps {
   date: Date;
   setDate: React.Dispatch<React.SetStateAction<Date>>;
 }
-
 
 const DateButton: React.FC<DateButtonProps> = ({ date, setDate }) => {
   const [isMouseOverLeft, setMouseOverLeft] = useState(false);

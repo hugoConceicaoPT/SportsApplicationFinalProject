@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { AppProps } from "../../main";
 import { useEvent } from "../Context/EventContext";
 import { Container } from "react-bootstrap";
 import { IGameLineup, WorkerGame } from "../../game";
 
-const FormationPage: React.FC<AppProps> = ({ setState }) => {
+const FormationPage: React.FC = () => {
     const { selectedEvent } = useEvent();
     const [gameLineupEvent, setGameLineupEvent] = useState<IGameLineup[]>([]);
     const workerGame = new WorkerGame();
@@ -18,12 +17,18 @@ const FormationPage: React.FC<AppProps> = ({ setState }) => {
             try {
                 if (selectedEvent.idEvent) {
                     const data = await workerGame.getLineup(selectedEvent.idEvent);
-                    setGameLineupEvent(data);
+                    if (Array.isArray(data)) {
+                        setGameLineupEvent(data);
+                    } else {
+                        setGameLineupEvent([]); // Evita erros no render
+                    }
                 }
             } catch (error) {
-                console.error("Error fetching league results:", error);
+                console.error("Erro ao buscar lineup:", error);
+                setGameLineupEvent([]); // Define um valor padrão em caso de erro
             }
         };
+        
 
         fetchGameLineup();
     }, [selectedEvent.idEvent]);

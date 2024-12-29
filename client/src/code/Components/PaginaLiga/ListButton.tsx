@@ -1,10 +1,10 @@
 import React from "react"
-import { INextLeagueEvents } from "../../league"
+import { INextPastLeagueEvents } from "../../league"
 import { AppProps } from "../../main"
 import { useTeamContext } from "../Context/TeamContext"
 
 interface ListButtonProps extends AppProps {
-    event: INextLeagueEvents,
+    event: INextPastLeagueEvents,
     index: number
 }
 

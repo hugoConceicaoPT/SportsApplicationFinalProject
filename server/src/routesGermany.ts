@@ -23,8 +23,13 @@ router.get('/bundesliga/lista', cache(120), async (req: Request, res: Response, 
         const response = await fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnextleague.php?id=${leagueIds.bundesliga}`);
         const responseData = await response.json();
         const arr = Object.entries(responseData.events).map(transformNextLastLeagueEvent);
-        const filteredResults = date ? arr.filter(event => event.dateEvent === date) : arr;
-        res.json(filteredResults);
+        if(date) {
+            const filteredResults = date ? arr.filter(event => event.dateEvent === date) : arr;
+            res.json(filteredResults);
+        }
+        else {
+            res.json(arr);
+        }
     }
     catch(err) {
         next(err);

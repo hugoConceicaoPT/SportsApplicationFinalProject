@@ -16,7 +16,7 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
     try {
         const { username, email, password } = req.body;
         const userExits = await User.findOne({ email });
-        if (userExits) res.send("email or password already exists.");
+        if (userExits) res.status(409).send("Email, Usuário ou Password já existentes.");
         else {
             const user = new User({ username, email, password });
             await User.register(user, password);
@@ -71,7 +71,8 @@ router.post('/login', passport.authenticate('local', { failureRedirect: 'http://
             }
     
             res.json({
-                status: 'ok',
+                status: "ok",
+                message: "Login realizado com sucesso!",
                 user: {
                     username: user.username,
                     email: user.email,

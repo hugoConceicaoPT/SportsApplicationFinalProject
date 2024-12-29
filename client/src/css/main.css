@@ -168,7 +168,7 @@ body li {
 }
 
 .favorite-team-block-container {
-  position: relative;
+  position: absolute;
   /* Pode ser 'relative', 'fixed' ou 'absolute', dependendo do comportamento desejado */
   top: 500px; /* 300px + 100px */
   /* Define a distância do topo */
@@ -193,6 +193,20 @@ body li {
 }
 
 .league-logo-text {
+  font-size: 1.25rem;
+  color: #fff;
+  /* Cor do título */
+  margin: 0;
+}
+
+.team-logo {
+  object-fit: cover;
+  width: 100px;
+  height: auto;
+  /* Mantém a proporção da imagem */
+}
+
+.team-logo-text {
   font-size: 1.25rem;
   color: #fff;
   /* Cor do título */
@@ -528,8 +542,6 @@ body li {
   width: 80px;
   height: auto;
 }
-
-
 
 .team-span {
   color: white;
