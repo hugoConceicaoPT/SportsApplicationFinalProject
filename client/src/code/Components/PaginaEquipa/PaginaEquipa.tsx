@@ -69,7 +69,7 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
       <div className="team-page">
         <div className="team-header d-flex align-items-center justify-content-between">
           <div className="cabecalho-league-page d-flex align-items-center">
-            <img
+            <img className="equipa-logo"
               src={team.imageSrc}
               alt={`${team.teamName} logo`}
             />

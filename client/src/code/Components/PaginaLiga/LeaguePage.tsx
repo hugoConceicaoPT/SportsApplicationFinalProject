@@ -19,7 +19,6 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
   const [favorite, setFavorite] = useState(false); // Estado para o botão de favoritos
 
   useEffect(() => {
-    // Define a view padrão como 'standings' quando o componente é montado
     setView("standings");
   }, []);
 
