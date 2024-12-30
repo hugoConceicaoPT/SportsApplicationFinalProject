@@ -20,6 +20,7 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
   useEffect(() => {
     const fetchInitialResults = async () => {
       try {
+        // Busca os resultados da liga pela jornada (se especificada)
         const data = await worker.getPastLeagueResultsByRound(leagueId, round);
         setResults(data);
       } catch (error) {
@@ -28,7 +29,7 @@ const LeagueResults: React.FC<LeagueButtonResultsProps> = ({ setState, leagueId,
     };
 
     fetchInitialResults();
-  }, [leagueId, round]); // Dependency array includes leagueId and round
+  }, [leagueId, round]); // Atualiza sempre que o leagueId ou round mudar
 
   // Função para agrupar resultados por jornada
   const groupByRound = (results: INextPastLeagueEvents[]) => {

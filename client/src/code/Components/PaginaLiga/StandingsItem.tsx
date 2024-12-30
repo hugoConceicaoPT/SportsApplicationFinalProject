@@ -8,17 +8,20 @@ interface StandingsItemProps extends AppProps {
   index: number;
 }
 
-
+// Componente para exibir um item na tabela de classificações
 const StandingsItem: React.FC<StandingsItemProps> = ({ setState, team, index }) => {
   const { setTeam } = useTeamContext();
+
+  // Redireciona para a página do time ao clicar no badge
   const redirectToTeamPage = () => {
     setState({ view: "teampage" });
     setTeam({
       teamId: team.idTeam,
       teamName: team.strTeam,
       imageSrc: team.strBadge
-    })
-  }
+    });
+  };
+
   return (
     <li className="list-group-item d-flex align-items-center">
       {/* Exibe a posição e o nome do time */}
@@ -26,7 +29,7 @@ const StandingsItem: React.FC<StandingsItemProps> = ({ setState, team, index }) 
         <img
           src={team.strBadge}
           alt={`${team.strTeam} badge`}
-          style={{ width: "30px", height: "30px", marginRight: "10px" , cursor: "pointer"}}
+          style={{ width: "30px", height: "30px", marginRight: "10px", cursor: "pointer" }}
           onClick={redirectToTeamPage}
         />
         <span>
@@ -42,8 +45,7 @@ const StandingsItem: React.FC<StandingsItemProps> = ({ setState, team, index }) 
         {team.intDraw}
       </div>
       <div style={{ flex: 1, textAlign: "center", color: "red", fontWeight: "bold" }}>
-        {team.intLoss}
-      </div>
+        {team.intLoss}</div>
       <div style={{ flex: 1, textAlign: "center" }}>{team.intPoints}</div>
     </li>
   );

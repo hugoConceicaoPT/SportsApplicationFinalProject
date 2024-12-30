@@ -6,9 +6,9 @@ import { AppProps } from "../../main";
 import { useLeagueContext } from "../Context/LeagueContext";
 
 const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
-  const [standings, setStandings] = useState<ILeagueStandings[]>([]);
-  const [favorite, setFavorite] = useState(false);
-  const { league } = useLeagueContext();
+  const [standings, setStandings] = useState<ILeagueStandings[]>([]); // Estado para armazenar as classificações
+  const [favorite, setFavorite] = useState(false); // Estado para marcar como favorito
+  const { league } = useLeagueContext(); // Obtém os dados da liga do contexto
   const leagueId = league?.leagueId;
   
   useEffect(() => {
@@ -16,6 +16,7 @@ const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
     const fetchStandings = async () => {
       try {
         if (leagueId) {
+          // Busca as classificações da liga
           const rawData = await worker.getLeagueStanding(leagueId);
           setStandings(rawData);
         }
@@ -25,8 +26,9 @@ const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
     };
 
     fetchStandings();
-  }, [leagueId]);
+  }, [leagueId]); // Atualiza sempre que o ID da liga mudar
 
+  // Alterna o estado de favorito
   const toggleFavorite = () => {
     setFavorite(!favorite);
   };

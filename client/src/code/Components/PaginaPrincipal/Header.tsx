@@ -7,24 +7,30 @@ import LoginHeaderButton from "../Header/LoginHeaderButton";
 import ButtonFavorites from "../Header/ButtonFavorites";
 import ButtonResults from "../Header/ButtonResults";
 
-
-const Header: React.FC<AppProps> = ({setState}) => {
+// Componente de cabeçalho para navegação principal
+const Header: React.FC<AppProps> = ({ setState }) => {
     return (
         <>
+            {/* Navbar com estilo escuro e posicionamento fixo no topo */}
             <Navbar sticky="top" bg="dark" data-bs-theme="dark" className="d-flex justify-content-between">
                 <Container fluid>
-                    <Navbar.Brand onClick={() => setState({view: "home"})}>SportsShare</Navbar.Brand>
+                    {/* Logo da aplicação que redireciona para a página inicial */}
+                    <Navbar.Brand onClick={() => setState({ view: "home" })}>SportsShare</Navbar.Brand>
+
+                    {/* Navegação com botões de resultados e favoritos */}
                     <Nav>
-                        <ButtonResults setState={setState}/>
-                        <ButtonFavorites setState={setState}/>
+                        <ButtonResults setState={setState} />
+                        <ButtonFavorites setState={setState} />
                     </Nav>
+
+                    {/* Botão de login no lado direito */}
                     <Nav>
-                        <LoginHeaderButton setState={setState}/>
+                        <LoginHeaderButton setState={setState} />
                     </Nav>
                 </Container>
             </Navbar>
         </>
     );
-}
+};
 
 export default Header;

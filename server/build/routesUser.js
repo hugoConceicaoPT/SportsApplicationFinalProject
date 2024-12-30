@@ -46,26 +46,30 @@ const WorkerInstance = new SMTP.Worker(serverInfo_1.serverInfo);
 const router = express_1.default.Router();
 dotenv_1.default.config();
 const jwtSecret = process.env.JWT_TOKEN_SECRET;
+// Rota para registrar um novo usuário
 router.post('/register', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, email, password } = req.body;
         const userExits = yield User.findOne({ email });
-        if (userExits)
+        if (userExits) {
             res.status(409).send("Email, Usuário ou Password já existentes.");
-        else {
-            const user = new User({ username, email, password });
-            yield User.register(user, password);
-            const token = jsonwebtoken_1.default.sign({ email }, jwtSecret, { expiresIn: "1h" });
-            const verificationLink = `http://localhost:8080/user/verify/${token}`;
-            yield WorkerInstance.sendMessage({
-                from: serverInfo_1.serverInfo.smtp.auth.user,
-                to: email,
-                subject: "Verifique sua conta",
-                text: `Bem vindo à SportsApplication!
-                Clique no link para verificar sua conta: ${verificationLink}`
-            });
-            res.status(200).send("Registro realizado. Verifique seu email para ativar sua conta.");
+            return;
         }
+        // Criação e registro do novo usuário
+        const user = new User({ username, email, password });
+        yield User.register(user, password);
+        // Geração do token JWT para verificação de email
+        const token = jsonwebtoken_1.default.sign({ email }, jwtSecret, { expiresIn: "1h" });
+        const verificationLink = `http://localhost:8080/user/verify/${token}`;
+        // Envia email de verificação
+        yield WorkerInstance.sendMessage({
+            from: serverInfo_1.serverInfo.smtp.auth.user,
+            to: email,
+            subject: "Verifique sua conta",
+            text: `Bem vindo à SportsApplication!
+                Clique no link para verificar sua conta: ${verificationLink}`
+        });
+        res.status(200).send("Registro realizado. Verifique seu email para ativar sua conta.");
     }
     catch (err) {
         next(err);
@@ -89,51 +93,43 @@ router.get('/verify/:token', (req, res, next) => __awaiter(void 0, void 0, void 
         next(err);
     }
 }));
+// Rota para login
 router.post('/login', passport_1.default.authenticate('local', { failureRedirect: 'http://localhost:8080' }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        try {
-            const user = req.user;
-            if (!user.isVerified) {
-                res.status(403).send("Verifique seu email antes de fazer login.");
-                return;
-            }
-            res.json({
-                status: "ok",
-                message: "Login realizado com sucesso!",
-                user: {
-                    username: user.username,
-                    email: user.email,
-                },
-            });
+        const user = req.user;
+        if (!user.isVerified) {
+            res.status(403).send("Verifique seu email antes de fazer login.");
+            return;
         }
-        catch (err) {
-            next(err);
-        }
+        res.json({
+            status: "ok",
+            message: "Login realizado com sucesso!",
+            user: {
+                username: user.username,
+                email: user.email,
+            },
+        });
     }
     catch (err) {
-        next(err); // Encaminha qualquer erro para o middleware de erro
+        next(err);
     }
 }));
+// Rota para alterar o nome de usuário
 router.put('/:username/change-username', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log("Authenticated:", req.isAuthenticated());
         if (!req.isAuthenticated()) {
             res.status(401).send("Você precisa estar autenticado para alterar o username da sua conta.");
             return;
         }
         const { username } = req.params;
         const { newUsername } = req.body;
-        console.log(req.body);
         const existingUser = yield User.findOne({ username: newUsername });
         if (existingUser) {
             res.status(409).send("O nome de usuário já está em uso.");
             return;
         }
         // Atualiza o nome de usuário
-        const user = yield User.findOneAndUpdate({ username }, // Condição de busca
-        { username: newUsername }, // Atualização
-        { new: true } // Retorna o documento atualizado
-        );
+        const user = yield User.findOneAndUpdate({ username }, { username: newUsername }, { new: true });
         if (!user) {
             res.status(404).send("Usuário não encontrado.");
             return;
@@ -149,6 +145,7 @@ router.put('/:username/change-username', (req, res, next) => __awaiter(void 0, v
         next(err);
     }
 }));
+// Rota para logout
 router.post('/logout', (req, res, next) => {
     req.logout(function (err) {
         if (err) {
@@ -157,6 +154,7 @@ router.post('/logout', (req, res, next) => {
         res.status(200).json({ message: "Logout realizado com sucesso." });
     });
 });
+// Rota para excluir conta
 router.delete('/:username/delete', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.isAuthenticated()) {

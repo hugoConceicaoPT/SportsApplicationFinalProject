@@ -15,13 +15,13 @@ interface LeagueListProps extends AppProps {
 const LeagueList: React.FC<LeagueListProps> = ({ setState, leagueId, leagueName, imageSrc }) => {
   const [events, setEvents] = useState<INextPastLeagueEvents[]>([]);
   const worker = new Worker();
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const rawData = await worker.getListNextLeagueEvents(leagueId);
 
         // Mapeando os dados da API para o formato correto
-
         setEvents(rawData);
       } catch (error) {
         console.error("Erro ao buscar os próximos eventos da liga:", error);

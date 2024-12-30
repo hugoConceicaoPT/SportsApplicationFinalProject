@@ -1,11 +1,8 @@
 import axios, { AxiosResponse } from "axios";
-
-// App imports.
 import { config } from "./config";
 import { leagueIds } from "../../../server/src/leagueIds";
 
-// Define interface to describe a contact.  Note that we'll only have an _id field when retrieving or adding, so
-// it has to be optional.
+// Interfaces para descrever as informações de jogo
 export interface IGameLineup {
     _id?: number,
     strHome: string,
@@ -31,48 +28,53 @@ export interface IGameTimeline {
     intTime: string
 }
 
-
-// The worker that will perform contact operations.
+// Worker responsável por operações relacionadas aos jogos
 export class WorkerGame {
 
-    public async getLineup(idEvent : string): Promise<IGameLineup[]> {
+    // Obtém a formação de um jogo pelo ID do evento
+    public async getLineup(idEvent: string): Promise<IGameLineup[]> {
         const endpoint = `${config.serverAddress}/jogo/formacao/${idEvent}`;
         try {
+            // Faz a requisição ao endpoint
             const response: AxiosResponse = await axios.get(endpoint);
             return response.data;
         } catch (error) {
-            console.error(`Failed to fetch past league results for ID event: ${idEvent}`, error);
-            throw new Error("Unable to retrieve past league results. Please try again later.");
+            console.error(`Failed to fetch lineup for ID event: ${idEvent}`, error);
+            throw new Error("Unable to retrieve lineup. Please try again later.");
         }
     }
 
+    // Obtém as estatísticas de um jogo pelo ID do evento
     public async getStatistics(idEvent: string): Promise<IGameStatistics[]> {
         const endpoint = `${config.serverAddress}/jogo/estatisticas/${idEvent}`;
         if (!endpoint) {
-            throw new Error(`No endpoint found for league ID: ${idEvent}`);
+            throw new Error(`No endpoint found for ID event: ${idEvent}`);
         }
 
         try {
+            // Faz a requisição ao endpoint
             const response: AxiosResponse = await axios.get(endpoint);
             return response.data;
         } catch (error) {
-            console.error(`Failed to fetch league standings for league ID: ${idEvent}`, error);
-            throw new Error("Unable to retrieve league standings. Please try again later.");
+            console.error(`Failed to fetch statistics for ID event: ${idEvent}`, error);
+            throw new Error("Unable to retrieve statistics. Please try again later.");
         }
     }
 
+    // Obtém a timeline de um jogo pelo ID do evento
     public async getTimeline(idEvent: string): Promise<IGameTimeline[]> {
         const endpoint = `${config.serverAddress}/jogo/timeline/${idEvent}`;
         if (!endpoint) {
-            throw new Error(`No endpoint found for league ID: ${idEvent}`);
+            throw new Error(`No endpoint found for ID event: ${idEvent}`);
         }
 
         try {
+            // Faz a requisição ao endpoint
             const response: AxiosResponse = await axios.get(endpoint);
             return response.data;
         } catch (error) {
-            console.error(`Failed to fetch league standings for league ID: ${idEvent}`, error);
-            throw new Error("Unable to retrieve league standings. Please try again later.");
+            console.error(`Failed to fetch timeline for ID event: ${idEvent}`, error);
+            throw new Error("Unable to retrieve timeline. Please try again later.");
         }
     }
 
