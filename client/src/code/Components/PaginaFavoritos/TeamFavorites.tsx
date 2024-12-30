@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
-import ButtonLeague from "../PaginaPrincipal/buttonLeague";
 import { config } from "../../config"; // Importa a configuração geral, incluindo o endereço do servidor
 import { AppProps } from "../../main";
 import axios from "axios"; // Usaremos axios para buscar os favoritos do utilizador
 import ButtonTeam from "./buttonTeam";
+import { ITeamDetails, WorkerTeam } from "../../team";
+
+interface TeamInfo {
+  teamId: string;
+  teamName: string;
+  teamBadge: string;
+  leagueId: string;
+  leagueName: string;
+}
 
 const TeamFavorites: React.FC<AppProps> = ({ setState }) => {
   // Declara um estado local `ids` com `useState`.
   // O estado inicial é um array vazio.
-  const [ids, setIds ] = useState<string[]>([]);
-  const [teams, setTeams] = useState<string[]>([]);
-  const [badge, setBadge] = useState<string[]>([]);
+  const [teamInfos, setTeamInfos] = useState<TeamInfo[]>([]);
+  const worker = new WorkerTeam();
 
   // Função para buscar os favoritos do utilizador
   useEffect(() => {
@@ -18,9 +25,22 @@ const TeamFavorites: React.FC<AppProps> = ({ setState }) => {
       try {
         const response = await axios.get(`${config.serverAddress}/favorites`); // API para buscar favoritos do utilizador
         const { teamIds, teamName, teamBadge } = response.data; // Supomos que a API retorna arrays `teamIds`, `teamNames` e `teamBadges`
-        setTeams(teamName || []);
-        setBadge(teamBadge || []);
-        setIds(teamIds || []); // Atualiza o estado com os IDs retornados
+        const teamDetailsPromises = teamIds.map(async (teamId: string, index: number) => {
+          const teamResponse: ITeamDetails[] = await worker.getTeamDetails(teamId); // API para buscar detalhes da equipe
+          const { idLeague, strLeague } = teamResponse[0];
+          console.log(idLeague); // Supomos que a API retorna leagueId e leagueName
+          return {
+            teamId,
+            teamName: teamName[index],
+            teamBadge: teamBadge[index],
+            leagueId: idLeague,
+            leagueName: strLeague,
+          };
+        });
+
+        // Resolve todas as promessas e atualiza o estado
+        const teamDetails = await Promise.all(teamDetailsPromises);
+        setTeamInfos(teamDetails as TeamInfo[]);
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);
       }
@@ -32,16 +52,18 @@ const TeamFavorites: React.FC<AppProps> = ({ setState }) => {
   return (
     <div className="favorite-team-block-container">
       {/* Verifica se há favoritos */}
-      {ids.length === 0 ? (
+      {teamInfos.length === 0 ? (
         <div>Você não possui equipes favoritas.</div>
       ) : (
-        ids.map((teamId, index) => (
+        teamInfos.map((teamInfo) => (
           <ButtonTeam
-            key={teamId}
+            key={teamInfo.teamId}
             setState={setState}
-            teamId={teamId}
-            label={teams[index]}
-            imageSrc={badge[index]}
+            teamId={teamInfo.teamId}
+            label={teamInfo.teamName}
+            imageSrc={teamInfo.teamBadge}
+            leagueId={teamInfo.leagueId}
+            leagueName={teamInfo.leagueName}
           />
         ))
       )}

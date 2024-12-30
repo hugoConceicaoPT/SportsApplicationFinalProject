@@ -9,6 +9,7 @@ import Image from 'react-bootstrap/Image';
 import NextEventButton from "./NextEventButton";
 import { config } from "../../config";
 import axios from "axios";
+import { useLeagueContext } from "../Context/LeagueContext";
 
 
 interface LeagueButtonEventsProps extends AppProps {
@@ -25,6 +26,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
   const [events, setEvents] = useState<INextPastLeagueEvents[]>([]);
   const [isOpen, setIsOpen] = useState(true);
   const [favorite, setFavorite] = useState(true);
+  const { setLeague } = useLeagueContext();
   const worker = new Worker();
 
   useEffect(() => {
@@ -183,6 +185,11 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
 
   const redirectToLeaguePage = () => {
     setState({ view: "LeaguePage" });
+    setLeague({
+      leagueId,
+      leagueName,
+      imageSrc
+    })
   }
   return filteredEvents.length === 0 ? null : (
     <Container className="leagueEvents rounded p-0 mb-1">

@@ -38,4 +38,15 @@ router.get("/:id/resultados", (0, cachingRoutes_1.default)(120), (req, res, next
         next(err);
     }
 }));
+router.get("/:id/detalhes", (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookupteam.php?id=${req.params.id}`);
+        const responseData = yield response.json();
+        const arr = Object.entries(responseData.teams).map(transformData_1.transformTeamDetails);
+        res.json(arr);
+    }
+    catch (err) {
+        next(err);
+    }
+}));
 exports.default = router;

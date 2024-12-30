@@ -107,3 +107,14 @@ export function transformEventTimeline(element: [string, unknown]) {
         intTime: myElement.intTime
     }
 }
+
+export function transformTeamDetails(element: [string, unknown]) {
+    // Interpreta o segundo item do array `element` como `MyType` para acessar as propriedades
+    const myElement = element[1] as MyType;
+
+    // Retorna um novo objeto com transformações específicas nas propriedades do elemento
+    return {
+        idLeague: myElement.idLeague,
+        strLeague: myElement.strLeague,
+    }
+} 
