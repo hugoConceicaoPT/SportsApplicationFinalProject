@@ -4,6 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Image from "react-bootstrap/Image";
 import { config } from "../../config";
 import { ListGroup } from "react-bootstrap";
+import { useTeamContext } from "../Context/TeamContext";
 
 interface ITeamResult {
   idEvent?: string;
@@ -12,7 +13,9 @@ interface ITeamResult {
   intAwayScore: number;
   dateEvent?: string;
 
-  // Se a API retornar esses campos:
+  idHomeTeam?: string;
+  idAwayTeam?: string;
+
   strHomeTeam?: string;
   strAwayTeam?: string;
   strHomeTeamBadge?: string;
@@ -20,14 +23,11 @@ interface ITeamResult {
   strTime?: string;
 }
 
-const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
+const TeamResults: React.FC<{ teamId: string ;setState: (state: any) => void;}> = ({ teamId,setState }) => {
   const [results, setResults] = useState<ITeamResult[]>([]);
   const [loading, setLoading] = useState(true);
+  const { setTeam } = useTeamContext();
   
-  // Se você tiver a imagem da equipa principal, pode recebê-la via prop
-  // ou buscar da API. Exemplo (fixo) só para ilustrar:
-  const teamBadgeUrl = "https://via.placeholder.com/16"; // Substitua pela URL real
-
   useEffect(() => {
     const fetchResults = async () => {
       setLoading(true);
@@ -69,6 +69,32 @@ const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
     (a, b) => Number(a) - Number(b)
   );
 
+  const redirectToTeamHomePage = (
+    teamId: string,
+    teamName: string,
+    teamBadge: string
+  ) => {
+    setState({ view: "teampage" }); 
+    setTeam({
+      teamId,
+      teamName,
+      imageSrc: teamBadge,
+    });
+  };
+
+  const redirectToTeamAwayPage = (
+    teamId: string,
+    teamName: string,
+    teamBadge: string
+  ) => {
+    setState({ view: "teampage" }); 
+    setTeam({
+      teamId,
+      teamName,
+      imageSrc: teamBadge,
+    });
+  };
+
 
 
   return (
@@ -96,7 +122,10 @@ const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
                       <Image
                         src={result.strHomeTeamBadge}
                         alt={result.strHomeTeam}
-                        style={{ width: "24px", height: "24px", marginRight: "8px" }}
+                        style={{ cursor: "pointer",width: "24px", height: "24px", marginRight: "8px" }}
+                        onClick={()=>redirectToTeamHomePage(result.idHomeTeam!,
+                          result.strHomeTeam!,
+                          result.strHomeTeamBadge!)}
                       />
                       <span>{result.strHomeTeam}</span>
                     {/* Placar */}
@@ -107,10 +136,14 @@ const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
                       <Image
                         src={result.strAwayTeamBadge}
                         alt={result.strAwayTeam}
-                        style={{ width: "24px", height: "24px", marginLeft: "8px" }}
+                        
+                        style={{cursor: "pointer", width: "24px", height: "24px", marginRight: "8px" }}
+                        onClick={()=>redirectToTeamAwayPage(result.idAwayTeam!,
+                          result.strAwayTeam!,
+                          result.strAwayTeamBadge!)}
                       />
-                      <span style={{marginLeft: "8px"}}>{result.strAwayTeam }</span>
-                    {/* Data/Hora se quiser mostrar */}
+                      <span>{result.strAwayTeam}</span>
+                  
                     <span style={{ marginLeft: "10px",color: "#fff" }}>
                       {result.dateEvent}
                       {result.strTime ? ` ${result.strTime}` : ""}

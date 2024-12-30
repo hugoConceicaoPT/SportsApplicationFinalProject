@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { config } from "../../config";
-import { Container } from "react-bootstrap";
+import { Container, ListGroup, Image } from "react-bootstrap";
+import { useTeamContext } from "../Context/TeamContext";
 
 interface ITeamNextGame {
   idEvent?: string;
@@ -15,9 +16,13 @@ interface ITeamNextGame {
   intRound?: string | number;
 }
 
-const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
+const TeamList: React.FC<{
+  teamId: string;
+  setState: (state: any) => void;
+}> = ({ teamId, setState }) => {
   const [events, setEvents] = useState<ITeamNextGame[]>([]);
   const [loading, setLoading] = useState(true);
+  const { setTeam } = useTeamContext();
 
   useEffect(() => {
     const fetchList = async () => {
@@ -51,9 +56,35 @@ const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
       {} as Record<string, ITeamNextGame[]>
     );
   };
-  
 
   const groupedEvents = groupByRound(events);
+
+  // Funções de redirecionamento
+  const redirectToTeamHomePage = (
+    teamId: string,
+    teamName: string,
+    teamBadge: string
+  ) => {
+    setState({ view: "teampage" }); // Atualiza o estado global
+    setTeam({
+      teamId,
+      teamName,
+      imageSrc: teamBadge,
+    });
+  };
+
+  const redirectToTeamAwayPage = (
+    teamId: string,
+    teamName: string,
+    teamBadge: string
+  ) => {
+    setState({ view: "teampage" }); // Atualiza o estado global
+    setTeam({
+      teamId,
+      teamName,
+      imageSrc: teamBadge,
+    });
+  };
 
   if (loading) {
     return <div>Carregando...</div>;
@@ -72,19 +103,19 @@ const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
           Object.keys(groupedEvents).map((round) => (
             <div key={round} className="round-container mb-3">
               <h5> Jornada {round}</h5>
-              <ul className="list-results-2">
+              <ListGroup className="list-results-2">
                 {groupedEvents[round].map((game, index) => (
-                  <li
+                  <ListGroup.Item
                     key={index}
-                    className="list-group-item d-flex align-items-center justify-content-between"
+                    className="d-flex align-items-center justify-content-between"
                     style={{
                       backgroundColor: "#0b2129",
                       padding: "10px",
                       marginBottom: "10px",
-                      borderBottom: "#fff"
+                      borderBottom: "#fff",
                     }}
                   >
-                    <img
+                    <Image
                       src={game.strHomeTeamBadge}
                       alt={game.strHomeTeam}
                       style={{
@@ -93,35 +124,43 @@ const TeamList: React.FC<{ teamId: string }> = ({ teamId }) => {
                         marginRight: "10px",
                         cursor: "pointer",
                       }}
+                      onClick={() =>
+                        redirectToTeamHomePage(
+                          game.idHomeTeam!,
+                          game.strHomeTeam!,
+                          game.strHomeTeamBadge!
+                        )
+                      }
                     />
                     <span>{game.strHomeTeam}</span>
 
-                    <span>vs</span>
+                    <span className="list-vs">vs</span>
 
-            
-                    <img
+                    <Image
                       src={game.strAwayTeamBadge}
                       alt={game.strAwayTeam}
                       style={{
                         width: "24px",
                         height: "24px",
-                        marginLeft: "10px",
+                        marginRight: "10px",
                         cursor: "pointer",
                       }}
-                     
-                     
+                      onClick={() =>
+                        redirectToTeamAwayPage(
+                          game.idAwayTeam!,
+                          game.strAwayTeam!,
+                          game.strAwayTeamBadge!
+                        )
+                      }
                     />
-                    <span style={{marginLeft: "8px"}}>{game.strAwayTeam}
-                    </span>
-
-                    {/* Data/Hora */}
+                    <span>{game.strAwayTeam}</span>
 
                     <span>
                       {game.dateEvent} {game.strTime}
                     </span>
-                  </li>
+                  </ListGroup.Item>
                 ))}
-              </ul>
+              </ListGroup>
             </div>
           ))
         ) : (

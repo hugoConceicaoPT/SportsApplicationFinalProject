@@ -103,11 +103,11 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
           {view === "standings" && <Standings setState={setState} />}
 
           {/* Exibe resultados */}
-          {view === "results" && <TeamResults teamId={team.teamId} />}
+          {view === "results" && <TeamResults teamId={team.teamId} setState={setState} />}
 
 
           {/* Exibe lista de próximos jogos */}
-          {view === "list" && <TeamList teamId={team.teamId} />}
+          {view === "list" && <TeamList teamId={team.teamId} setState={setState} />}
         </div>
       </div>
     </>
