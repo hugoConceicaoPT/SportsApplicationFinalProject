@@ -11,35 +11,19 @@ import FilterOnLiveButton from "../Eventos/FilterOnLiveButton";
 import FilterScheduledButton from "../Eventos/FilterScheduledButton";
 import axios from "axios";
 import { config } from "../../config";
+import { WorkerFavorites, IFavorites } from "../../favorites";
 
 const CardListFavorites: React.FC<AppProps> = ({ setState }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [filter, setFilter] = useState<"all" | "finished" | "scheduled" | "live">("all");
-  const [favorites, setFavorites] = useState({
-    leagueIds: [],
-    leagueName: [],
-    leagueBadge: [],
-    teamIds: [],
-    teamName: [],
-    teamBadge: [],
-  });
+  const [favorites, setFavorites] = useState<IFavorites>();
+  const workerFavorites = new WorkerFavorites();
 
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await axios.get(`${config.serverAddress}/favorites`, {
-          withCredentials: true, // Inclui cookies na requisição para autenticação
-        });
-        const { leagueIds, leagueName, leagueBadge, teamIds, teamName, teamBadge } = response.data;
-        setFavorites({
-          leagueIds,
-          leagueName,
-          leagueBadge,
-          teamIds,
-          teamName,
-          teamBadge,
-        });
-
+        const response = await workerFavorites.getFavorites();
+        setFavorites(response);
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);
       }
@@ -77,7 +61,7 @@ const CardListFavorites: React.FC<AppProps> = ({ setState }) => {
               <DateButton date={selectedDate} setDate={setSelectedDate} />
             </div>
           </div>
-          {favorites.leagueIds.map((leagueId, index) =>
+          {favorites?.leagueIds.map((leagueId, index) =>
             renderLeagueEvents(leagueId, favorites.leagueName[index], favorites.leagueBadge[index])
           )}
         </Card.Body>

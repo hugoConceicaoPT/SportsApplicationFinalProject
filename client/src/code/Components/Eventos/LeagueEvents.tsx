@@ -10,6 +10,7 @@ import NextEventButton from "./NextEventButton";
 import { config } from "../../config";
 import axios from "axios";
 import { useLeagueContext } from "../Context/LeagueContext";
+import { WorkerFavorites, IFavorites } from "../../favorites";
 
 
 interface LeagueButtonEventsProps extends AppProps {
@@ -28,6 +29,7 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
   const [favorite, setFavorite] = useState(true);
   const { setLeague } = useLeagueContext();
   const worker = new Worker();
+  const workerFavorites = new WorkerFavorites();
 
   useEffect(() => {
     const fetchInitialEvents = async () => {
@@ -119,44 +121,21 @@ const LeagueEvents: React.FC<LeagueButtonEventsProps> = ({ setState, leagueId, l
   };
 
   const toggleFavorite = () => {
-    const togFavorite = async () => {
-      try {
-        const response = await axios.post(`${config.serverAddress}/favorites`, {
-          id: leagueId,
-          badge: imageSrc,
-          name: leagueName,
-        });
-      }
-      catch (error) {
-        console.error("Erro ao adicionar favorito:", error);
-      }
-    }
-    togFavorite();
-
+    workerFavorites.toggleFavorite(leagueId, leagueName, imageSrc);
     setFavorite(!favorite);
   };
 
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await axios.get(`${config.serverAddress}/favorites`, {
-          withCredentials: true, // Inclui cookies na requisição para autenticação
-        });
-
-        if (response.status === 401) {
-          setFavorite(false);
-        } else if (response.status === 404) {
-          setFavorite(false);
-        } else {
-          const { leagueIds } = response.data;
-          setFavorite(leagueIds.includes(leagueId));
-        }
+        const response = await workerFavorites.getFavorites();
+        const favorites = response;
+          setFavorite(favorites.leagueIds.includes(leagueId));
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);
         setFavorite(false);
       }
     };
-
     fetchFavorites();
   }, [leagueId]);
 

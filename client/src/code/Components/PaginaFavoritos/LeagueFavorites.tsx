@@ -4,17 +4,19 @@ import { config } from "../../config"; // Importa a configuração geral, inclui
 import { AppProps } from "../../main";
 import { leagueIds } from "../../../../../server/src/leagueIds"; // Importa os IDs das ligas
 import axios from "axios"; // Usaremos axios para buscar os favoritos do utilizador
+import { WorkerFavorites, IFavorites } from "../../favorites";
 
 const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
   // Declara um estado local `ids` com `useState`.
   // O estado inicial é um array vazio.
   const [ids, setIds ] = useState<string[]>([]);
+  const workerFavorites = new WorkerFavorites();
   // Função para buscar os favoritos do utilizador
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await axios.get(`${config.serverAddress}/favorites`); // API para buscar favoritos do utilizador
-        const { leagueIds } = response.data; // Supomos que a API retorna um array `leagueIds`
+        const response = await workerFavorites.getFavorites(); // API para buscar favoritos do utilizador
+        const { leagueIds } = response; // Supomos que a API retorna um array `leagueIds`
         setIds(leagueIds || []); // Atualiza o estado com os IDs retornados
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);

@@ -12,56 +12,41 @@ import LeagueResults from "./Results";
 import FilterClassificationButton from "../PaginaEquipa/FilterClassificationButton";
 import FilterResultsButton from "../PaginaEquipa/FilterResultsButton";
 import FilterListButton from "../PaginaEquipa/FilterListButton";
+import { WorkerFavorites, IFavorites } from "../../favorites";
+
 
 const LeaguePage: React.FC<AppProps> = ({ setState }) => {
   const { league } = useLeagueContext();
   const [view, setView] = useState<"standings" | "results" | "list">("standings");
   const [favorite, setFavorite] = useState(false); // Estado para o botão de favoritos
+  const workerFavorites = new WorkerFavorites(); // Instância do worker de favoritos
 
   useEffect(() => {
+    // Define a view padrão como 'standings' quando o componente é montado
     setView("standings");
   }, []);
 
   const toggleFavorite = () => {
-    const togFavorite = async () => {
-      try {
-        const response = await axios.post(`${config.serverAddress}/favorites`, {
-          id: league?.leagueId,
-          badge: league?.imageSrc,
-          name: league?.leagueName,
-        });
-      }
-      catch (error) {
-        console.error("Erro ao adicionar favorito:", error);
-      }
-    }
-    togFavorite();
-
-    setFavorite(!favorite);
-  };
-
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const response = await axios.get(`${config.serverAddress}/favorites`, {
-          withCredentials: true, // Inclui cookies na requisição para autenticação
-        });
-        console.log("Resposta da API de favoritos:", response); // Debug: log da resposta
-
-        if (response.data === "Necessita de estar logado para ver os Favoritos") {
-          setFavorite(false);
-        } else {
-          const { leagueIds } = response.data;
-          setFavorite(leagueIds.includes(league?.leagueId));
-        }
-      } catch (error) {
-        console.error("Erro ao buscar favoritos:", error);
-        setFavorite(false);
+      if (league) {
+        workerFavorites.toggleFavorite(league.leagueId, league.leagueName, league.imageSrc);
+        setFavorite(!favorite);
       }
     };
-
-    fetchFavorites();
-  }, [league?.leagueId]);
+  
+  if(league) {
+    useEffect(() => {
+      const fetchFavorites = async () => {
+        try {
+          const response = await workerFavorites.getFavorites();
+          setFavorite(response.leagueIds.includes(league?.leagueId));
+        } catch (error) {
+          console.error("Erro ao buscar favoritos:", error);
+          setFavorite(false);
+        }
+      };
+      fetchFavorites();
+    }, [league?.leagueId]);
+  }
 
   if (!league) {
     return <div>Erro: Nenhuma liga selecionada.</div>;

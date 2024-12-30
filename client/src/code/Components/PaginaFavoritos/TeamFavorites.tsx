@@ -4,6 +4,7 @@ import { AppProps } from "../../main";
 import axios from "axios"; // Usaremos axios para buscar os favoritos do utilizador
 import ButtonTeam from "./buttonTeam";
 import { ITeamDetails, WorkerTeam } from "../../team";
+import { WorkerFavorites, IFavorites } from "../../favorites";
 
 interface TeamInfo {
   teamId: string;
@@ -18,13 +19,14 @@ const TeamFavorites: React.FC<AppProps> = ({ setState }) => {
   // O estado inicial é um array vazio.
   const [teamInfos, setTeamInfos] = useState<TeamInfo[]>([]);
   const worker = new WorkerTeam();
+  const workerFavorites = new WorkerFavorites();
 
   // Função para buscar os favoritos do utilizador
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await axios.get(`${config.serverAddress}/favorites`); // API para buscar favoritos do utilizador
-        const { teamIds, teamName, teamBadge } = response.data; // Supomos que a API retorna arrays `teamIds`, `teamNames` e `teamBadges`
+        const response = await workerFavorites.getFavorites(); // API para buscar favoritos do utilizador
+        const { teamIds, teamName, teamBadge } = response; // Supomos que a API retorna arrays `teamIds`, `teamNames` e `teamBadges`
         const teamDetailsPromises = teamIds.map(async (teamId: string, index: number) => {
           const teamResponse: ITeamDetails[] = await worker.getTeamDetails(teamId); // API para buscar detalhes da equipe
           const { idLeague, strLeague } = teamResponse[0];

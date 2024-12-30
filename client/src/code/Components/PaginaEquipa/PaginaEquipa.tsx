@@ -12,11 +12,14 @@ import { config } from "../../config";
 import FilterClassificationButton from "./FilterClassificationButton";
 import FilterResultsButton from "./FilterResultsButton";
 import FilterListButton from "./FilterListButton";
+import { WorkerFavorites, IFavorites } from "../../favorites";
+
 
 const TeamPage: React.FC<AppProps> = ({ setState }) => {
   const { team } = useTeamContext(); // Contexto da equipe selecionada
   const [view, setView] = useState<"standings" | "results" | "list">("standings");
   const [favorite, setFavorite] = useState(true);
+  const workerFavorites = new WorkerFavorites();
 
   useEffect(() => {
     // Define a view padrão como 'standings' quando o componente é montado
@@ -25,39 +28,26 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
 
   // Função para alternar o estado de favorito
   const toggleFavorite = () => {
-    const togFavorite = async () => {
-      try {
-        await axios.post(`${config.serverAddress}/favorites`, {
-          id: team?.teamId,
-          badge: team?.imageSrc,
-          name: team?.teamName,
-        });
-      } catch (error) {
-        console.error("Erro ao adicionar favorito:", error);
-      }
-    };
-    togFavorite();
-
-    setFavorite(!favorite); // Alterna o estado local
-  };
-
-  // Verifica se o time está nos favoritos ao carregar a página
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const response = await axios.get(`${config.serverAddress}/favorites`, {
-          withCredentials: true, // Inclui cookies para autenticação
-        });
-        const { teamIds } = response.data;
-        setFavorite(teamIds.includes(team?.teamId)); // Verifica se o time está nos favoritos
-      } catch (error) {
-        console.error("Erro ao buscar favoritos:", error);
-        setFavorite(false);
-      }
-    };
-
-    fetchFavorites();
-  }, [team?.teamId]);
+        if (team) {
+          workerFavorites.toggleFavorite(team.teamId, team.teamName, team.imageSrc);
+          setFavorite(!favorite);
+        }
+      };
+    
+    if(team) {
+      useEffect(() => {
+        const fetchFavorites = async () => {
+          try {
+            const response = await workerFavorites.getFavorites();
+            setFavorite(response.teamIds.includes(team?.teamId));
+          } catch (error) {
+            console.error("Erro ao buscar favoritos:", error);
+            setFavorite(false);
+          }
+        };
+        fetchFavorites();
+      }, [team?.teamId]);
+    }
 
   if (!team) {
     return <div>Erro: Nenhuma equipe selecionada.</div>;

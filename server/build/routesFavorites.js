@@ -21,9 +21,7 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     var _a;
     try {
         if (!req.isAuthenticated()) {
-            console.log("add");
-            res.send("Necessita de estar logado para adicionar aos Favoritos");
-            return;
+            res.status(401).send("Necessita de estar logado para ver os Favoritos");
         }
         if (!req.user) {
             return;
