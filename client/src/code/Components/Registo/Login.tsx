@@ -68,7 +68,7 @@ const Login: React.FC<AppProps> = ({ setState }) => {
 
             if (response.data.status !== "ok") {
                 // Caso o login falhe, exibe um erro.
-                throw new Error("Utilizador(a) ou password incorretos. Tente novamente");
+                throw new Error(response.data);
             } else {
                 // Caso o login tenha sucesso, atualiza o contexto do usuário e navega para a página "home".
                 setError('');
@@ -78,7 +78,7 @@ const Login: React.FC<AppProps> = ({ setState }) => {
             }
         } catch (error) {
             // Exibe a mensagem de erro em caso de falha.
-            setError(error.message);
+            setError(error.response.data);
         } finally {
             setIsSubmitting(false); // Reabilita o botão de envio após finalizar a requisição.
         }

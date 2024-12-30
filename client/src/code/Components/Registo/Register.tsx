@@ -65,7 +65,7 @@ const Register: React.FC<AppProps> = ({ setState }) => {
 
             if (response.status !== 200) {
                 // Exibe um erro caso já exista um usuário com o mesmo email.
-                throw new Error("Já existe um(a) utilizador(a) com o mesmo email.");
+                throw new Error(response.data);
             } else {
                 setSuccessMessage(response.data);
                 // Redireciona para a página "home" após o registro bem-sucedido.
@@ -73,7 +73,7 @@ const Register: React.FC<AppProps> = ({ setState }) => {
             }
         } catch (error) {
             // Define a mensagem de erro em caso de falha no registro.
-            setError(error.message);
+            setError(error.response.data);
         } finally {
             setIsSubmitting(false); // Reabilita o botão após o envio.
         }
