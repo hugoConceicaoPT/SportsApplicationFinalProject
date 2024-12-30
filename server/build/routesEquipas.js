@@ -16,37 +16,53 @@ const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const cachingRoutes_1 = __importDefault(require("./cachingRoutes"));
 const transformData_1 = require("./transformData");
-router.get("/:id/lista", (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+// Rota para obter os próximos eventos de uma equipe por ID
+router.get('/:id/lista', (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Faz a requisição à API para obter os próximos eventos
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventsnext.php?id=${req.params.id}`);
         const responseData = yield response.json();
+        // Transforma os dados recebidos no formato necessário
         const arr = Object.entries(responseData.events).map(transformData_1.transformNextLastLeagueEvent);
+        // Retorna os dados transformados como resposta
         res.json(arr);
     }
     catch (err) {
+        // Encaminha erros ao middleware de tratamento
         next(err);
     }
 }));
-router.get("/:id/resultados", (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+// Rota para obter os resultados passados de uma equipe por ID
+router.get('/:id/resultados', (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Faz a requisição à API para obter os resultados passados
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/eventslast.php?id=${req.params.id}`);
         const responseData = yield response.json();
+        // Transforma os dados recebidos no formato necessário
         const arr = Object.entries(responseData.results).map(transformData_1.transformNextLastLeagueEvent);
+        // Retorna os dados transformados como resposta
         res.json(arr);
     }
     catch (err) {
+        // Encaminha erros ao middleware de tratamento
         next(err);
     }
 }));
-router.get("/:id/detalhes", (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+// Rota para obter os detalhes de uma equipe por ID
+router.get('/:id/detalhes', (0, cachingRoutes_1.default)(120), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Faz a requisição à API para obter os detalhes da equipe
         const response = yield fetch(`https://www.thesportsdb.com/api/v1/json/${process.env.API_KEY}/lookupteam.php?id=${req.params.id}`);
         const responseData = yield response.json();
+        // Transforma os dados recebidos no formato necessário
         const arr = Object.entries(responseData.teams).map(transformData_1.transformTeamDetails);
+        // Retorna os dados transformados como resposta
         res.json(arr);
     }
     catch (err) {
+        // Encaminha erros ao middleware de tratamento
         next(err);
     }
 }));
+// Exporta o roteador para uso em outras partes da aplicação
 exports.default = router;

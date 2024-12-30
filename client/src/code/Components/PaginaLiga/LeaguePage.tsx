@@ -16,16 +16,16 @@ import { WorkerFavorites, IFavorites } from "../../favorites";
 
 
 const LeaguePage: React.FC<AppProps> = ({ setState }) => {
-  const { league } = useLeagueContext();
-  const [view, setView] = useState<"standings" | "results" | "list">("standings");
+  const { league } = useLeagueContext(); // Contexto para obter as informações da liga selecionada
+  const [view, setView] = useState<"standings" | "results" | "list">("standings"); // Estado para a visão atual
   const [favorite, setFavorite] = useState(false); // Estado para o botão de favoritos
   const workerFavorites = new WorkerFavorites(); // Instância do worker de favoritos
 
   useEffect(() => {
-    // Define a view padrão como 'standings' quando o componente é montado
-    setView("standings");
+    setView("standings"); // Define a visão padrão como "standings"
   }, []);
 
+  // Função para alternar o estado de favorito
   const toggleFavorite = () => {
       if (league) {
         workerFavorites.toggleFavorite(league.leagueId, league.leagueName, league.imageSrc);
@@ -52,9 +52,10 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
     return <div>Erro: Nenhuma liga selecionada.</div>;
   }
 
+  // Redireciona para a página de um time
   const redirectToTeamPage = () => {
     setState({ view: "teampage" });
-  }
+  };
 
   return (
     <>
@@ -62,14 +63,17 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
       <div className="league-page">
         <div className="league-header d-flex align-items-center justify-content-between">
           <div className="d-flex align-items-center">
-            <Image onClick={redirectToTeamPage}
+            {/* Logotipo da liga */}
+            <Image
+              onClick={redirectToTeamPage}
               src={league.imageSrc}
               alt={`${league.leagueName} logo`}
               className="league-logo me-3"
-              style={{cursor: "pointer"}}
+              style={{ cursor: "pointer" }}
             />
+            {/* Nome da liga */}
             <h1 className="league-logo-text me-3">{league.leagueName}</h1>
-            {/* Adiciona o botão de favoritos */}
+            {/* Botão de favoritos */}
             <Button
               style={{
                 color: favorite ? "#FFCD00" : "white",
@@ -84,17 +88,14 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
         </div>
 
         <div className="navigation d-flex justify-content-around my-3">
-          {/* Botão Classificações */}
-          <FilterClassificationButton setView={setView} view={view}/>
-
-          {/* Botão Resultados */}
+          {/* Botões de filtro para diferentes visões */}
+          <FilterClassificationButton setView={setView} view={view} />
           <FilterResultsButton setView={setView} view={view} />
-
-          {/* Botão Lista */}
           <FilterListButton setView={setView} view={view} />
         </div>
 
         <div className="content mt-4">
+          {/* Renderiza a visão correspondente */}
           {view === "standings" && <LeagueStandings setState={setState} />}
           {view === "results" && (
             <LeagueResults

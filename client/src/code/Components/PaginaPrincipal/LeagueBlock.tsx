@@ -3,6 +3,7 @@ import ButtonLeague from "./buttonLeague";
 import { AppProps } from "../../main";
 import { leagueIds } from "../../../../../server/src/leagueIds"; // Importa os IDs das ligas
 
+// Componente responsável por renderizar blocos de botões para ligas
 const LeagueBlock: React.FC<AppProps> = ({ setState }) => {
   return (
       <div className="league-block-container">

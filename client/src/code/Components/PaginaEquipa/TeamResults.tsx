@@ -4,37 +4,29 @@ import Nav from "react-bootstrap/Nav";
 import Image from "react-bootstrap/Image";
 import { config } from "../../config";
 import { ListGroup } from "react-bootstrap";
+import { useTeamContext } from "../Context/TeamContext";
+import { ITeamDetails, WorkerTeam } from "../../team";
+import { INextPastLeagueEvents } from "../../league";
+import { AppProps } from "../../main";
+import { useLeagueContext } from "../Context/LeagueContext";
 
-interface ITeamResult {
-  idEvent?: string;
-  intRound?: number | string;
-  intHomeScore: number;
-  intAwayScore: number;
-  dateEvent?: string;
-
-  // Se a API retornar esses campos:
-  strHomeTeam?: string;
-  strAwayTeam?: string;
-  strHomeTeamBadge?: string;
-  strAwayTeamBadge?: string;
-  strTime?: string;
+interface ITeamResults extends AppProps {
+  teamId: string
 }
 
-const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
-  const [results, setResults] = useState<ITeamResult[]>([]);
+const TeamResults: React.FC<ITeamResults> = ({ teamId,setState }) => {
+  const [results, setResults] = useState<INextPastLeagueEvents[]>([]);
   const [loading, setLoading] = useState(true);
+  const { setLeague } = useLeagueContext();
+  const { setTeam } = useTeamContext();
+  const worker = new WorkerTeam();
   
-  // Se você tiver a imagem da equipa principal, pode recebê-la via prop
-  // ou buscar da API. Exemplo (fixo) só para ilustrar:
-  const teamBadgeUrl = "https://via.placeholder.com/16"; // Substitua pela URL real
-
   useEffect(() => {
     const fetchResults = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${config.serverAddress}/equipa/${teamId}/resultados`);
-        const data = await res.json();
-        setResults(data || []);
+        const res = await worker.getPastTeamResults(teamId);
+        setResults(res);
       } catch (error) {
         console.error("Failed to fetch team results", error);
       }
@@ -52,8 +44,19 @@ const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
     return <p>Nenhum resultado encontrado</p>;
   }
 
+  const fetchTeamDetails = async (teamId: string): Promise<ITeamDetails | null> => {
+      try {
+        const worker = new WorkerTeam(); // Instancie o worker aqui, se necessário
+        const teamResponse: ITeamDetails[] = await worker.getTeamDetails(teamId);
+        return teamResponse[0] || null;
+      } catch (error) {
+        console.error("Failed to fetch team details", error);
+        return null;
+      }
+    };
+
   // Agrupa resultados por jornada
-  const groupByRound = (items: ITeamResult[]) => {
+  const groupByRound = (items: INextPastLeagueEvents[]) => {
     return items.reduce((acc, item) => {
       const round = item.intRound || "Unknown Round";
       if (!acc[round]) {
@@ -61,13 +64,55 @@ const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
       }
       acc[round].push(item);
       return acc;
-    }, {} as Record<string, ITeamResult[]>);
+    }, {} as Record<string, INextPastLeagueEvents[]>);
   };
 
   const groupedResults = groupByRound(results);
   const rounds = Object.keys(groupedResults).sort(
     (a, b) => Number(a) - Number(b)
   );
+
+  const redirectToTeamHomePage = async (
+    teamId: string,
+    teamName: string,
+    teamBadge: string
+  ) => {
+    setState({ view: "teampage" }); 
+    setTeam({
+      teamId,
+      teamName,
+      imageSrc: teamBadge,
+    });
+    const homeTeamDetails = await fetchTeamDetails(teamId);
+    if (homeTeamDetails) {
+      setLeague({
+        leagueId: homeTeamDetails?.idLeague ?? '',
+        leagueName: '',
+        imageSrc: ''
+      })
+    }
+  };
+
+  const redirectToTeamAwayPage = async (
+    teamId: string,
+    teamName: string,
+    teamBadge: string
+  ) => {
+    setState({ view: "teampage" }); 
+    setTeam({
+      teamId,
+      teamName,
+      imageSrc: teamBadge,
+    });
+    const awayTeamDetails = await fetchTeamDetails(teamId);
+    if (awayTeamDetails) {
+      setLeague({
+        leagueId: awayTeamDetails?.idLeague ?? '',
+        leagueName: '',
+        imageSrc: ''
+      })
+    }
+  };
 
 
 
@@ -96,7 +141,10 @@ const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
                       <Image
                         src={result.strHomeTeamBadge}
                         alt={result.strHomeTeam}
-                        style={{ width: "24px", height: "24px", marginRight: "8px" }}
+                        style={{ cursor: "pointer",width: "24px", height: "24px", marginRight: "8px" }}
+                        onClick={()=>redirectToTeamHomePage(result.idHomeTeam!,
+                          result.strHomeTeam!,
+                          result.strHomeTeamBadge!)}
                       />
                       <span>{result.strHomeTeam}</span>
                     {/* Placar */}
@@ -107,10 +155,14 @@ const TeamResults: React.FC<{ teamId: string }> = ({ teamId }) => {
                       <Image
                         src={result.strAwayTeamBadge}
                         alt={result.strAwayTeam}
-                        style={{ width: "24px", height: "24px", marginLeft: "8px" }}
+                        
+                        style={{cursor: "pointer", width: "24px", height: "24px", marginRight: "8px" }}
+                        onClick={()=>redirectToTeamAwayPage(result.idAwayTeam!,
+                          result.strAwayTeam!,
+                          result.strAwayTeamBadge!)}
                       />
-                      <span style={{marginLeft: "8px"}}>{result.strAwayTeam }</span>
-                    {/* Data/Hora se quiser mostrar */}
+                      <span>{result.strAwayTeam}</span>
+                  
                     <span style={{ marginLeft: "10px",color: "#fff" }}>
                       {result.dateEvent}
                       {result.strTime ? ` ${result.strTime}` : ""}

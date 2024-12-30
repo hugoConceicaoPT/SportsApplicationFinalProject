@@ -5,15 +5,23 @@ import LeagueFavorites from "../PaginaFavoritos/LeagueFavorites";
 import TeamFavorites from "../PaginaFavoritos/TeamFavorites";
 import CardListFavorites from "../PaginaFavoritos/CardListFavorites";
 
-const Favorites: React.FC<AppProps> = ({setState}) => {
+// Componente principal da página de favoritos
+const Favorites: React.FC<AppProps> = ({ setState }) => {
     return (
         <>
-            <Header setState={setState}/>
-            <LeagueFavorites setState={setState}/>
-            <TeamFavorites setState={setState}/>
-            <CardListFavorites setState={setState}/>
+            {/* Cabeçalho da página com funcionalidade de navegação */}
+            <Header setState={setState} />
+
+            {/* Seção para exibir ligas favoritas */}
+            <LeagueFavorites setState={setState} />
+
+            {/* Seção para exibir equipes favoritas */}
+            <TeamFavorites setState={setState} />
+
+            {/* Exibe uma lista consolidada de favoritos */}
+            <CardListFavorites setState={setState} />
         </>
     );
-}
+};
 
 export default Favorites;

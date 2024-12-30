@@ -4,8 +4,7 @@ import axios, { AxiosResponse } from "axios";
 import { config } from "./config";
 import { leagueIds } from "../../../server/src/leagueIds";
 
-// Define interface to describe a contact.  Note that we'll only have an _id field when retrieving or adding, so
-// it has to be optional.
+// Interfaces para definir a estrutura dos dados
 export interface INextPastLeagueEvents {
     _id?: number,
     idEvent: string,
@@ -58,7 +57,7 @@ export interface ILeagueStandings {
     intPoints: string
 }
 
-
+// Endpoints específicos para cada liga
 const leagueEndpoints: Record<string, string> = {
     [leagueIds.premierLeague]: `${config.serverAddress}/inglaterra/premier-league`,
     [leagueIds.primeiraLiga]: `${config.serverAddress}/portugal/liga-portugal-betclic`,
@@ -68,9 +67,10 @@ const leagueEndpoints: Record<string, string> = {
     [leagueIds.serieA]: `${config.serverAddress}/italia/serie-a`
 };
 
-// The worker that will perform contact operations.
+// Worker responsável por operações relacionadas às ligas
 export class Worker {
 
+    // Obtém a lista de próximos eventos de uma liga
     public async getListNextLeagueEvents(leagueId: string, currentDate?: Date): Promise<INextPastLeagueEvents[]> {
 
         let endpoint = leagueEndpoints[leagueId];
@@ -83,12 +83,11 @@ export class Worker {
             if (currentDate) {
                 const response: AxiosResponse = await axios.get(endpoint, {
                     params: {
-                        date: currentDate.toISOString().split('T')[0], // Formata a data para o formato YYYY-MM-DD
+                        date: currentDate.toISOString().split('T')[0], // Formata a data para YYYY-MM-DD
                     },
                 });
                 return response.data;
-            }
-            else {
+            } else {
                 const response: AxiosResponse = await axios.get(endpoint);
                 return response.data;
             }
@@ -99,6 +98,7 @@ export class Worker {
 
     }
 
+    // Obtém as classificações de uma liga
     public async getLeagueStanding(leagueId: string): Promise<ILeagueStandings[]> {
         let endpoint = leagueEndpoints[leagueId];
         endpoint += "/classificacoes";
@@ -115,6 +115,7 @@ export class Worker {
         }
     }
 
+    // Obtém os resultados passados de uma liga
     public async getPastLeagueResults(leagueId: string, currentDate: Date): Promise<INextPastLeagueEvents[]> {
         let endpoint = leagueEndpoints[leagueId];
         endpoint += "/resultados";
@@ -135,7 +136,7 @@ export class Worker {
         }
     }
 
-
+    // Obtém os resultados passados de uma liga por rodada
     public async getPastLeagueResultsByRound(leagueId: string, round?: string): Promise<INextPastLeagueEvents[]> {
         let endpoint = leagueEndpoints[leagueId];
         endpoint += "/resultados";

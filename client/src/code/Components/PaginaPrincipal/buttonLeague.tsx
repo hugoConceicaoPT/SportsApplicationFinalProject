@@ -12,13 +12,18 @@ interface ButtonLeagueProps extends AppProps {
 
 const ButtonLeague: React.FC<ButtonLeagueProps> = ({ setState, imageSrc, label, leagueId }) => {
   const { setLeague } = useLeagueContext();
+
+  // Função para redirecionar para a página da liga
   const redirectToLeague = () => {
+    // Atualiza o estado para exibir a página da liga
     setState({ view: "LeaguePage" });
+
+    // Define os detalhes da liga no contexto
     setLeague({
       leagueId,
       leagueName: label,
       imageSrc
-    })
+    });
   };
 
   return (
@@ -37,15 +42,16 @@ const ButtonLeague: React.FC<ButtonLeagueProps> = ({ setState, imageSrc, label, 
           border: "none",
           textDecoration: "none",
         }}
-        onClick={redirectToLeague}
+        onClick={redirectToLeague} // Aciona o redirecionamento ao clicar
       >
+        {/* Exibe a imagem do ícone */}
         <img
           src={imageSrc}
           alt="icon"
           className="custom-button-icon"
           style={{ marginRight: "8px" }}
         />
-        {label}
+        {label} {/* Exibe o texto do botão */}
       </Button>
     </div>
   );
