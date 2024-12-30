@@ -54,7 +54,12 @@ const LeagueList: React.FC<LeagueListProps> = ({ setState, leagueId, leagueName,
               <h5>Jornada {round}</h5> {/* Exibe a jornada */}
               <ul className="list-results-2">
                 {groupedEvents[round].map((event, index) => (
-                  <ListButton setState={setState} event={event} index={index} />
+                  <ListButton
+                    key={event.idEvent || index} // Use event.idEvent se disponível; caso contrário, use index
+                    setState={setState}
+                    event={event}
+                    index={index}
+                  />
                 ))}
               </ul>
             </div>

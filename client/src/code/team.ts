@@ -17,8 +17,24 @@ export class WorkerTeam {
 
     public async getNextTeamList(teamId: string): Promise<INextPastLeagueEvents[]> {
 
-        let endpoint = `${config.serverAddress}/equipa/${teamId}`;
-        endpoint += "/lista";
+        let endpoint = `${config.serverAddress}/equipa/${teamId}/lista`;
+        if (!endpoint) {
+            throw new Error(`No endpoint found for league ID: ${teamId}`);
+        }
+
+        try {
+            const response: AxiosResponse = await axios.get(endpoint);
+            return response.data;
+        } catch (error) {
+            console.error(`Failed to fetch league events for league ID: ${teamId}`, error);
+            throw new Error("Unable to retrieve league events. Please try again later.");
+        }
+
+    }
+
+    public async getPastTeamResults(teamId: string): Promise<INextPastLeagueEvents[]> {
+
+        let endpoint = `${config.serverAddress}/equipa/${teamId}/resultados`;
         if (!endpoint) {
             throw new Error(`No endpoint found for league ID: ${teamId}`);
         }

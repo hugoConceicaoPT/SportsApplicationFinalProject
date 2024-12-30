@@ -5,36 +5,28 @@ import Image from "react-bootstrap/Image";
 import { config } from "../../config";
 import { ListGroup } from "react-bootstrap";
 import { useTeamContext } from "../Context/TeamContext";
+import { ITeamDetails, WorkerTeam } from "../../team";
+import { INextPastLeagueEvents } from "../../league";
+import { AppProps } from "../../main";
+import { useLeagueContext } from "../Context/LeagueContext";
 
-interface ITeamResult {
-  idEvent?: string;
-  intRound?: number | string;
-  intHomeScore: number;
-  intAwayScore: number;
-  dateEvent?: string;
-
-  idHomeTeam?: string;
-  idAwayTeam?: string;
-
-  strHomeTeam?: string;
-  strAwayTeam?: string;
-  strHomeTeamBadge?: string;
-  strAwayTeamBadge?: string;
-  strTime?: string;
+interface ITeamResults extends AppProps {
+  teamId: string
 }
 
-const TeamResults: React.FC<{ teamId: string ;setState: (state: any) => void;}> = ({ teamId,setState }) => {
-  const [results, setResults] = useState<ITeamResult[]>([]);
+const TeamResults: React.FC<ITeamResults> = ({ teamId,setState }) => {
+  const [results, setResults] = useState<INextPastLeagueEvents[]>([]);
   const [loading, setLoading] = useState(true);
+  const { setLeague } = useLeagueContext();
   const { setTeam } = useTeamContext();
+  const worker = new WorkerTeam();
   
   useEffect(() => {
     const fetchResults = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${config.serverAddress}/equipa/${teamId}/resultados`);
-        const data = await res.json();
-        setResults(data || []);
+        const res = await worker.getPastTeamResults(teamId);
+        setResults(res);
       } catch (error) {
         console.error("Failed to fetch team results", error);
       }
@@ -52,8 +44,19 @@ const TeamResults: React.FC<{ teamId: string ;setState: (state: any) => void;}> 
     return <p>Nenhum resultado encontrado</p>;
   }
 
+  const fetchTeamDetails = async (teamId: string): Promise<ITeamDetails | null> => {
+      try {
+        const worker = new WorkerTeam(); // Instancie o worker aqui, se necessário
+        const teamResponse: ITeamDetails[] = await worker.getTeamDetails(teamId);
+        return teamResponse[0] || null;
+      } catch (error) {
+        console.error("Failed to fetch team details", error);
+        return null;
+      }
+    };
+
   // Agrupa resultados por jornada
-  const groupByRound = (items: ITeamResult[]) => {
+  const groupByRound = (items: INextPastLeagueEvents[]) => {
     return items.reduce((acc, item) => {
       const round = item.intRound || "Unknown Round";
       if (!acc[round]) {
@@ -61,7 +64,7 @@ const TeamResults: React.FC<{ teamId: string ;setState: (state: any) => void;}> 
       }
       acc[round].push(item);
       return acc;
-    }, {} as Record<string, ITeamResult[]>);
+    }, {} as Record<string, INextPastLeagueEvents[]>);
   };
 
   const groupedResults = groupByRound(results);
@@ -69,7 +72,7 @@ const TeamResults: React.FC<{ teamId: string ;setState: (state: any) => void;}> 
     (a, b) => Number(a) - Number(b)
   );
 
-  const redirectToTeamHomePage = (
+  const redirectToTeamHomePage = async (
     teamId: string,
     teamName: string,
     teamBadge: string
@@ -80,9 +83,17 @@ const TeamResults: React.FC<{ teamId: string ;setState: (state: any) => void;}> 
       teamName,
       imageSrc: teamBadge,
     });
+    const homeTeamDetails = await fetchTeamDetails(teamId);
+    if (homeTeamDetails) {
+      setLeague({
+        leagueId: homeTeamDetails?.idLeague ?? '',
+        leagueName: '',
+        imageSrc: ''
+      })
+    }
   };
 
-  const redirectToTeamAwayPage = (
+  const redirectToTeamAwayPage = async (
     teamId: string,
     teamName: string,
     teamBadge: string
@@ -93,6 +104,14 @@ const TeamResults: React.FC<{ teamId: string ;setState: (state: any) => void;}> 
       teamName,
       imageSrc: teamBadge,
     });
+    const awayTeamDetails = await fetchTeamDetails(teamId);
+    if (awayTeamDetails) {
+      setLeague({
+        leagueId: awayTeamDetails?.idLeague ?? '',
+        leagueName: '',
+        imageSrc: ''
+      })
+    }
   };
 
 

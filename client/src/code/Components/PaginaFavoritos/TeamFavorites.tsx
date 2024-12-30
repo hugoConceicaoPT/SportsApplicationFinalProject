@@ -27,8 +27,7 @@ const TeamFavorites: React.FC<AppProps> = ({ setState }) => {
         const { teamIds, teamName, teamBadge } = response.data; // Supomos que a API retorna arrays `teamIds`, `teamNames` e `teamBadges`
         const teamDetailsPromises = teamIds.map(async (teamId: string, index: number) => {
           const teamResponse: ITeamDetails[] = await worker.getTeamDetails(teamId); // API para buscar detalhes da equipe
-          const { idLeague, strLeague } = teamResponse[0];
-          console.log(idLeague); // Supomos que a API retorna leagueId e leagueName
+          const { idLeague, strLeague } = teamResponse[0];// Supomos que a API retorna leagueId e leagueName
           return {
             teamId,
             teamName: teamName[index],

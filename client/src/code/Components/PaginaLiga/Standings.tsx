@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Worker, ILeagueStandings } from "../../league";
-import Button from "react-bootstrap/Button";
-import { Star, StarFill } from "react-bootstrap-icons";
 import { Container } from "react-bootstrap";
-import Image from "react-bootstrap/Image";
 import StandingsItem from "./StandingsItem";
 import { AppProps } from "../../main";
 import { useLeagueContext } from "../Context/LeagueContext";
@@ -13,9 +10,7 @@ const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
   const [favorite, setFavorite] = useState(false);
   const { league } = useLeagueContext();
   const leagueId = league?.leagueId;
-  const imageSrc = league?.imageSrc;
-  const leagueName = league?.leagueName;
-
+  
   useEffect(() => {
     const worker = new Worker();
     const fetchStandings = async () => {
