@@ -6,22 +6,28 @@ import { ArrowRepeat } from "react-bootstrap-icons";
 import { Container, Row } from "react-bootstrap";
 import { IGameTimeline, WorkerGame } from "../../game";
 
+// Componente funcional para exibir a página de eventos de um jogo.
 const GamePage: React.FC = () => {
+    // Obtém o evento selecionado do contexto.
     const { selectedEvent } = useEvent();
+     // Instancia o worker para buscar dados da linha do tempo do jogo.
     const workerGame = new WorkerGame();
+    // Estado para armazenar os eventos da linha do tempo do jogo.
     const [gameTimeline, setGameTimeline] = useState<IGameTimeline[]>([]);
 
+    // Verifica se há um evento selecionado; caso contrário, exibe uma mensagem de erro.
     if (!selectedEvent) {
         return <div>Evento não encontrado</div>;
     }
 
+    // Hook que busca a linha do tempo do evento selecionado ao montar o componente ou quando o ID do evento mudar.
     useEffect(() => {
         const fetchGameTimeline = async () => {
             try {
                 if (selectedEvent.idEvent) {
                     const data = await workerGame.getTimeline(selectedEvent.idEvent);
-                    setGameTimeline(Array.isArray(data) ? data : []);
-                    console.log(selectedEvent.idEvent);
+                    setGameTimeline(Array.isArray(data) ? data : []); // Atualiza o estado com os dados recebidos.
+                    console.log(selectedEvent.idEvent);// Loga o ID do evento para depuração.
                 }
             } catch (error) {
                 console.error("Error fetching league timeline:", error);
@@ -51,16 +57,19 @@ const GamePage: React.FC = () => {
     const firstHalf = gameTimeline.filter(event => parseInt(event.intTime) <= 45);
     const secondHalf = gameTimeline.filter(event => parseInt(event.intTime) > 45);
 
+    // Função que renderiza uma linha para cada evento no jogo.
     const renderEventRow = (event: IGameTimeline, index: number) => {
 
+        // Ignora eventos do tipo "Var".
         if (event.strTimeline === "Var") {
             return null;
         }
 
+        // Adiciona uma indicação de penalidade nos detalhes do evento, se aplicável.
         if(event.strTimelineDetail === "Penalty") {
             event.strAssist += "Penalidade";
         }
-
+     // Verifica se o evento pertence à equipa da casa.   
         const isHomeTeam = event.strHome === "Yes";
         return (
             <Row key={index} className="mb-3">

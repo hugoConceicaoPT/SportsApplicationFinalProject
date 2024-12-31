@@ -3,20 +3,29 @@ import { useEvent } from "../Context/EventContext";
 import { Container } from "react-bootstrap";
 import { IGameLineup, WorkerGame } from "../../game";
 
+// Componente funcional que exibe as formações de uma partida.
 const FormationPage: React.FC = () => {
+    // Obtém o evento selecionado do contexto de eventos.
     const { selectedEvent } = useEvent();
+    // Estado para armazenar a formação inicial das equipas.
     const [gameLineupEvent, setGameLineupEvent] = useState<IGameLineup[]>([]);
+    // Instancia um worker para buscar dados relacionados à lineup dos jogos.
     const workerGame = new WorkerGame();
 
+    // Exibe uma mensagem de erro caso nenhum evento tenha sido selecionado.
     if (!selectedEvent) {
         return <div>Evento não encontrado</div>;
     }
 
+     // Hook para buscar a formação inicial do evento selecionado ao montar o componente.
     useEffect(() => {
         const fetchGameLineup = async () => {
             try {
+                 // Verifica se há um ID de evento para buscar os dados.
                 if (selectedEvent.idEvent) {
+                   
                     const data = await workerGame.getLineup(selectedEvent.idEvent);
+                     // Verifica se os dados retornados são válidos e define o estado.
                     if (Array.isArray(data)) {
                         setGameLineupEvent(data);
                     } else {
@@ -31,11 +40,14 @@ const FormationPage: React.FC = () => {
         
 
         fetchGameLineup();
-    }, [selectedEvent.idEvent]);
+    }, [selectedEvent.idEvent]); // Atualiza os dados sempre que o ID do evento mudar.
 
+    // Filtra os jogadores da equipa inicial da casa e do visitante.
     const initialTeamHome = gameLineupEvent.filter(player => player.strSubstitute === "No" && player.strHome === "Yes");
     const initialTeamAway = gameLineupEvent.filter(player => player.strSubstitute === "No" && player.strHome === "No");
 
+
+     // Renderiza uma linha para exibir informações de jogadores das duas equipas.
     const renderPlayerRow = (
         homePlayer: IGameLineup | undefined,
         awayPlayer: IGameLineup | undefined,
@@ -56,7 +68,7 @@ const FormationPage: React.FC = () => {
             )}
         </div>
     );
-
+ // Renderiza todas as linhas dos jogadores das duas equipas.
     const renderPlayers = (homeTeam: IGameLineup[], awayTeam: IGameLineup[]): JSX.Element[] => {
         const maxLength = Math.max(homeTeam.length, awayTeam.length);
         const rows: JSX.Element[] = [];
