@@ -7,10 +7,11 @@ import { Person, PersonCheck } from 'react-bootstrap-icons';
 import { config } from "../../config";
 import axios from "axios";
 
+// Componente funcional para o botão de login no cabeçalho
 const LoginHeaderButton: React.FC<AppProps> = ({ setState }) => {
-    const { user, setUser } = useUserContext();
-    const username = user ? user.username : false;
-
+    const { user, setUser } = useUserContext();  // Obtém o utilizador atual e a função para atualizar o contexto do usuário
+    const username = user ? user.username : false; // Obtém o nome de utilizador, se o utilizador estiver autenticado
+    // Função para realizar o logout
     const handleLogout = async () => {
         try {
             // Envia uma solicitação de logout para o back-end
@@ -23,6 +24,7 @@ const LoginHeaderButton: React.FC<AppProps> = ({ setState }) => {
         }
     };
 
+     // Função para apagar a conta do usuário
     const handleDeleteAccount = async () => {
         try {
             // Envia uma solicitação de logout para o back-end
@@ -35,6 +37,7 @@ const LoginHeaderButton: React.FC<AppProps> = ({ setState }) => {
         }
     }
 
+    // Função para redirecionar para a página de alteração de nome de usuário
     const handleUpdateUsername = async () => {
         try {
             setState({ view: "updateUsername" }); // Redireciona para a página inicial

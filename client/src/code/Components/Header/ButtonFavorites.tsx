@@ -3,14 +3,16 @@ import { AppProps } from "../../main";
 import Button from 'react-bootstrap/Button';
 import { StarFill } from 'react-bootstrap-icons';
 
-
+// Componente funcional para representar o botão de favoritos
 const ButtonFavorites: React.FC<AppProps> = ({ setState }) => {
-    const [textColor, setTextColor] = useState(false);
+    const [textColor, setTextColor] = useState(false);  // Estado para alternar a cor do texto
+   // Função que alterna a cor do texto ao passar o mouse sobre o botão
     const toggleTextColor = () => {
         setTextColor(!textColor);
     };
+       // Função para alterar a visão para a página de favoritos
     const handleClick = () => {
-        setState({view:"favorites"});
+        setState({view:"favorites"}); // Atualiza o estado global para exibir a página de favoritos
     };
     return (
         <>
