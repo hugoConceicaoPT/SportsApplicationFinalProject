@@ -3,6 +3,8 @@ import { Button } from 'react-bootstrap';
 import { useLeagueContext } from '../Context/LeagueContext';
 import { AppProps } from '../../main';
 
+
+// Interface para as propriedades do componente
 interface ButtonLeagueProps extends AppProps {
   leagueId: string,
   imageSrc: string; 
@@ -10,6 +12,7 @@ interface ButtonLeagueProps extends AppProps {
   isSubmitting?: boolean; 
 }
 
+// Componente funcional para representar um botão de liga
 const ButtonLeague: React.FC<ButtonLeagueProps> = ({ setState, imageSrc, label, leagueId }) => {
   const { setLeague } = useLeagueContext();
 

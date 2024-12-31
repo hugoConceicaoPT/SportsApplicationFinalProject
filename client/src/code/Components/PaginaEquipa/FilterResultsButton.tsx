@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { FilterButtonProps } from "./FilterClassificationButton";
 
-
+// Componente funcional para o botão que altera a visão para "results"
 const FilterResultsButton: React.FC<FilterButtonProps> = ({ view, setView }) => {
     return (
         <Button

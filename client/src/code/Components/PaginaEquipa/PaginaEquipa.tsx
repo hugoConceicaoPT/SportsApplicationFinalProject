@@ -15,12 +15,14 @@ import FilterListButton from "./FilterListButton";
 import { WorkerFavorites, IFavorites } from "../../favorites";
 
 
+// Componente funcional que representa a página de uma equipa
 const TeamPage: React.FC<AppProps> = ({ setState }) => {
-  const { team } = useTeamContext(); // Contexto da equipe selecionada
-  const [view, setView] = useState<"standings" | "results" | "list">("standings");
-  const [favorite, setFavorite] = useState(true);
+  const { team } = useTeamContext(); // Contexto da equipa selecionada
+  const [view, setView] = useState<"standings" | "results" | "list">("standings"); // Estado para gerenciar a visão atual (classificações, resultados, lista)
+  const [favorite, setFavorite] = useState(true);// Estado para gerenciar se a equipe está nos favoritos
   const workerFavorites = new WorkerFavorites();
 
+  // Define a view padrão como "standings" ao montar o componente
   useEffect(() => {
     // Define a view padrão como 'standings' quando o componente é montado
     setView("standings");
@@ -34,6 +36,7 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
         }
       };
     
+      // Verifica se a equipe está nos favoritos ao carregar a página
     if(team) {
       useEffect(() => {
         const fetchFavorites = async () => {
@@ -48,7 +51,7 @@ const TeamPage: React.FC<AppProps> = ({ setState }) => {
         fetchFavorites();
       }, [team?.teamId]);
     }
-
+// Caso nenhuma equipa esteja selecionada, exibe uma mensagem de erro
   if (!team) {
     return <div>Erro: Nenhuma equipe selecionada.</div>;
   }

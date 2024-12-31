@@ -10,17 +10,20 @@ import { INextPastLeagueEvents } from "../../league";
 import { AppProps } from "../../main";
 import { useLeagueContext } from "../Context/LeagueContext";
 
+// Interface para as propriedades do componente
 interface ITeamResults extends AppProps {
   teamId: string
 }
 
+// Componente funcional para exibir os resultados de uma equipa
 const TeamResults: React.FC<ITeamResults> = ({ teamId,setState }) => {
-  const [results, setResults] = useState<INextPastLeagueEvents[]>([]);
-  const [loading, setLoading] = useState(true);
-  const { setLeague } = useLeagueContext();
-  const { setTeam } = useTeamContext();
-  const worker = new WorkerTeam();
+  const [results, setResults] = useState<INextPastLeagueEvents[]>([]);// Estado para armazenar os resultados da equipa
+  const [loading, setLoading] = useState(true); // Estado para indicar se os dados ainda estão a carregar
+  const { setLeague } = useLeagueContext(); // Hook para atualizar o contexto da liga
+  const { setTeam } = useTeamContext();// Hook para atualizar o contexto da equipa
+  const worker = new WorkerTeam(); // Instância da classe WorkerTeam para manipular dados da equipe
   
+  // Fetch inicial para obter os resultados passados da equipa
   useEffect(() => {
     const fetchResults = async () => {
       setLoading(true);
@@ -44,6 +47,7 @@ const TeamResults: React.FC<ITeamResults> = ({ teamId,setState }) => {
     return <p>Nenhum resultado encontrado</p>;
   }
 
+  // Função para buscar detalhes de uma equipa específica
   const fetchTeamDetails = async (teamId: string): Promise<ITeamDetails | null> => {
       try {
         const worker = new WorkerTeam(); // Instancie o worker aqui, se necessário
@@ -72,17 +76,21 @@ const TeamResults: React.FC<ITeamResults> = ({ teamId,setState }) => {
     (a, b) => Number(a) - Number(b)
   );
 
+   // Função para redirecionar para a página da equipa da casa
   const redirectToTeamHomePage = async (
     teamId: string,
     teamName: string,
     teamBadge: string
   ) => {
+     // Atualiza o estado global para a página da equipa
     setState({ view: "teampage" }); 
+    // Atualiza o contexto da equipa
     setTeam({
       teamId,
       teamName,
       imageSrc: teamBadge,
     });
+     // Procura detalhes adicionais da equipe
     const homeTeamDetails = await fetchTeamDetails(teamId);
     if (homeTeamDetails) {
       setLeague({
@@ -93,17 +101,21 @@ const TeamResults: React.FC<ITeamResults> = ({ teamId,setState }) => {
     }
   };
 
+    // Função para redirecionar para a página da equipa visitante
   const redirectToTeamAwayPage = async (
     teamId: string,
     teamName: string,
     teamBadge: string
   ) => {
+    // Atualiza o estado global para a página da equipa
     setState({ view: "teampage" }); 
+    // Atualiza o contexto da equipa
     setTeam({
       teamId,
       teamName,
       imageSrc: teamBadge,
     });
+    // Procura detalhes adicionais da equipa
     const awayTeamDetails = await fetchTeamDetails(teamId);
     if (awayTeamDetails) {
       setLeague({

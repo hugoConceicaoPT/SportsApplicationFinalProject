@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// Importações necessárias para o componente, incluindo React, hooks e bibliotecas como Bootstrap, Axios e ícones.
-
 import Card from 'react-bootstrap/Card';
 import { AppProps } from "../../main";
 import LeagueEvents from "../Eventos/LeagueEvents";
