@@ -12,23 +12,29 @@ export interface IButtonEventType extends AppProps {
     imageSrc: string
 }
 
+// Componente para exibir um botão de evento terminado
 const ButtonEventFinished: React.FC<IButtonEventType> = ({ setState, event, leagueId, leagueName, imageSrc }) => {
 
-    const { setSelectedEvent } = useEvent();
-    const { setLeague } = useLeagueContext();
+    const { setSelectedEvent } = useEvent(); // Contexto para definir o evento selecionado
+    const { setLeague } = useLeagueContext(); // Contexto para definir a liga
+
+    // Função chamada ao clicar no botão
     const handleClick = () => {
-        setSelectedEvent(event);
-        setState({ view: "statistics" });
+        setSelectedEvent(event); // Define o evento selecionado
+        setState({ view: "statistics" }); // Altera a visão para "statistics"
         setLeague({
             leagueId,
             leagueName,
             imageSrc
-        })
+        });
     };
+
     return (
         <Button variant="secondary" onClick={handleClick}>
+            {/* Exibe o status "Terminado" */}
             <span className="time-event-end">Terminado</span>
             <div>
+                {/* Time da casa com badge e pontuação */}
                 <img
                     src={event.strHomeTeamBadge}
                     alt={event.strHomeTeam}
@@ -41,6 +47,7 @@ const ButtonEventFinished: React.FC<IButtonEventType> = ({ setState, event, leag
                 </span>
             </div>
             <div>
+                {/* Time visitante com badge e pontuação */}
                 <img
                     src={event.strAwayTeamBadge}
                     alt={event.strAwayTeam}
@@ -53,7 +60,7 @@ const ButtonEventFinished: React.FC<IButtonEventType> = ({ setState, event, leag
                 </span>
             </div>
         </Button>
-    )
+    );
 }
 
 export default ButtonEventFinished;

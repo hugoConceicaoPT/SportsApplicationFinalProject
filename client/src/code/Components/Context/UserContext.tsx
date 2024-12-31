@@ -1,45 +1,53 @@
+// Importações necessárias
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { User } from "../Registo/Login";
+import { User } from "../Registo/Login"; // Define o tipo User
 
-
+// Criação do contexto de usuário
 const UserContext = createContext<{
-    user: User | undefined;
-    setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
-} | undefined>(undefined);
+    user: User | undefined; // Estado do usuário (pode ser indefinido)
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>; // Função para atualizar o estado do usuário
+} | undefined>(undefined); // Inicializado como indefinido
 
+// Hook para usar o contexto do usuário
 export function useUserContext() {
-    const userContext = useContext(UserContext);
-  
-    if (userContext === undefined) {   
-      throw new Error('useUserContext must be used with a DashboardContext');
+    const userContext = useContext(UserContext); // Obtém o contexto
+
+    // Verifica se o contexto foi usado corretamente
+    if (userContext === undefined) {
+        throw new Error('useUserContext must be used with a DashboardContext'); // Lança erro se usado fora do contexto
     }
-  
-    return userContext;
+
+    return userContext; // Retorna o contexto
 }
 
+// Interface para as props do provedor do contexto
 interface UserProviderProps {
-    children: ReactNode;
+    children: ReactNode; // Componentes filhos que serão envolvidos pelo provedor
 }
+
+// Provedor do contexto de usuário
 const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+    // Recupera o usuário do localStorage ao carregar o componente
     const storedUser = localStorage.getItem('user');
-    const initialUser = storedUser ? JSON.parse(storedUser) : undefined;
+    const initialUser = storedUser ? JSON.parse(storedUser) : undefined; // Define o estado inicial com base no localStorage
 
-    const [user, setUser] = useState<User | undefined>(initialUser);
+    const [user, setUser] = useState<User | undefined>(initialUser); // Estado do usuário
 
-    // Salva o usuário no localStorage sempre que o estado do usuário mudar
+    // Efeito para salvar ou remover o usuário do localStorage quando o estado mudar
     useEffect(() => {
         if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(user)); // Salva o usuário no localStorage
         } else {
-            localStorage.removeItem('user');
+            localStorage.removeItem('user'); // Remove o usuário do localStorage se indefinido
         }
-    }, [user]);
-    
+    }, [user]); // Dependência: executa sempre que `user` mudar
+
     return (
+        // Provedor do contexto que passa o estado e a função de atualização
         <UserContext.Provider value={{ user, setUser }}>
-            {children}
+            {children} {/* Renderiza os componentes filhos */}
         </UserContext.Provider>
     );
 };
 
-export default UserProvider;
+export default UserProvider; // Exporta o provedor para uso em outros arquivos
