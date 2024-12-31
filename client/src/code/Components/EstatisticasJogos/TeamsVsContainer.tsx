@@ -6,10 +6,11 @@ import { useEvent } from "../Context/EventContext";
 import ButtonTeamHome from "./ButtonTeamHome";
 import ButtonTeamAway from "./ButtonTeamAway";
 
-
+// Componente funcional para exibir o confronto entre duas equipas.
 const TeamVsContainer: React.FC<AppProps> = ({ setState }) => {
+     // Obtém o evento selecionado do contexto.
     const { selectedEvent } = useEvent();
-
+// Caso nenhum evento tenha sido selecionado, exibe uma mensagem de erro.
     if (!selectedEvent) {
         return <div>Evento não encontrado</div>; // Tratamento para casos onde o evento não foi definido
     }

@@ -3,15 +3,20 @@ import { Container, ProgressBar } from "react-bootstrap";
 import { useEvent } from "../Context/EventContext";
 import { IGameStatistics, WorkerGame } from "../../game";
 
+// Componente funcional para exibir as estatísticas de um jogo.
 const StatisticsPage: React.FC = () => {
+    // Obtém o evento selecionado do contexto.
     const { selectedEvent } = useEvent();
+    // Estado para armazenar as estatísticas do jogo.
     const [gameStatistics, setGameStatistics] = useState<IGameStatistics[]>([]);
+    // Instancia o worker para buscar estatísticas do jogo.
     const workerGame = new WorkerGame();
 
+    // Caso nenhum evento tenha sido selecionado, exibe uma mensagem de erro.
     if (!selectedEvent) {
         return <div>Evento não encontrado</div>; // Tratamento para casos onde o evento não foi definido
     }
-
+ // Efeito para buscar estatísticas do jogo ao montar o componente ou quando o ID do evento muda.
     useEffect(() => {
         const fetchGameStatistics = async () => {
             try {
@@ -33,6 +38,8 @@ const StatisticsPage: React.FC = () => {
         fetchGameStatistics();
     }, [selectedEvent.idEvent]);
 
+
+     // Calcula a porcentagem para os valores da equipa da casa e da equipa visitante.
     const calculatePercentage = (home: number, away: number) => {
         const total = home + away;
         return total === 0 ? { homePercentage: 50, awayPercentage: 50 } : {

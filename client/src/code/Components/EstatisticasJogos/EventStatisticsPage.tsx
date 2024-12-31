@@ -17,17 +17,20 @@ import StatisticsPage from "./StatisticsPage";
 import Standings from "../PaginaLiga/Standings";
 import { useLeagueContext } from "../Context/LeagueContext";
 
-
+// Componente principal para exibição de estatísticas de eventos.
 const EventStatisticsPage: React.FC<AppProps> = ({ setState }) => {
+    // Obtém o evento selecionado do contexto.
     const { selectedEvent } = useEvent();
+   // Define o estado para controlar qual filtro está ativo na página.
     const [filter, setFilter] = useState<"formation" | "game" | "statistic" | "classification">("game");
+     // Obtém informações da liga do contexto
     const { league } = useLeagueContext();
 
-
+// Caso nenhum evento esteja selecionado, exibe uma mensagem de erro.
     if (!selectedEvent) {
         return <div>Evento não encontrado</div>; // Tratamento para casos onde o evento não foi definido
     }
-
+// Extrai a informação da jornada (se disponível) e o nome da liga
     const round = "intRound" in selectedEvent ? selectedEvent.intRound : null;
     const leagueName = league?.leagueName;
     return (

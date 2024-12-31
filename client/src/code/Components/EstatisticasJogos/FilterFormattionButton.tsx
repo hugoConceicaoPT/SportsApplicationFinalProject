@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { FilterAllButtonProps } from "./FilterClassificationButton";
 
+// Define o componente funcional para o botão de filtro de "Formações".
 const FilterFormationButton: React.FC<FilterAllButtonProps> = ({ setFilter, filter }) => {
 
     // Função que alterna o estado de seleção ao clicar no botão
