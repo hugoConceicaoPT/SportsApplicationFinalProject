@@ -14,13 +14,14 @@ import FilterResultsButton from "../PaginaEquipa/FilterResultsButton";
 import FilterListButton from "../PaginaEquipa/FilterListButton";
 import { WorkerFavorites, IFavorites } from "../../favorites";
 
-
+// Componente funcional para exibir a página de uma liga
 const LeaguePage: React.FC<AppProps> = ({ setState }) => {
   const { league } = useLeagueContext(); // Contexto para obter as informações da liga selecionada
   const [view, setView] = useState<"standings" | "results" | "list">("standings"); // Estado para a visão atual
   const [favorite, setFavorite] = useState(false); // Estado para o botão de favoritos
   const workerFavorites = new WorkerFavorites(); // Instância do worker de favoritos
 
+  // Define a visão padrão como "standings" ao montar o componente
   useEffect(() => {
     setView("standings"); // Define a visão padrão como "standings"
   }, []);
@@ -29,25 +30,26 @@ const LeaguePage: React.FC<AppProps> = ({ setState }) => {
   const toggleFavorite = () => {
       if (league) {
         workerFavorites.toggleFavorite(league.leagueId, league.leagueName, league.imageSrc);
-        setFavorite(!favorite);
+        setFavorite(!favorite);// Atualiza o estado local
       }
     };
   
+     // Busca se a liga é favorita ao montar o componente ou quando a liga muda
   if(league) {
     useEffect(() => {
       const fetchFavorites = async () => {
         try {
-          const response = await workerFavorites.getFavorites();
-          setFavorite(response.leagueIds.includes(league?.leagueId));
+          const response = await workerFavorites.getFavorites(); // Obtém a lista de favoritos
+          setFavorite(response.leagueIds.includes(league?.leagueId)); // Verifica se a liga está na lista de favoritos
         } catch (error) {
           console.error("Erro ao buscar favoritos:", error);
-          setFavorite(false);
+          setFavorite(false); // Define como não favorito em caso de erro
         }
       };
       fetchFavorites();
-    }, [league?.leagueId]);
+    }, [league?.leagueId]);// Reexecuta se o ID da liga mudar
   }
-
+// Verifica se uma liga foi selecionada, caso contrário, exibe um erro
   if (!league) {
     return <div>Erro: Nenhuma liga selecionada.</div>;
   }

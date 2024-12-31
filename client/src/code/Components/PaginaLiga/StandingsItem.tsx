@@ -3,6 +3,7 @@ import { ILeagueStandings } from "../../league";
 import { AppProps } from "../../main";
 import { useTeamContext } from "../Context/TeamContext";
 
+// Propriedades aceitas pelo componente StandingsItem
 interface StandingsItemProps extends AppProps {
   team: ILeagueStandings;
   index: number;
@@ -10,11 +11,11 @@ interface StandingsItemProps extends AppProps {
 
 // Componente para exibir um item na tabela de classificações
 const StandingsItem: React.FC<StandingsItemProps> = ({ setState, team, index }) => {
-  const { setTeam } = useTeamContext();
+  const { setTeam } = useTeamContext(); // Função para atualizar o contexto da equipa selecionado
 
   // Redireciona para a página do time ao clicar no badge
   const redirectToTeamPage = () => {
-    setState({ view: "teampage" });
+    setState({ view: "teampage" }); // Atualiza o estado global para exibir a página da equipa
     setTeam({
       teamId: team.idTeam,
       teamName: team.strTeam,

@@ -4,9 +4,11 @@ import { AppProps } from "../../main";
 import { useTeamContext } from "../Context/TeamContext";
 import { ListGroup } from "react-bootstrap";
 
+
+// Propriedades aceitas pelo componente
 interface ListButtonProps extends AppProps {
-  event: INextPastLeagueEvents;
-  index: number;
+  event: INextPastLeagueEvents;// Dados do evento 
+  index: number;// Índice do evento na lista
 }
 
 // Componente para exibir um botão de lista com informações de um evento

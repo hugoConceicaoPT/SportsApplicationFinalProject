@@ -5,32 +5,34 @@ import StandingsItem from "./StandingsItem";
 import { AppProps } from "../../main";
 import { useLeagueContext } from "../Context/LeagueContext";
 
+// Componente funcional para exibir as classificações de uma liga
 const LeagueStandings: React.FC<AppProps> = ({ setState }) => {
   const [standings, setStandings] = useState<ILeagueStandings[]>([]); // Estado para armazenar as classificações
   const [favorite, setFavorite] = useState(false); // Estado para marcar como favorito
   const { league } = useLeagueContext(); // Obtém os dados da liga do contexto
-  const leagueId = league?.leagueId;
+  const leagueId = league?.leagueId;// ID da liga, usado para buscar as classificações
   
+  // Efeito para buscar as classificações ao carregar o componente ou quando o ID da liga mudar
   useEffect(() => {
-    const worker = new Worker();
+    const worker = new Worker(); // Instância do Worker para interagir com a API
     const fetchStandings = async () => {
       try {
         if (leagueId) {
           // Busca as classificações da liga
           const rawData = await worker.getLeagueStanding(leagueId);
-          setStandings(rawData);
+          setStandings(rawData);  // Atualiza o estado com as classificações obtidas
         }
       } catch (error) {
         console.error("Erro ao buscar classificações:", error);
       }
     };
 
-    fetchStandings();
+    fetchStandings(); // Executa a função de busca
   }, [leagueId]); // Atualiza sempre que o ID da liga mudar
 
   // Alterna o estado de favorito
   const toggleFavorite = () => {
-    setFavorite(!favorite);
+    setFavorite(!favorite); // Inverte o estado atual de favorito
   };
 
   return (

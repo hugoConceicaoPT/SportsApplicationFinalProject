@@ -5,10 +5,12 @@ import Image from "react-bootstrap/Image";
 import { useTeamContext } from "../Context/TeamContext";
 import { useEvent } from "../Context/EventContext";
 
+
+// Propriedades aceitas pelo componente
 interface ResultEventButtonProps {
-  result: INextPastLeagueEvents;
-  index: number;
-  setState: (state: any) => void;
+  result: INextPastLeagueEvents;// Dados do evento
+  index: number; // Índice do evento na lista
+  setState: (state: any) => void; // Função para alterar o estado global
 }
 
 // Componente para exibir um botão de evento de resultado

@@ -6,19 +6,26 @@ import { AppProps } from "../../main";
 import ListButton from "./ListButton";
 import { WorkerTeam } from "../../team";
 
+
+// Interface para definir as propriedades do componente LeagueList
 interface LeagueListProps extends AppProps {
-  leagueId: string;
-  leagueName: string;
-  imageSrc: string;
+  leagueId: string; // ID da liga
+  leagueName: string; // Nome da liga
+  imageSrc: string; // URL da imagem da liga
 }
 
+// Componente funcional para exibir a lista de próximos eventos de uma liga
 const LeagueList: React.FC<LeagueListProps> = ({ setState, leagueId, leagueName, imageSrc }) => {
+   // Estado para armazenar os eventos da liga
   const [events, setEvents] = useState<INextPastLeagueEvents[]>([]);
+ // Instância do worker para gerenciar eventos de liga
   const worker = new Worker();
 
+  // Efeito para buscar os eventos da liga ao montar o componente
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        // Busca os próximos eventos da liga usando o worker
         const rawData = await worker.getListNextLeagueEvents(leagueId);
 
         // Mapeando os dados da API para o formato correto
@@ -28,21 +35,22 @@ const LeagueList: React.FC<LeagueListProps> = ({ setState, leagueId, leagueName,
       }
     };
 
-    fetchEvents();
-  }, [leagueId]);
+    fetchEvents(); // Chama a função para buscar eventos
+  }, [leagueId]); // Executa o efeito sempre que `leagueId` mudar
 
   // Função para agrupar os eventos por jornada
   const groupByRound = (events: INextPastLeagueEvents[]) => {
     return events.reduce((groups, event) => {
+       // Define a jornada como "Unknown Round" se não estiver disponível
       const round = event.intRound || "Unknown Round"; // Usando intRound para jornada
       if (!groups[round]) {
-        groups[round] = [];
+        groups[round] = []; // Inicializa o grupo se ainda não existir
       }
-      groups[round].push(event);
+      groups[round].push(event); // Adiciona o evento ao grupo correspondente
       return groups;
     }, {} as Record<string, INextPastLeagueEvents[]>);
   };
-
+ // Agrupa os eventos por jornada
   const groupedEvents = groupByRound(events);
 
   return (
