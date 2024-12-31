@@ -4,26 +4,31 @@ import { useTeamContext } from "../Context/TeamContext";
 import { AppProps } from "../../main";
 import { useLeagueContext } from "../Context/LeagueContext";
 
+// Interface que define as propriedades aceitas pelo componente
 interface ButtonTeamProps extends AppProps {
-  teamId: string;
-  imageSrc: string;
-  label: string;
-  leagueId: string; 
-  leagueName: string; 
+  teamId: string; // ID único da equipa
+  imageSrc: string;// imagem da equipa
+  label: string;  // Nome da equipa a ser exibido no botão
+  leagueId: string;   // ID da liga associada á quipa
+  leagueName: string; // Nome da liga associada ao time
 }
 
+// Componente funcional para representar um botão de redirecionamento para a página do time
 const ButtonTeam: React.FC<ButtonTeamProps> = ({ setState, imageSrc, label, teamId, leagueId, leagueName }) => {
-  const { setTeam } = useTeamContext();
-  const { setLeague } = useLeagueContext();
+  const { setTeam } = useTeamContext();// Hook para atualizar o contexto da equipa
+  const { setLeague } = useLeagueContext(); // Hook para atualizar o contexto da liga
 
+  // Função para redirecionar para a página da equipa
   const redirectToTeam = () => {
-    // Atualiza o estado global e redireciona para a página do time
+    // Atualiza o estado global e redireciona para a página da equipa
     setState({ view: "teampage" });
+    // Atualiza o contexto com as informações da equi+a selecionada
     setTeam({
       teamId,
       teamName: label,
       imageSrc,
     });
+    // Atualiza o contexto da liga associada a equipa
     setLeague({
       leagueId,
       leagueName,

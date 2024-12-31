@@ -6,20 +6,23 @@ import ButtonTeam from "./buttonTeam";
 import { ITeamDetails, WorkerTeam } from "../../team";
 import { WorkerFavorites, IFavorites } from "../../favorites";
 
+
+// Interface para representar informações de uma equipe favorita
 interface TeamInfo {
-  teamId: string;
-  teamName: string;
-  teamBadge: string;
-  leagueId: string;
-  leagueName: string;
+  teamId: string; // ID único da equipa
+  teamName: string; // Nome da equipa
+  teamBadge: string; // URL do emblema da equipa
+  leagueId: string; // ID da liga associada à equipa
+  leagueName: string;  // Nome da liga associada à equipa
 }
 
+// Componente funcional para exibir equipes favoritas
 const TeamFavorites: React.FC<AppProps> = ({ setState }) => {
   // Declara um estado local `ids` com `useState`.
   // O estado inicial é um array vazio.
   const [teamInfos, setTeamInfos] = useState<TeamInfo[]>([]);
-  const worker = new WorkerTeam();
-  const workerFavorites = new WorkerFavorites();
+  const worker = new WorkerTeam(); // Instância do worker para gerenciar equipas
+  const workerFavorites = new WorkerFavorites();  // Instância do worker para gerenciar favoritos
 
   // Função para buscar os favoritos do utilizador
   useEffect(() => {
@@ -47,8 +50,8 @@ const TeamFavorites: React.FC<AppProps> = ({ setState }) => {
       }
     };
 
-    fetchFavorites();
-  }, []);
+    fetchFavorites(); // Chama a função para buscar os favoritos
+  }, []); // Executa apenas ao montar o componente
 
   return (
     <div className="favorite-team-block-container">

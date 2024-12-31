@@ -13,25 +13,32 @@ import axios from "axios";
 import { config } from "../../config";
 import { WorkerFavorites, IFavorites } from "../../favorites";
 
+// Componente funcional para exibir a lista de favoritos
 const CardListFavorites: React.FC<AppProps> = ({ setState }) => {
+  // Estado para armazenar a data selecionada
   const [selectedDate, setSelectedDate] = useState(new Date());
+  // Estado para armazenar o filtro selecionado
   const [filter, setFilter] = useState<"all" | "finished" | "scheduled" | "live">("all");
+   // Estado para armazenar os favoritos do usuário
   const [favorites, setFavorites] = useState<IFavorites>();
+   // Instância do worker para gerenciar favoritos
   const workerFavorites = new WorkerFavorites();
 
+// Efeito para buscar os favoritos do usuário ao montar o componente
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await workerFavorites.getFavorites();
-        setFavorites(response);
+        const response = await workerFavorites.getFavorites(); // Obtém os favoritos do usuário
+        setFavorites(response); // Atualiza o estado com os favoritos recebidos
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);
       }
     };
 
-    fetchFavorites();
+    fetchFavorites(); // Chama a função para buscar os favoritos
   }, []);
 
+  // Função para renderizar os eventos de uma liga específica
   const renderLeagueEvents = (leagueId: string, leagueName: string, imageSrc: string) => {
     return (
       <LeagueEvents

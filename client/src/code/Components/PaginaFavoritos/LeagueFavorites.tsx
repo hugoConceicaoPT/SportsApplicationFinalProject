@@ -6,6 +6,7 @@ import { leagueIds } from "../../../../../server/src/leagueIds"; // Importa os I
 import axios from "axios"; // Usaremos axios para buscar os favoritos do utilizador
 import { WorkerFavorites, IFavorites } from "../../favorites";
 
+// Componente funcional para exibir as ligas favoritas
 const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
   // Declara um estado local `ids` com `useState`.
   // O estado inicial é um array vazio.
@@ -15,7 +16,9 @@ const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await workerFavorites.getFavorites(); // API para buscar favoritos do utilizador
+        // Faz uma requisição para obter os favoritos do usuário
+        const response = await workerFavorites.getFavorites(); 
+        // Extrai os IDs das ligas favoritas
         const { leagueIds } = response; // Supomos que a API retorna um array `leagueIds`
         setIds(leagueIds || []); // Atualiza o estado com os IDs retornados
       } catch (error) {
@@ -23,8 +26,8 @@ const LeagueFavorites: React.FC<AppProps> = ({ setState }) => {
       }
     };
 
-    fetchFavorites();
-  }, []);
+    fetchFavorites();// Chama a função para buscar os favoritos
+  }, []); // Executa o efeito apenas uma vez ao montar o componente
 
   // Lista de todas as ligas disponíveis
   const allLeagues = [
